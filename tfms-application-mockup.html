@@ -1,1 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>TFMS — Live Application Mockup</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f6f2;--surface:#ffffff;--surface-2:#f3f0ec;--border:#d4d1ca;
+  --divider:#e3e0da;--text:#28251d;--muted:#6f6c66;
+  --primary:#01696f;--primary-dark:#0b2e32;--primary-hover:#0c4e54;
+  --primary-soft:#dcecea;--accent:#5ab5b7;
+  --ok-bg:#e4efe0;--ok-fg:#2f5b16;
+  --warn-bg:#f7e8d3;--warn-fg:#8f5307;
+  --info-bg:#dcecea;--info-fg:#0b4248;
+  --bad-bg:#f1dce3;--bad-fg:#7f2843;
+  --sidebar:260px;--topbar:60px;
+  --r-sm:10px;--r-md:14px;--r-lg:18px;
+  --sh-sm:0 1px 3px rgba(40,37,29,.07);
+  --sh-md:0 8px 28px rgba(40,37,29,.09);
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;}
+button,input,select,textarea{font:inherit;}
+.app{display:grid;grid-template-columns:var(--sidebar) 1fr;min-height:100vh;}
+.sidebar{background:linear-gradient(180deg,#0d2527 0%,#143133 100%);color:#eef7f6;padding:0;display:flex;flex-direction:column;border-right:1px solid rgba(255,255,255,.06);}
+.sb-brand{display:flex;align-items:center;gap:11px;padding:18px 16px 16px;border-bottom:1px solid rgba(255,255,255,.08);}
+.sb-logo{width:36px;height:36px;border-radius:10px;background:var(--primary);display:grid;place-items:center;flex-shrink:0;}
+.sb-logo svg{width:18px;height:18px;color:#fff;}
+.sb-name{font-size:15px;font-weight:700;letter-spacing:.2px;}
+.sb-sub{font-size:10px;color:rgba(238,247,246,.5);display:block;margin-top:1px;}
+.sb-nav{flex:1;padding:12px 10px;display:flex;flex-direction:column;gap:3px;}
+.sb-section{font-size:10px;text-transform:uppercase;letter-spacing:.14em;color:rgba(238,247,246,.38);padding:10px 8px 5px;}
+.nb{border:0;background:transparent;color:rgba(238,247,246,.8);text-align:left;padding:10px 10px;border-radius:10px;display:flex;align-items:center;gap:9px;cursor:pointer;width:100%;font-size:13px;}
+.nb:hover{background:rgba(255,255,255,.07);}
+.nb.active{background:rgba(255,255,255,.12);color:#fff;}
+.nb svg{width:15px;height:15px;opacity:.7;flex-shrink:0;}
+.nb.active svg{opacity:1;}
+.nb .badge{margin-left:auto;background:var(--primary);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:999px;}
+.sb-footer{padding:12px 14px;border-top:1px solid rgba(255,255,255,.07);}
+.sb-user{display:flex;align-items:center;gap:10px;background:rgba(255,255,255,.06);border-radius:12px;padding:10px;}
+.sb-avatar{width:32px;height:32px;border-radius:999px;background:var(--primary);display:grid;place-items:center;font-size:12px;font-weight:700;color:#fff;flex-shrink:0;}
+.sb-uname{font-size:13px;font-weight:600;}
+.sb-role{font-size:11px;color:rgba(238,247,246,.5);}
+.main{display:flex;flex-direction:column;min-width:0;}
+.topbar{height:var(--topbar);background:rgba(249,248,245,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;position:sticky;top:0;z-index:50;gap:14px;}
+.page-title{font-size:16px;font-weight:700;}
+.page-sub{font-size:12px;color:var(--muted);margin-top:2px;}
+.top-right{display:flex;align-items:center;gap:8px;}
+.chip{display:inline-flex;align-items:center;gap:6px;background:var(--surface);border:1px solid var(--border);border-radius:999px;padding:5px 11px;font-size:12px;color:var(--muted);}
+.chip .dot{width:7px;height:7px;border-radius:999px;background:var(--accent);}
+.btn{border-radius:10px;padding:9px 14px;cursor:pointer;font-size:13px;font-weight:600;border:1px solid var(--border);background:var(--surface);color:var(--text);}
+.btn-primary{background:var(--primary);color:#fff;border-color:var(--primary);}
+.btn-primary:hover{background:var(--primary-hover);}
+.btn-ghost{background:rgba(255,255,255,.1);color:#fff;border:1px solid rgba(255,255,255,.2);}
+.workspace{padding:18px;flex:1;overflow:auto;}
+.screen{display:none;}
+.screen.active{display:block;}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.g3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;}
+.g4{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:12px;}
+.gcol{display:grid;gap:16px;}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-lg);box-shadow:var(--sh-sm);overflow:hidden;}
+.ph{padding:14px 18px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap;background:linear-gradient(180deg,rgba(255,255,255,.8),rgba(243,240,236,.5));}
+.ph h2{font-size:15px;margin:0;}
+.ph h3{font-size:14px;margin:0;}
+.pb{padding:16px 18px;}
+.pill{display:inline-flex;align-items:center;gap:6px;padding:5px 10px;border-radius:999px;font-size:11px;font-weight:600;}
+.pill.ok{background:var(--ok-bg);color:var(--ok-fg);}
+.pill.warn{background:var(--warn-bg);color:var(--warn-fg);}
+.pill.info{background:var(--info-bg);color:var(--info-fg);}
+.pill.bad{background:var(--bad-bg);color:var(--bad-fg);}
+.metric{background:var(--surface);border:1px solid var(--border);border-radius:var(--r-md);padding:14px;}
+.metric .mlabel{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);}
+.metric .mval{font-size:26px;font-weight:800;margin:8px 0 5px;}
+.metric .mtrend{font-size:12px;}
+.mtrend.up{color:var(--ok-fg);}
+.mtrend.warn{color:var(--warn-fg);}
+table{width:100%;border-collapse:collapse;}
+th,td{padding:10px 10px;border-bottom:1px solid var(--divider);font-size:13px;text-align:left;vertical-align:middle;}
+th{color:var(--muted);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;}
+tr:last-child td{border-bottom:0;}
+tr:hover td{background:rgba(1,105,111,.03);}
+.fc{display:grid;grid-template-columns:108px 1fr 200px;gap:14px;padding:16px;border:1px solid var(--border);border-radius:16px;background:var(--surface);margin-bottom:12px;align-items:start;}
+.fc:last-child{margin-bottom:0;}
+.fc-photo{width:108px;height:136px;border-radius:13px;overflow:hidden;border:1px solid var(--border);position:relative;flex-shrink:0;}
+.fc-photo img{width:100%;height:100%;object-fit:cover;}
+.fc-badge{position:absolute;bottom:7px;left:7px;background:rgba(1,105,111,.9);color:#fff;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:4px 8px;border-radius:999px;}
+.fc-info h3{font-size:15px;margin-bottom:4px;}
+.fc-meta{font-size:12px;color:var(--muted);margin-bottom:12px;}
+.bio-box{border:1px dashed var(--border);border-radius:13px;padding:12px;background:#fcfcfa;}
+.bio-title{font-size:12px;font-weight:700;margin-bottom:10px;color:var(--text);}
+.bio-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.bio-cell{background:#f3f0ec;border:1px solid var(--divider);border-radius:10px;padding:9px;text-align:center;font-size:11px;color:var(--muted);}
+.bio-cell strong{display:block;color:var(--text);font-size:12px;margin-bottom:3px;}
+.tl{display:grid;gap:12px;}
+.tl-item{border-left:3px solid var(--primary);padding-left:12px;font-size:13px;}
+.tl-time{font-size:11px;color:var(--muted);margin-bottom:2px;}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.ff{display:grid;gap:5px;}
+.ff label{font-size:10px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:600;}
+.ff input,.ff select,.ff textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:10px 12px;background:var(--bg);color:var(--text);font-size:13px;}
+.ff textarea{min-height:100px;resize:vertical;}
+.ff-full{grid-column:1/-1;}
+.form-actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:14px;}
+.chart-area{height:140px;background:#f3f0ec;border-radius:12px;border:1px solid var(--border);position:relative;overflow:hidden;}
+.chart-area svg{position:absolute;inset:0;width:100%;height:100%;}
+.mod-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:16px;cursor:pointer;transition:box-shadow .15s,transform .15s;}
+.mod-card:hover{box-shadow:var(--sh-md);transform:translateY(-1px);}
+.mod-icon{width:40px;height:40px;border-radius:11px;background:var(--primary-soft);display:grid;place-items:center;margin-bottom:12px;}
+.mod-icon svg{width:20px;height:20px;color:var(--primary);}
+.mod-card h4{font-size:14px;margin-bottom:4px;}
+.mod-card p{font-size:12px;color:var(--muted);}
+.mod-price{margin-top:10px;font-size:13px;font-weight:700;color:var(--primary);}
+.prog-bar{height:7px;background:var(--border);border-radius:999px;overflow:hidden;margin-top:6px;}
+.prog-fill{height:100%;border-radius:999px;background:var(--primary);}
+@media(max-width:900px){.app{grid-template-columns:1fr;}.sidebar{display:none;}.g4,.g3{grid-template-columns:1fr 1fr;}.fc{grid-template-columns:90px 1fr;}.bio-box{grid-column:1/-1;}}
+@media(max-width:580px){.g4,.g3,.g2,.fg{grid-template-columns:1fr;}.fc{grid-template-columns:1fr;}.workspace{padding:12px;}}
+</style>
+</head>
+<body>
+<div class="app">
 
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg>
+    </div>
+    <div><div class="sb-name">TFMS</div><small class="sb-sub">TechNexus Farmer Mgmt System</small></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section">Main</div>
+    <button class="nb active" data-screen="dashboard"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>Dashboard</button>
+    <button class="nb" data-screen="registry"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>Farmer Registry <span class="badge">12,480</span></button>
+    <button class="nb" data-screen="field"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>Field Visits <span class="badge">184</span></button>
+    <button class="nb" data-screen="inputs"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>Inputs &amp; Credit</button>
+    <button class="nb" data-screen="factory"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>Factory &amp; Inventory</button>
+    <button class="nb" data-screen="analytics"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>Analytics</button>
+    <div class="sb-section" style="margin-top:8px;">Quick Actions</div>
+    <button class="nb" data-action="new-farmer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M20 21a8 8 0 10-16 0"/><line x1="12" y1="14" x2="12" y2="20"/><line x1="9" y1="17" x2="15" y2="17"/></svg>New Farmer</button>
+    <button class="nb" data-action="new-visit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>New Field Visit</button>
+    <button class="nb" data-action="new-weight"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a4 4 0 014 4H8a4 4 0 014-4z"/><rect x="3" y="6" width="18" height="16" rx="2"/><line x1="12" y1="11" x2="12" y2="17"/><line x1="9" y1="14" x2="15" y2="14"/></svg>Record Weight</button>
+  </nav>
+  <div class="sb-footer">
+    <div class="sb-user"><div class="sb-avatar">TI</div><div><div class="sb-uname">T. Itaye</div><div class="sb-role">System Administrator</div></div></div>
+  </div>
+</aside>
+
+<div class="main">
+  <header class="topbar">
+    <div><div class="page-title" id="pageTitle">Operational Dashboard</div><div class="page-sub" id="pageSub">2026 Buying Season · Malawi &amp; Mozambique Operations</div></div>
+    <div class="top-right">
+      <div class="chip"><span class="dot"></span>Offline-ready</div>
+      <button class="btn" onclick="showInfo()">About</button>
+      <button class="btn btn-primary" id="primaryBtn" onclick="primaryAction()">Register Farmer</button>
+    </div>
+  </header>
+
+  <main class="workspace">
+
+    <!-- DASHBOARD -->
+    <section class="screen active" id="screen-dashboard">
+      <div class="g4" style="margin-bottom:16px;">
+        <div class="metric"><div class="mlabel">Farmers registered</div><div class="mval">12,480</div><div class="mtrend up">+326 this month</div></div>
+        <div class="metric"><div class="mlabel">Field visits today</div><div class="mval">184</div><div class="mtrend up">92% completed</div></div>
+        <div class="metric"><div class="mlabel">Inputs issued</div><div class="mval">MK 84.2M</div><div class="mtrend warn">8 pending</div></div>
+        <div class="metric"><div class="mlabel">Factory intake</div><div class="mval">38.6T</div><div class="mtrend up">Shift A active</div></div>
+      </div>
+      <div class="g2">
+        <div class="gcol">
+          <div class="panel">
+            <div class="ph"><h2>Season trend — farmer registrations</h2></div>
+            <div class="pb">
+              <div class="chart-area">
+                <svg viewBox="0 0 600 140" preserveAspectRatio="none">
+                  <defs><linearGradient id="g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#01696f" stop-opacity=".18"/><stop offset="100%" stop-color="#01696f" stop-opacity="0"/></linearGradient></defs>
+                  <polygon fill="url(#g1)" points="20,115 80,108 150,100 220,88 290,92 360,74 440,60 520,44 580,28 580,140 20,140"/>
+                  <polyline fill="none" stroke="#01696f" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round" points="20,115 80,108 150,100 220,88 290,92 360,74 440,60 520,44 580,28"/>
+                  <circle cx="580" cy="28" r="5" fill="#01696f"/>
+                </svg>
+              </div>
+              <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--muted);margin-top:6px;"><span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="ph"><h2>Today's action queue</h2><span class="pill info">Live</span></div>
+            <div class="pb">
+              <div class="tl">
+                <div class="tl-item"><div class="tl-time">08:30</div>Kasungu team uploaded <strong>27</strong> farmer inspections.</div>
+                <div class="tl-item"><div class="tl-time">10:15</div>Bale discrepancy flagged at <strong>Gate 2</strong>.</div>
+                <div class="tl-item"><div class="tl-time">11:10</div>Inputs dispatch approved for <strong>Mchinji</strong> cluster.</div>
+                <div class="tl-item"><div class="tl-time">12:05</div><strong>14</strong> biometric cards printed for new growers.</div>
+                <div class="tl-item"><div class="tl-time">13:47</div>Factory shift A: <strong>38.6T</strong> intake recorded.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="gcol">
+          <div class="panel">
+            <div class="ph"><h2>TFMS Modules</h2><span class="pill ok">Modular pricing</span></div>
+            <div class="pb" style="display:grid;grid-template-columns:1fr 1fr;gap:10px;">
+              <div class="mod-card" onclick="activateScreen('registry')"><div class="mod-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><h4>Registry</h4><p>Farmer profiles, biometrics, GPS, ID card.</p><div class="mod-price">From $4,500</div></div>
+              <div class="mod-card" onclick="activateScreen('field')"><div class="mod-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div><h4>Field</h4><p>GPS visits, DroidSurvey forms, offline sync.</p><div class="mod-price">From $7,500</div></div>
+              <div class="mod-card" onclick="activateScreen('inputs')"><div class="mod-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg></div><h4>Inputs &amp; Credit</h4><p>Inputs dispatch, credit ledger, deductions.</p><div class="mod-price">From $5,500</div></div>
+              <div class="mod-card" onclick="activateScreen('factory')"><div class="mod-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div><h4>Factory</h4><p>Weight capture, grading, bale traceability.</p><div class="mod-price">From $12,000</div></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="ph"><h2>Officer field progress today</h2></div>
+            <div class="pb" style="display:grid;gap:12px;">
+              <div><div style="display:flex;justify-content:space-between;font-size:13px;"><span><strong>T. Itaye</strong> — Kasungu West</span><span class="pill ok">14/16</span></div><div class="prog-bar"><div class="prog-fill" style="width:87%;"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:13px;"><span><strong>M. Banda</strong> — Mchinji South</span><span class="pill ok">11/12</span></div><div class="prog-bar"><div class="prog-fill" style="width:92%;"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:13px;"><span><strong>P. Mussa</strong> — Dowa Cluster</span><span class="pill warn">7/12</span></div><div class="prog-bar"><div class="prog-fill" style="width:58%;background:var(--warn-fg);"></div></div></div>
+              <div><div style="display:flex;justify-content:space-between;font-size:13px;"><span><strong>R. João</strong> — Tete Border Zone</span><span class="pill info">9/9</span></div><div class="prog-bar"><div class="prog-fill" style="width:100%;"></div></div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FARMER REGISTRY -->
+    <section class="screen" id="screen-registry">
+      <div class="panel">
+        <div class="ph"><h2>Farmer Registry</h2><div style="display:flex;gap:8px;align-items:center;"><span class="pill ok">Biometric enabled</span><button class="btn btn-primary" data-action="new-farmer">+ New Farmer</button></div></div>
+        <div class="pb">
+          <div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px;">
+            <input style="border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:13px;background:var(--bg);min-width:200px;" value="Search by name, ID, district..." onfocus="this.value=''"/>
+            <select style="border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:13px;background:var(--bg);"><option>All Districts</option><option>Kasungu</option><option>Lilongwe</option><option>Mchinji</option><option>Dowa</option></select>
+            <select style="border:1px solid var(--border);border-radius:10px;padding:8px 12px;font-size:13px;background:var(--bg);"><option>All Statuses</option><option>Active</option><option>Pending verification</option><option>Suspended</option></select>
+         
