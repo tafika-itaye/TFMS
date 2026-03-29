@@ -1,1 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TFMS is priced per module. Buy only what you need or deploy the full farmer management suite. USD and MWK pricing available." />
+  <title>TFMS Pricing — Individual Modules or Full Suite</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">
+        <div class="nav-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg>
+        </div>
+        <div><span class="nav-name">TFMS</span><small class="nav-sub">by TechNexus</small></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="modules.html">Modules</a>
+        <a href="pricing.html" class="active">Pricing</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="tfms-application-mockup.html" class="nav-cta">Live Demo →</a>
+      </div>
+      <button class="nav-mobile" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='flex'?'none':'flex'">☰</button>
+    </div>
+    <div style="display:none;flex-direction:column;gap:4px;padding:10px 0 14px;border-top:1px solid rgba(255,255,255,.1);">
+      <a href="index.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Home</a>
+      <a href="modules.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Modules</a>
+      <a href="pricing.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Pricing</a>
+      <a href="about.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">About</a>
+      <a href="contact.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Contact</a>
+      <a href="tfms-application-mockup.html" style="color:#5ab5b7;padding:10px 4px;font-size:15px;font-weight:600;">Live Demo →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" style="padding:72px 0 60px;">
+  <div class="container">
+    <div class="hero-label">Transparent pricing</div>
+    <h1 style="max-width:640px;">Pay for what you need.<br/>Scale when ready.</h1>
+    <p style="max-width:560px;">TFMS is modular by design. Buy individual modules, combine two or three, or deploy the full suite. Pricing is quoted in USD and MWK Kwacha.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head center">
+      <div class="section-label">Module pricing</div>
+      <h2 class="section-title">Indicative price ranges</h2>
+      <p class="section-body">All pricing is indicative. Final quotations are issued after scoping your grower count, number of users, and operational requirements.</p>
+    </div>
+
+    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:48px;">
+      <table style="width:100%;border-collapse:collapse;">
+        <thead>
+          <tr style="background:linear-gradient(180deg,#0b2e32,#143133);color:#fff;">
+            <th style="padding:16px 20px;text-align:left;font-size:13px;font-weight:600;letter-spacing:.06em;">Module</th>
+            <th style="padding:16px 20px;text-align:left;font-size:13px;font-weight:600;letter-spacing:.06em;">What it covers</th>
+            <th style="padding:16px 20px;text-align:right;font-size:13px;font-weight:600;letter-spacing:.06em;">USD (from)</th>
+            <th style="padding:16px 20px;text-align:right;font-size:13px;font-weight:600;letter-spacing:.06em;">MWK (from)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid var(--divider);">
+            <td style="padding:16px 20px;font-weight:700;">TFMS Registry</td>
+            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Farmer onboarding, biometrics, GPS, ID card</td>
+            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$4,500 – $7,500</td>
+            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 8.55M – 14.25M</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--divider);">
+            <td style="padding:16px 20px;font-weight:700;">TFMS Inputs</td>
+            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Seed, fertilizer, chemical issuance and dispatch</td>
+            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$5,500 – $8,500</td>
+            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 10.45M – 16.15M</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--divider);">
+            <td style="padding:16px 20px;font-weight:700;">TFMS Credit</td>
+            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Seasonal credit ledger, deductions, risk flags</td>
+            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$6,500 – $9,500</td>
+            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 12.35M – 18.05M</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--divider);">
+            <td style="padding:16px 20px;font-weight:700;">TFMS Field Visits</td>
+            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">GPS visits, ODK forms, compliance scoring, offline</td>
+            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$7,500 – $11,000</td>
+            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 14.25M – 20.9M</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--divider);">
+            <td style="padding:16px 20px;font-weight:700;">TFMS Factory</td>
+            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Weight capture, grading, bales, inventory, shifts</td>
+            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$12,000 – $18,000</td>
+            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 22.8M – 34.2M</td>
+          </tr>
+          <tr style="border-bottom:1px solid var(--divider);">
+            <td style="padding:16px 20px;font-weight:700;">TFMS Analytics</td>
+            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Dashboards, compliance reports, BI export</td>
+            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$4,000 – $6,500</td>
+            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 7.6M – 12.35M</td>
+          </tr>
+          <tr style="background:linear-gradient(180deg,#f3f0ec,#fff);">
+            <td style="padding:18px 20px;font-weight:800;font-size:16px;">Full Suite</td>
+            <td style="padding:18px 20px;color:var(--text-muted);font-size:14px;">All 6 modules · unlimited users · 12 months support</td>
+            <td style="padding:18px 20px;text-align:right;font-weight:800;font-size:18px;color:var(--primary);">$28,000+</td>
+            <td style="padding:18px 20px;text-align:right;font-weight:700;color:var(--primary);">MK 53.2M+</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card">
+        <h3>Starter</h3>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:12px;">For small operations getting started with digital farmer management.</p>
+        <div class="amount">$4,500</div>
+        <div class="currency">One module · USD starting price</div>
+        <ul class="price-list">
+          <li>Choose any single module</li>
+          <li>Up to 5 users</li>
+          <li>Android + Windows deployment</li>
+          <li>3 months implementation support</li>
+          <li>Training for your team</li>
+        </ul>
+        <a href="contact.html" class="btn-primary" style="display:block;text-align:center;padding:12px;">Get a quote →</a>
+      </div>
+      <div class="price-card featured">
+        <h3>Operations Bundle</h3>
+        <p style="font-size:14px;color:rgba(255,255,255,.65);margin-bottom:12px;">Registry + Inputs + Credit + Field Visits — the core four modules for a full season cycle.</p>
+        <div class="amount">$20,000+</div>
+        <div class="currency">Four modules · USD starting price</div>
+        <ul class="price-list">
+          <li>Registry, Inputs, Credit, Field</li>
+          <li>Up to 25 users</li>
+          <li>Android + Windows deployment</li>
+          <li>6 months implementation support</li>
+          <li>Full team training</li>
+          <li>Custom configuration for your crop</li>
+        </ul>
+        <a href="contact.html" class="btn-primary" style="display:block;text-align:center;padding:12px;background:#5ab5b7;border-color:#5ab5b7;">Get a quote →</a>
+      </div>
+      <div class="price-card">
+        <h3>Full Suite</h3>
+        <p style="font-size:14px;color:var(--text-muted);margin-bottom:12px;">All six modules for end-to-end farm-to-factory management across multiple regions.</p>
+        <div class="amount">$28,000+</div>
+        <div class="currency">All modules · USD starting price</div>
+        <ul class="price-list">
+          <li>All 6 TFMS modules</li>
+          <li>Unlimited users</li>
+          <li>Android + Windows + Cloud</li>
+          <li>12 months support and updates</li>
+          <li>Multi-country deployment</li>
+          <li>Power BI and Excel integration</li>
+        </ul>
+        <a href="contact.html" class="btn-primary" style="display:block;text-align:center;padding:12px;">Get a quote →</a>
+      </div>
+    </div>
+  </div>
+</section>
+  <section class="alt">
+  <div class="container">
+    <div class="section-head center">
+      <div class="section-label">What's always included</div>
+      <h2 class="section-title">Every TFMS deployment includes</h2>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">🛠️</div>
+        <h4 style="margin-bottom:8px;">Custom configuration</h4>
+        <p style="font-size:14px;color:var(--text-muted);">System configured to your crop, districts, officer structure, and season calendar before go-live.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">👨‍🏫</div>
+        <h4 style="margin-bottom:8px;">Team training</h4>
+        <p style="font-size:14px;color:var(--text-muted);">On-site or remote training for system administrators, field officers, and factory operators.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">📞</div>
+        <h4 style="margin-bottom:8px;">Support period</h4>
+        <p style="font-size:14px;color:var(--text-muted);">Dedicated support window covering bug fixes, user questions, and configuration changes post-deployment.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">📱</div>
+        <h4 style="margin-bottom:8px;">Android + Windows</h4>
+        <p style="font-size:14px;color:var(--text-muted);">Full deployment on Android mobile and Windows desktop — no web-only limitations.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">🔒</div>
+        <h4 style="margin-bottom:8px;">Data ownership</h4>
+        <p style="font-size:14px;color:var(--text-muted);">Your grower data is yours. Full SQL database export available at any time.</p>
+      </div>
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
+        <div style="font-size:32px;margin-bottom:12px;">🌍</div>
+        <h4 style="margin-bottom:8px;">Multi-country ready</h4>
+        <p style="font-size:14px;color:var(--text-muted);">Proven deployable across Malawi and Mozambique — multi-language, multi-currency, multi-office.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="container">
+    <h2>Ready to get a formal quotation?</h2>
+    <p>Tell us your grower count, crop type, and which modules interest you. We will respond with a scoped proposal within 48 hours.</p>
+    <div class="cta-btns">
+      <a href="contact.html" class="btn-primary">Request a proposal →</a>
+      <a href="tfms-application-mockup.html" class="btn-ghost">Try live demo first</a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="nav-logo" style="width:34px;height:34px;border-radius:9px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#fff;"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg></div>
+          <span>TFMS</span>
+        </div>
+        <p style="font-size:14px;line-height:1.7;margin-bottom:14px;">TechNexus Farmer Management System — built from 15 years of agronomy and factory systems experience across Malawi and Mozambique.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,.45);">A TechNexus product · Lilongwe, Malawi</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="modules.html">All modules</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="tfms-application-mockup.html">Live demo</a></li>
+          <li><a href="about.html">About TFMS</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>TechNexus</h4>
+        <ul>
+          <li><a href="https://www.technexusmw.com" target="_blank">Main website</a></li>
+          <li><a href="contact.html">Contact us</a></li>
+          <li><a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TechNexus · TFMS. All rights reserved.</span>
+      <span>PPDA Registered · MANePS Active · MSME BRN.A6SNWQY</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
