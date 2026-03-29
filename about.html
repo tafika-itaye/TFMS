@@ -1,1 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="TFMS was built by Tafika Bilson Itaye Jr., an IT systems specialist with 15 years of agronomy and factory software experience at Universal Leaf Tobacco." />
+  <title>About TFMS — Built from 15 Years of Agronomy Systems Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+<style>
+.profile-card{display:grid;grid-template-columns:220px 1fr;gap:36px;background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:28px;box-shadow:var(--shadow-sm);}
+.profile-photo{background:var(--surface-2);border:1px solid var(--border);border-radius:14px;display:flex;align-items:center;justify-content:center;min-height:220px;color:var(--text-muted);text-align:center;padding:20px;}
+.profile-info h2{font-size:22px;margin-bottom:6px;}
+.role{font-size:14px;color:var(--text-muted);margin-bottom:16px;}
+.profile-info p{font-size:14px;color:var(--text-muted);line-height:1.7;margin-bottom:12px;}
+.profile-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px;}
+.profile-tag{background:var(--primary-soft);color:var(--primary);font-size:12px;font-weight:600;padding:5px 12px;border-radius:999px;}
+.skills-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.skill-item{display:grid;gap:6px;}
+.skill-label{display:flex;justify-content:space-between;font-size:13px;font-weight:600;}
+.skill-bar{height:8px;background:var(--border);border-radius:999px;overflow:hidden;}
+.skill-fill{height:100%;border-radius:999px;background:var(--primary);}
+@media(max-width:768px){.profile-card{grid-template-columns:1fr;}.skills-grid{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
 
+<nav class="nav">
+  <div class="container">
+    <div class="nav-inner">
+      <a class="nav-brand" href="index.html">
+        <div class="nav-logo">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg>
+        </div>
+        <div><span class="nav-name">TFMS</span><small class="nav-sub">by TechNexus</small></div>
+      </a>
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="modules.html">Modules</a>
+        <a href="pricing.html">Pricing</a>
+        <a href="about.html" class="active">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="tfms-application-mockup.html" class="nav-cta">Live Demo →</a>
+      </div>
+      <button class="nav-mobile" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='flex'?'none':'flex'">☰</button>
+    </div>
+    <div style="display:none;flex-direction:column;gap:4px;padding:10px 0 14px;border-top:1px solid rgba(255,255,255,.1);">
+      <a href="index.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Home</a>
+      <a href="modules.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Modules</a>
+      <a href="pricing.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Pricing</a>
+      <a href="about.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">About</a>
+      <a href="contact.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Contact</a>
+      <a href="tfms-application-mockup.html" style="color:#5ab5b7;padding:10px 4px;font-size:15px;font-weight:600;">Live Demo →</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero" style="padding:72px 0 60px;">
+  <div class="container">
+    <div class="hero-label">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+      About the product and its builder
+    </div>
+    <h1 style="max-width:700px;">TFMS was not designed in a meeting room.</h1>
+    <p style="max-width:640px;">It was built from over 15 years of hands-on software development inside one of Southern Africa's largest tobacco leaf companies — in both Malawi and Mozambique.</p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">The builder</div>
+      <h2 class="section-title">Tafika Bilson Itaye Jr.</h2>
+    </div>
+    <div class="profile-card">
+      <div class="profile-photo">
+        <div>
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin:0 auto 8px;opacity:.4;"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+          <span style="font-size:11px;">Photo placeholder</span>
+        </div>
+      </div>
+      <div class="profile-info">
+        <h2>Tafika Bilson Itaye Jr.</h2>
+        <div class="role">IT Manager · Software Developer · Founder, TechNexus</div>
+        <p>An experienced IT Manager and Project Manager with over 15 years of technical and managerial expertise in enterprise systems, database administration, and software development. Proven track record leading IT initiatives across multinational environments in Malawi and Mozambique.</p>
+        <p>Tafika designed and maintained agronomy and factory processing software at Universal Leaf Tobacco from 2008 to 2023, directly managing systems that handled over 10,000 grower records and supported 17 provincial offices and buying centres. TFMS is a direct product of that operational expertise.</p>
+        <div class="profile-tags">
+          <span class="profile-tag">IT Project Management</span>
+          <span class="profile-tag">C# · SQL · JavaScript</span>
+          <span class="profile-tag">Systems Analysis & Design</span>
+          <span class="profile-tag">Database Administration</span>
+          <span class="profile-tag">Agronomy Systems</span>
+          <span class="profile-tag">Factory Processing</span>
+          <span class="profile-tag">English · Portuguese · Chichewa</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Career timeline</div>
+      <h2 class="section-title">Experience that built TFMS</h2>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2008 – 2023</div>
+        <div class="tl-body">
+          <h4>Software Developer & IT Applications Specialist — Universal Leaf Tobacco (Malawi & Mozambique)</h4>
+          <p>Designed, developed, and maintained enterprise C#, JavaScript, and SQL systems for agronomy and manufacturing operations. Managed data for 10,000+ grower records. Deployed IT infrastructure across 17 provincial offices. Directly built the systems that now form the foundation of TFMS.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">May 2023 – Present</div>
+        <div class="tl-body">
+          <h4>IT Manager & Founder — TechNexus, Lilongwe</h4>
+          <p>Leading technology strategy and IT operations for a growing digital services company. Managing software development, system integrations, data management, and enterprise client delivery across Malawi and the wider SADC region.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">May 2023 – Present</div>
+        <div class="tl-body">
+          <h4>Founder & Project Lead — TechNexus Scripts, Lilongwe</h4>
+          <p>Manages a language technology and transcription division offering English, Portuguese, and Chichewa translation, transcription, subtitling, and interpretation services for local and international clients.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2022</div>
+        <div class="tl-body">
+          <h4>Google Project Management Certificate — Coursera</h4>
+          <p>Certified project management methodology, stakeholder management, and delivery frameworks.</p>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">Ongoing</div>
+        <div class="tl-body">
+          <h4>Advanced Diploma in Computer Science & IT — Association of Computer Professionals (U.K.)</h4>
+          <p>Core qualification in systems design, programming, database administration, and IT infrastructure management.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <section>
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Technical profile</div>
+      <h2 class="section-title">Core competencies</h2>
+    </div>
+    <div class="skills-grid">
+      <div class="skill-item"><div class="skill-label"><span>C# · .NET Software Development</span><span>95%</span></div><div class="skill-bar"><div class="skill-fill" style="width:95%;"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>Agronomy Systems Design</span><span>98%</span></div><div class="skill-bar"><div class="skill-fill" style="width:98%;"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>SQL Database Administration</span><span>90%</span></div><div class="skill-bar"><div class="skill-fill" style="width:90%;"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>Factory Processing Systems</span><span>92%</span></div><div class="skill-bar"><div class="skill-fill" style="width:92%;"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>IT Infrastructure Management</span><span>88%</span></div><div class="skill-bar"><div class="skill-fill" style="width:88%;"></div></div></div>
+      <div class="skill-item"><div class="skill-label"><span>Mobile Development (.NET MAUI)</span><span>78%</span></div><div class="skill-bar"><div class="skill-fill" style="width:78%;"></div></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="alt">
+  <div class="container">
+    <div class="section-head center">
+      <div class="section-label">Company credentials</div>
+      <h2 class="section-title">TechNexus compliance and registration</h2>
+    </div>
+    <div class="cred-grid">
+      <div class="cred-card"><div class="ic">🏛️</div><h4>PPDA Registered</h4><p>Public Procurement and Disposal of Assets Authority — Malawi</p></div>
+      <div class="cred-card"><div class="ic">📋</div><h4>MANePS Active</h4><p>Malawi National Electronic Procurement System</p></div>
+      <div class="cred-card"><div class="ic">🏢</div><h4>MSME Certified</h4><p>BRN.A6SNWQY — Micro, Small and Medium Enterprise registration</p></div>
+      <div class="cred-card"><div class="ic">🧾</div><h4>MRA Compliant</h4><p>Malawi Revenue Authority tax compliance and registration</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-band">
+  <div class="container">
+    <h2>See what 15 years of experience built.</h2>
+    <p>Explore the full TFMS interactive prototype — no login required. All six modules, live workflow logic, and real operational data.</p>
+    <div class="cta-btns">
+      <a href="tfms-application-mockup.html" class="btn-primary">Open live demo →</a>
+      <a href="contact.html" class="btn-ghost">Request a proposal</a>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="nav-logo" style="width:34px;height:34px;border-radius:9px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#fff;"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg></div>
+          <span>TFMS</span>
+        </div>
+        <p style="font-size:14px;line-height:1.7;margin-bottom:14px;">TechNexus Farmer Management System — built from 15 years of agronomy and factory systems experience across Malawi and Mozambique.</p>
+        <p style="font-size:13px;color:rgba(255,255,255,.45);">A TechNexus product · Lilongwe, Malawi</p>
+      </div>
+      <div>
+        <h4>Product</h4>
+        <ul>
+          <li><a href="modules.html">All modules</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
+          <li><a href="tfms-application-mockup.html">Live demo</a></li>
+          <li><a href="about.html">About TFMS</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>TechNexus</h4>
+        <ul>
+          <li><a href="https://www.technexusmw.com" target="_blank">Main website</a></li>
+          <li><a href="contact.html">Contact us</a></li>
+          <li><a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 TechNexus · TFMS. All rights reserved.</span>
+      <span>PPDA Registered · MANePS Active · MSME BRN.A6SNWQY</span>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
+                                                                </section>
