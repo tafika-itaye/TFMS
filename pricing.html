@@ -1,156 +1,214 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="TFMS is priced per module. Buy only what you need or deploy the full farmer management suite. USD and MWK pricing available." />
-  <title>TFMS Pricing — Individual Modules or Full Suite</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TFMS Pricing — Modules and Suite</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.pricing-table-section { background: var(--white); padding: 80px 0; }
+.pricing-table-label { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.18em; text-transform:uppercase; color:var(--text-light); margin-bottom:20px; }
+
+.price-table { width:100%; border-collapse:collapse; margin-bottom:16px; }
+.price-table thead th {
+  background: var(--green-mid); color: var(--gold-pale);
+  font-family:'Barlow Condensed',sans-serif; font-size:12px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase;
+  padding:14px 20px; text-align:left;
+  border-bottom: 2px solid var(--gold);
+}
+.price-table thead th:first-child { border-radius:4px 0 0 0; }
+.price-table thead th:last-child { border-radius:0 4px 0 0; }
+.price-table tbody tr { border-bottom:1px solid rgba(0,0,0,.06); transition:background .2s; }
+.price-table tbody tr:hover { background:rgba(200,150,42,.04); }
+.price-table tbody tr:last-child { border-bottom:2px solid var(--gold); background:rgba(92,61,30,.05); }
+.price-table tbody tr:last-child td { font-weight:600; }
+.price-table td { padding:16px 20px; font-size:14px; color:var(--text-mid); }
+.price-table td:first-child { color:var(--green-deep); font-weight:600; font-family:'Barlow Condensed',sans-serif; font-size:15px; letter-spacing:.03em; }
+.price-table .td-usd { color:var(--earth); font-weight:700; font-family:'Barlow Condensed',sans-serif; font-size:15px; }
+.price-table .td-mwk { color:var(--text-light); font-size:13px; }
+
+/* Tier cards */
+.tiers-section { background:var(--cream); padding:80px 0; }
+.tiers-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; border-radius:6px; overflow:hidden; background:rgba(0,0,0,.07); margin-top:56px; }
+.tier-card { background:var(--white); padding:44px 36px; position:relative; overflow:hidden; }
+.tier-card.featured {
+  background:var(--green-mid);
+  outline:3px solid var(--gold);
+  outline-offset:-1px;
+}
+.tier-featured-badge {
+  position:absolute; top:0; right:28px;
+  background:var(--gold); color:var(--green-deep);
+  font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:800;
+  letter-spacing:.15em; text-transform:uppercase;
+  padding:5px 14px; border-radius:0 0 6px 6px;
+}
+.tier-name {
+  font-family:'Barlow Condensed',sans-serif; font-size:13px; font-weight:700;
+  letter-spacing:.15em; text-transform:uppercase; color:var(--gold); margin-bottom:10px;
+}
+.tier-price {
+  font-family:'Cormorant Garamond',serif; font-size:52px; font-weight:300;
+  line-height:1; color:var(--green-deep); margin-bottom:4px;
+}
+.tier-card.featured .tier-price { color:var(--white); }
+.tier-price-sub { font-size:13px; color:var(--text-light); margin-bottom:10px; font-family:'Barlow Condensed',sans-serif; }
+.tier-card.featured .tier-price-sub { color:rgba(255,255,255,.5); }
+.tier-desc { font-size:14px; color:var(--text-mid); line-height:1.6; margin-bottom:28px; font-weight:300; padding-bottom:24px; border-bottom:1px solid rgba(0,0,0,.08); }
+.tier-card.featured .tier-desc { color:rgba(255,255,255,.6); border-color:rgba(200,150,42,.2); }
+.tier-features { list-style:none; display:flex; flex-direction:column; gap:10px; margin-bottom:32px; }
+.tier-features li { display:flex; align-items:flex-start; gap:10px; font-size:13px; color:var(--text-mid); }
+.tier-card.featured .tier-features li { color:rgba(255,255,255,.7); }
+.tier-features li::before { content:'✓'; flex-shrink:0; color:var(--green-light); font-weight:700; }
+.tier-card.featured .tier-features li::before { color:var(--gold); }
+
+/* Inclusions */
+.inclusions-section { background:var(--green-deep); padding:80px 0; position:relative; overflow:hidden; }
+.inclusions-bg { position:absolute; inset:0; background:radial-gradient(ellipse 60% 80% at 80% 50%, rgba(45,90,45,.2) 0%, transparent 70%); }
+.inclusions-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:2px; background:rgba(200,150,42,.1); border-radius:6px; overflow:hidden; margin-top:52px; }
+.inclusion-card { background:rgba(13,31,13,.7); padding:32px 28px; }
+.inclusion-icon { font-size:28px; margin-bottom:16px; }
+.inclusion-title { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; color:var(--gold-light); letter-spacing:.05em; margin-bottom:8px; text-transform:uppercase; }
+.inclusion-desc { font-size:13px; color:rgba(255,255,255,.45); line-height:1.65; font-weight:300; }
+
+.pricing-cta { background:var(--earth); padding:72px 0; position:relative; overflow:hidden; }
+.pricing-cta::before { content:''; position:absolute; inset:0; background:linear-gradient(135deg,var(--earth) 0%,#3d2510 100%); }
+
+@media(max-width:900px) {
+  .tiers-grid { grid-template-columns:1fr; }
+  .inclusions-grid { grid-template-columns:1fr 1fr; }
+  .price-table { font-size:12px; }
+  .price-table td, .price-table thead th { padding:10px 12px; }
+}
+@media(max-width:600px) { .inclusions-grid { grid-template-columns:1fr; } }
+</style>
 </head>
 <body>
-
-<nav class="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a class="nav-brand" href="index.html">
-        <div class="nav-logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg>
-        </div>
-        <div><span class="nav-name">TFMS</span><small class="nav-sub">by TechNexus</small></div>
-      </a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="modules.html">Modules</a>
-        <a href="pricing.html" class="active">Pricing</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="tfms-application-mockup.html" class="nav-cta">Live Demo →</a>
-      </div>
-      <button class="nav-mobile" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='flex'?'none':'flex'">☰</button>
-    </div>
-    <div style="display:none;flex-direction:column;gap:4px;padding:10px 0 14px;border-top:1px solid rgba(255,255,255,.1);">
-      <a href="index.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Home</a>
-      <a href="modules.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Modules</a>
-      <a href="pricing.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Pricing</a>
-      <a href="about.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">About</a>
-      <a href="contact.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Contact</a>
-      <a href="tfms-application-mockup.html" style="color:#5ab5b7;padding:10px 4px;font-size:15px;font-weight:600;">Live Demo →</a>
-    </div>
+<div class="topbar">
+  <div class="topbar-badges">
+    <div class="topbar-badge"><span class="dot"></span>PPDA Registered</div>
+    <div class="topbar-badge"><span class="dot"></span>MANePS Active</div>
+    <div class="topbar-badge"><span class="dot"></span>MSME BRN.A6SNWQY</div>
   </div>
+  <div class="topbar-right">
+    <span>Lilongwe, Malawi</span>
+    <a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a>
+  </div>
+</div>
+<nav class="nav" id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">TF</div>
+    <div><div class="nav-logo-title">TFMS</div><div class="nav-logo-sub">by TechNexus</div></div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="modules.html">Modules</a></li>
+    <li><a href="pricing.html" class="active">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="tfms-application-mockup.html" class="nav-cta">Live Demo →</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
 </nav>
 
-<section class="hero" style="padding:72px 0 60px;">
-  <div class="container">
-    <div class="hero-label">Transparent pricing</div>
-    <h1 style="max-width:640px;">Pay for what you need.<br/>Scale when ready.</h1>
-    <p style="max-width:560px;">TFMS is modular by design. Buy individual modules, combine two or three, or deploy the full suite. Pricing is quoted in USD and MWK Kwacha.</p>
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-texture"></div>
+  <div class="page-hero-gold-line"></div>
+  <div class="section-inner">
+    <div class="page-hero-inner reveal">
+      <div class="page-hero-eyebrow">Transparent Pricing</div>
+      <h1 class="page-hero-title">Pay for what you need.<br/><em>Scale when ready.</em></h1>
+      <p class="page-hero-sub">TFMS is modular by design. Buy individual modules, combine two or three, or deploy the full suite. All pricing quoted in USD and MWK Kwacha.</p>
+      <div class="page-hero-actions">
+        <a href="contact.html" class="btn-primary">Request a Quote</a>
+        <a href="modules.html" class="btn-outline btn-outline-light">View All Modules</a>
+      </div>
+    </div>
   </div>
 </section>
 
-<section>
-  <div class="container">
-    <div class="section-head center">
-      <div class="section-label">Module pricing</div>
-      <h2 class="section-title">Indicative price ranges</h2>
-      <p class="section-body">All pricing is indicative. Final quotations are issued after scoping your grower count, number of users, and operational requirements.</p>
+<!-- PRICING TABLE -->
+<section class="pricing-table-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">Module Pricing</div>
+      <h2 class="section-title">Indicative <em>price ranges</em></h2>
+      <p class="section-lead" style="margin-bottom:40px;">Final quotations issued after scoping your grower count, number of users, and operational requirements.</p>
     </div>
-
-    <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-md);margin-bottom:48px;">
-      <table style="width:100%;border-collapse:collapse;">
+    <div class="reveal" style="overflow-x:auto;">
+      <table class="price-table">
         <thead>
-          <tr style="background:linear-gradient(180deg,#0b2e32,#143133);color:#fff;">
-            <th style="padding:16px 20px;text-align:left;font-size:13px;font-weight:600;letter-spacing:.06em;">Module</th>
-            <th style="padding:16px 20px;text-align:left;font-size:13px;font-weight:600;letter-spacing:.06em;">What it covers</th>
-            <th style="padding:16px 20px;text-align:right;font-size:13px;font-weight:600;letter-spacing:.06em;">USD (from)</th>
-            <th style="padding:16px 20px;text-align:right;font-size:13px;font-weight:600;letter-spacing:.06em;">MWK (from)</th>
+          <tr>
+            <th>Module</th>
+            <th>What it covers</th>
+            <th>USD (from)</th>
+            <th>MWK (from)</th>
           </tr>
         </thead>
         <tbody>
-          <tr style="border-bottom:1px solid var(--divider);">
-            <td style="padding:16px 20px;font-weight:700;">TFMS Registry</td>
-            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Farmer onboarding, biometrics, GPS, ID card</td>
-            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$4,500 – $7,500</td>
-            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 8.55M – 14.25M</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--divider);">
-            <td style="padding:16px 20px;font-weight:700;">TFMS Inputs</td>
-            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Seed, fertilizer, chemical issuance and dispatch</td>
-            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$5,500 – $8,500</td>
-            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 10.45M – 16.15M</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--divider);">
-            <td style="padding:16px 20px;font-weight:700;">TFMS Credit</td>
-            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Seasonal credit ledger, deductions, risk flags</td>
-            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$6,500 – $9,500</td>
-            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 12.35M – 18.05M</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--divider);">
-            <td style="padding:16px 20px;font-weight:700;">TFMS Field Visits</td>
-            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">GPS visits, ODK forms, compliance scoring, offline</td>
-            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$7,500 – $11,000</td>
-            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 14.25M – 20.9M</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--divider);">
-            <td style="padding:16px 20px;font-weight:700;">TFMS Factory</td>
-            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Weight capture, grading, bales, inventory, shifts</td>
-            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$12,000 – $18,000</td>
-            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 22.8M – 34.2M</td>
-          </tr>
-          <tr style="border-bottom:1px solid var(--divider);">
-            <td style="padding:16px 20px;font-weight:700;">TFMS Analytics</td>
-            <td style="padding:16px 20px;color:var(--text-muted);font-size:14px;">Dashboards, compliance reports, BI export</td>
-            <td style="padding:16px 20px;text-align:right;font-weight:700;color:var(--primary);">$4,000 – $6,500</td>
-            <td style="padding:16px 20px;text-align:right;color:var(--text-muted);font-size:14px;">MK 7.6M – 12.35M</td>
-          </tr>
-          <tr style="background:linear-gradient(180deg,#f3f0ec,#fff);">
-            <td style="padding:18px 20px;font-weight:800;font-size:16px;">Full Suite</td>
-            <td style="padding:18px 20px;color:var(--text-muted);font-size:14px;">All 6 modules · unlimited users · 12 months support</td>
-            <td style="padding:18px 20px;text-align:right;font-weight:800;font-size:18px;color:var(--primary);">$28,000+</td>
-            <td style="padding:18px 20px;text-align:right;font-weight:700;color:var(--primary);">MK 53.2M+</td>
-          </tr>
+          <tr><td>TFMS Registry</td><td>Farmer onboarding, biometrics, GPS, ID card</td><td class="td-usd">$4,500 – $7,500</td><td class="td-mwk">MK 8.55M – 14.25M</td></tr>
+          <tr><td>TFMS Inputs</td><td>Seed, fertilizer, chemical issuance and dispatch</td><td class="td-usd">$5,500 – $8,500</td><td class="td-mwk">MK 10.45M – 16.15M</td></tr>
+          <tr><td>TFMS Credit</td><td>Seasonal credit ledger, deductions, risk flags</td><td class="td-usd">$6,500 – $9,500</td><td class="td-mwk">MK 12.35M – 18.05M</td></tr>
+          <tr><td>TFMS Field Visits</td><td>GPS visits, ODK forms, compliance scoring, offline</td><td class="td-usd">$7,500 – $11,000</td><td class="td-mwk">MK 14.25M – 20.9M</td></tr>
+          <tr><td>TFMS Factory</td><td>Weight capture, grading, bales, inventory, shifts</td><td class="td-usd">$12,000 – $18,000</td><td class="td-mwk">MK 22.8M – 34.2M</td></tr>
+          <tr><td>TFMS Analytics</td><td>Dashboards, compliance reports, BI export</td><td class="td-usd">$4,000 – $6,500</td><td class="td-mwk">MK 7.6M – 12.35M</td></tr>
+          <tr><td>Full Suite</td><td>All 6 modules · unlimited users · 12 months support</td><td class="td-usd">$28,000+</td><td class="td-mwk">MK 53.2M+</td></tr>
         </tbody>
       </table>
     </div>
+  </div>
+</section>
 
-    <div class="pricing-grid">
-      <div class="price-card">
-        <h3>Starter</h3>
-        <p style="font-size:14px;color:var(--text-muted);margin-bottom:12px;">For small operations getting started with digital farmer management.</p>
-        <div class="amount">$4,500</div>
-        <div class="currency">One module · USD starting price</div>
-        <ul class="price-list">
+<div class="divider-gold"></div>
+
+<!-- TIER CARDS -->
+<section class="tiers-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">Deployment Tiers</div>
+      <h2 class="section-title">Choose your <em>starting point</em></h2>
+    </div>
+    <div class="tiers-grid">
+      <!-- Starter -->
+      <div class="tier-card reveal">
+        <div class="tier-name">Starter</div>
+        <div class="tier-price">$4,500</div>
+        <div class="tier-price-sub">One module · USD starting price</div>
+        <div class="tier-desc">For small operations getting started with digital farmer management.</div>
+        <ul class="tier-features">
           <li>Choose any single module</li>
           <li>Up to 5 users</li>
           <li>Android + Windows deployment</li>
           <li>3 months implementation support</li>
           <li>Training for your team</li>
         </ul>
-        <a href="contact.html" class="btn-primary" style="display:block;text-align:center;padding:12px;">Get a quote →</a>
+        <a href="contact.html" class="btn-outline" style="width:100%;text-align:center;display:block;">Get a Quote →</a>
       </div>
-      <div class="price-card featured">
-        <h3>Operations Bundle</h3>
-        <p style="font-size:14px;color:rgba(255,255,255,.65);margin-bottom:12px;">Registry + Inputs + Credit + Field Visits — the core four modules for a full season cycle.</p>
-        <div class="amount">$20,000+</div>
-        <div class="currency">Four modules · USD starting price</div>
-        <ul class="price-list">
+      <!-- Operations Bundle -->
+      <div class="tier-card featured reveal">
+        <div class="tier-featured-badge">Most Popular</div>
+        <div class="tier-name">Operations Bundle</div>
+        <div class="tier-price">$20,000</div>
+        <div class="tier-price-sub">Four modules · USD starting price</div>
+        <div class="tier-desc">Registry + Inputs + Credit + Field Visits — the core four modules for a complete season cycle.</div>
+        <ul class="tier-features">
           <li>Registry, Inputs, Credit, Field</li>
           <li>Up to 25 users</li>
           <li>Android + Windows deployment</li>
           <li>6 months implementation support</li>
-          <li>Full team training</li>
-          <li>Custom configuration for your crop</li>
+          <li>Full team training included</li>
+          <li>Custom config for your crop</li>
         </ul>
-        <a href="contact.html" class="btn-primary" style="display:block;text-align:center;padding:12px;background:#5ab5b7;border-color:#5ab5b7;">Get a quote →</a>
+        <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;display:block;">Get a Quote →</a>
       </div>
-      <div class="price-card">
-        <h3>Full Suite</h3>
-        <p style="font-size:14px;color:var(--text-muted);margin-bottom:12px;">All six modules for end-to-end farm-to-factory management across multiple regions.</p>
-        <div class="amount">$28,000+</div>
-        <div class="currency">All modules · USD starting price</div>
-        <ul class="price-list">
+      <!-- Full Suite -->
+      <div class="tier-card reveal">
+        <div class="tier-name">Full Suite</div>
+        <div class="tier-price">$28,000</div>
+        <div class="tier-price-sub">All modules · USD starting price</div>
+        <div class="tier-desc">All six modules for end-to-end farm-to-factory management across multiple regions.</div>
+        <ul class="tier-features">
           <li>All 6 TFMS modules</li>
           <li>Unlimited users</li>
           <li>Android + Windows + Cloud</li>
@@ -158,98 +216,76 @@
           <li>Multi-country deployment</li>
           <li>Power BI and Excel integration</li>
         </ul>
-        <a href="contact.html" class="btn-primary" style="display:block;text-align:center;padding:12px;">Get a quote →</a>
-      </div>
-    </div>
-  </div>
-</section>
-  <section class="alt">
-  <div class="container">
-    <div class="section-head center">
-      <div class="section-label">What's always included</div>
-      <h2 class="section-title">Every TFMS deployment includes</h2>
-    </div>
-    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:20px;">
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-        <div style="font-size:32px;margin-bottom:12px;">🛠️</div>
-        <h4 style="margin-bottom:8px;">Custom configuration</h4>
-        <p style="font-size:14px;color:var(--text-muted);">System configured to your crop, districts, officer structure, and season calendar before go-live.</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-        <div style="font-size:32px;margin-bottom:12px;">👨‍🏫</div>
-        <h4 style="margin-bottom:8px;">Team training</h4>
-        <p style="font-size:14px;color:var(--text-muted);">On-site or remote training for system administrators, field officers, and factory operators.</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-        <div style="font-size:32px;margin-bottom:12px;">📞</div>
-        <h4 style="margin-bottom:8px;">Support period</h4>
-        <p style="font-size:14px;color:var(--text-muted);">Dedicated support window covering bug fixes, user questions, and configuration changes post-deployment.</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-        <div style="font-size:32px;margin-bottom:12px;">📱</div>
-        <h4 style="margin-bottom:8px;">Android + Windows</h4>
-        <p style="font-size:14px;color:var(--text-muted);">Full deployment on Android mobile and Windows desktop — no web-only limitations.</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-        <div style="font-size:32px;margin-bottom:12px;">🔒</div>
-        <h4 style="margin-bottom:8px;">Data ownership</h4>
-        <p style="font-size:14px;color:var(--text-muted);">Your grower data is yours. Full SQL database export available at any time.</p>
-      </div>
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;text-align:center;">
-        <div style="font-size:32px;margin-bottom:12px;">🌍</div>
-        <h4 style="margin-bottom:8px;">Multi-country ready</h4>
-        <p style="font-size:14px;color:var(--text-muted);">Proven deployable across Malawi and Mozambique — multi-language, multi-currency, multi-office.</p>
+        <a href="contact.html" class="btn-outline" style="width:100%;text-align:center;display:block;">Get a Quote →</a>
       </div>
     </div>
   </div>
 </section>
 
-<div class="cta-band">
-  <div class="container">
-    <h2>Ready to get a formal quotation?</h2>
-    <p>Tell us your grower count, crop type, and which modules interest you. We will respond with a scoped proposal within 48 hours.</p>
-    <div class="cta-btns">
-      <a href="contact.html" class="btn-primary">Request a proposal →</a>
-      <a href="tfms-application-mockup.html" class="btn-ghost">Try live demo first</a>
+<!-- INCLUSIONS -->
+<section class="inclusions-section">
+  <div class="inclusions-bg"></div>
+  <div class="section-inner" style="position:relative;z-index:2;">
+    <div class="reveal">
+      <div class="section-tag" style="color:var(--gold);">Always Included</div>
+      <h2 class="section-title section-title-light">Every TFMS deployment <em>includes</em></h2>
+    </div>
+    <div class="inclusions-grid reveal">
+      <div class="inclusion-card"><div class="inclusion-icon">🛠️</div><div class="inclusion-title">Custom Configuration</div><div class="inclusion-desc">System configured to your crop, districts, officer structure, and season calendar before go-live.</div></div>
+      <div class="inclusion-card"><div class="inclusion-icon">👨‍🏫</div><div class="inclusion-title">Team Training</div><div class="inclusion-desc">On-site or remote training for system administrators, field officers, and factory operators.</div></div>
+      <div class="inclusion-card"><div class="inclusion-icon">📞</div><div class="inclusion-title">Support Period</div><div class="inclusion-desc">Dedicated support window covering bug fixes, user questions, and configuration changes post-deployment.</div></div>
+      <div class="inclusion-card"><div class="inclusion-icon">📱</div><div class="inclusion-title">Android + Windows</div><div class="inclusion-desc">Full deployment on Android mobile and Windows desktop — no web-only limitations.</div></div>
+      <div class="inclusion-card"><div class="inclusion-icon">🔒</div><div class="inclusion-title">Data Ownership</div><div class="inclusion-desc">Your grower data is yours. Full SQL database export available at any time on request.</div></div>
+      <div class="inclusion-card"><div class="inclusion-icon">🌍</div><div class="inclusion-title">Multi-country Ready</div><div class="inclusion-desc">Proven deployable across Malawi and Mozambique — multi-language, multi-currency, multi-office.</div></div>
     </div>
   </div>
-</div>
+</section>
 
+<!-- CTA -->
+<section class="pricing-cta">
+  <div class="section-inner" style="position:relative;z-index:2;">
+    <div class="reveal" style="display:flex;align-items:center;justify-content:space-between;gap:60px;flex-wrap:wrap;">
+      <div>
+        <h2 style="font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3vw,44px);font-weight:600;color:var(--white);line-height:1.15;max-width:500px;">Ready to get a <em style="font-style:italic;color:var(--gold-light);">formal quotation?</em></h2>
+        <p style="font-size:14px;color:rgba(255,255,255,.55);margin-top:12px;font-weight:300;">Tell us your grower count, crop type, and which modules interest you. We respond with a scoped proposal within 48 hours.</p>
+      </div>
+      <div style="display:flex;gap:14px;flex-wrap:wrap;flex-shrink:0;">
+        <a href="contact.html" class="btn-primary">Request a Proposal →</a>
+        <a href="tfms-application-mockup.html" class="btn-outline btn-outline-light">Try Live Demo First</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
 <footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
+  <div class="section-inner">
+    <div class="footer-inner">
       <div>
-        <div class="footer-brand">
-          <div class="nav-logo" style="width:34px;height:34px;border-radius:9px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#fff;"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg></div>
-          <span>TFMS</span>
-        </div>
-        <p style="font-size:14px;line-height:1.7;margin-bottom:14px;">TechNexus Farmer Management System — built from 15 years of agronomy and factory systems experience across Malawi and Mozambique.</p>
-        <p style="font-size:13px;color:rgba(255,255,255,.45);">A TechNexus product · Lilongwe, Malawi</p>
+        <div class="footer-brand-name">TFMS</div>
+        <div class="footer-brand-sub">TechNexus Farmer Management System</div>
+        <p class="footer-brand-desc">Built from 15 years of agronomy and factory systems experience across Malawi and Mozambique.</p>
+        <div class="footer-contact-item">📍 Lilongwe, Malawi</div>
+        <div class="footer-contact-item">✉ <a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></div>
+        <div class="footer-contact-item">📞 <a href="tel:+265992983563">+265 992 983 563</a></div>
+        <div class="footer-contact-item">🌐 <a href="https://www.technexusmw.com" target="_blank">technexusmw.com</a></div>
       </div>
-      <div>
-        <h4>Product</h4>
-        <ul>
-          <li><a href="modules.html">All modules</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="tfms-application-mockup.html">Live demo</a></li>
-          <li><a href="about.html">About TFMS</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>TechNexus</h4>
-        <ul>
-          <li><a href="https://www.technexusmw.com" target="_blank">Main website</a></li>
-          <li><a href="contact.html">Contact us</a></li>
-          <li><a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></li>
-        </ul>
-      </div>
+      <div><div class="footer-col-title">Product</div><ul class="footer-links"><li><a href="modules.html">All Modules</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="tfms-application-mockup.html">Live Demo</a></li><li><a href="about.html">About TFMS</a></li></ul></div>
+      <div><div class="footer-col-title">TechNexus</div><ul class="footer-links"><li><a href="https://www.technexusmw.com" target="_blank">Main Website</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+      <div><div class="footer-col-title">Compliance</div><ul class="footer-links"><li><a href="#">PPDA Registered</a></li><li><a href="#">MANePS Active</a></li><li><a href="#">MSME BRN.A6SNWQY</a></li><li><a href="#">MRA Compliant</a></li></ul></div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 TechNexus · TFMS. All rights reserved.</span>
-      <span>PPDA Registered · MANePS Active · MSME BRN.A6SNWQY</span>
+      <div class="footer-bottom-badges"><span class="footer-badge">PPDA Registered</span><span class="footer-badge">MANePS Active</span><span class="footer-badge">MRA Compliant</span></div>
     </div>
   </div>
 </footer>
-
+<script>
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+document.getElementById('navHamburger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>ro.observe(r));
+</script>
 </body>
 </html>

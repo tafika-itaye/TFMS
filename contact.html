@@ -1,242 +1,310 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Get in touch with TechNexus to request a TFMS demo, pricing proposal, or scoping discussion for your agricultural operation." />
-  <title>Contact TFMS — Request a Demo or Pricing Proposal</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Contact TFMS — Request a Proposal or Demo</title>
+<link rel="stylesheet" href="style.css"/>
 <style>
-.form-panel{background:var(--surface);border:1px solid var(--border);border-radius:20px;padding:32px;box-shadow:var(--shadow-sm);}
-.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px;}
-.form-field{display:grid;gap:6px;}
-.form-field label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-muted);}
-.form-field input,.form-field select,.form-field textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:11px 14px;background:var(--bg);color:var(--text);font-size:14px;font-family:inherit;}
-.form-field input:focus,.form-field select:focus,.form-field textarea:focus{outline:2px solid var(--primary);outline-offset:1px;}
-.form-field textarea{min-height:130px;resize:vertical;}
-.form-full{grid-column:1/-1;}
-.info-panel{display:grid;gap:20px;}
-.info-card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:22px;display:flex;gap:16px;align-items:flex-start;}
-.info-icon{width:44px;height:44px;border-radius:12px;background:var(--primary-soft);display:grid;place-items:center;flex-shrink:0;}
-.info-icon svg{width:20px;height:20px;color:var(--primary);}
-.info-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.09em;color:var(--text-muted);margin-bottom:5px;}
-.info-val{font-size:15px;font-weight:600;color:var(--text);}
-.info-sub{font-size:13px;color:var(--text-muted);margin-top:3px;}
-.success-box{display:none;background:var(--ok-bg,#e4efe0);border:1px solid #b6d9a0;border-radius:14px;padding:20px;text-align:center;margin-top:16px;}
-.success-box h3{color:#2f5b16;margin-bottom:6px;}
-.success-box p{font-size:14px;color:#3d6e20;}
-@media(max-width:768px){.form-grid{grid-template-columns:1fr;}}
+.contact-section { background:var(--white); padding:90px 0; }
+.contact-grid { display:grid; grid-template-columns:1fr 420px; gap:80px; align-items:start; }
+
+/* Form */
+.contact-form-wrap { }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.form-group { margin-bottom:16px; }
+.form-label {
+  display:block; font-family:'Barlow Condensed',sans-serif; font-size:11px;
+  font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--text-mid); margin-bottom:6px;
+}
+.form-input, .form-select, .form-textarea {
+  width:100%; background:var(--cream); border:1px solid rgba(0,0,0,.12);
+  border-radius:4px; padding:12px 14px;
+  font-family:'Barlow',sans-serif; font-size:14px; color:var(--text-dark);
+  transition:border-color .2s, box-shadow .2s;
+  outline:none;
+}
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color:var(--gold);
+  box-shadow:0 0 0 3px rgba(200,150,42,.12);
+  background:var(--white);
+}
+.form-select { appearance:none; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a8a8a' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center; }
+.form-textarea { resize:vertical; min-height:120px; }
+
+.form-submit-row { display:flex; align-items:center; gap:16px; margin-top:8px; }
+.form-note { font-size:12px; color:var(--text-light); }
+
+.form-success {
+  display:none;
+  background:rgba(74,124,74,.08); border:1px solid rgba(74,124,74,.2);
+  border-radius:6px; padding:20px 24px;
+  font-size:14px; color:var(--green-mid); line-height:1.6;
+  margin-top:20px;
+}
+.form-success.show { display:block; }
+
+/* Sidebar */
+.contact-sidebar { position:sticky; top:90px; display:flex; flex-direction:column; gap:20px; }
+.contact-card {
+  background:var(--cream); border:1px solid rgba(0,0,0,.07);
+  border-radius:6px; padding:28px;
+}
+.contact-card-title { font-family:'Barlow Condensed',sans-serif; font-size:11px; font-weight:700; letter-spacing:.16em; text-transform:uppercase; color:var(--gold); margin-bottom:16px; padding-bottom:10px; border-bottom:1px solid rgba(0,0,0,.07); }
+.contact-detail { display:flex; align-items:flex-start; gap:14px; margin-bottom:18px; }
+.contact-detail:last-child { margin-bottom:0; }
+.contact-detail-icon { width:36px; height:36px; background:var(--green-mid); border-radius:5px; display:flex; align-items:center; justify-content:center; flex-shrink:0; font-size:16px; }
+.contact-detail-label { font-family:'Barlow Condensed',sans-serif; font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:var(--text-light); margin-bottom:3px; }
+.contact-detail-val { font-size:14px; color:var(--text-dark); font-weight:500; }
+.contact-detail-val a { color:var(--green-mid); text-decoration:none; transition:color .2s; }
+.contact-detail-val a:hover { color:var(--gold); }
+.contact-detail-sub { font-size:12px; color:var(--text-light); margin-top:2px; }
+
+.commitment-card { background:var(--green-mid); border-radius:6px; padding:28px; }
+.commitment-icon { font-size:32px; margin-bottom:12px; }
+.commitment-title { font-family:'Barlow Condensed',sans-serif; font-size:14px; font-weight:700; color:var(--gold); letter-spacing:.08em; text-transform:uppercase; margin-bottom:8px; }
+.commitment-text { font-size:13px; color:rgba(255,255,255,.6); line-height:1.65; }
+
+/* Process section */
+.process-section { background:var(--cream); padding:80px 0; }
+.process-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; background:rgba(0,0,0,.06); border-radius:6px; overflow:hidden; margin-top:52px; }
+.process-card { background:var(--white); padding:36px 28px; position:relative; }
+.process-num { font-family:'Cormorant Garamond',serif; font-size:64px; font-weight:300; color:rgba(200,150,42,.1); line-height:1; margin-bottom:16px; }
+.process-title { font-family:'Barlow Condensed',sans-serif; font-size:15px; font-weight:700; color:var(--green-deep); letter-spacing:.06em; text-transform:uppercase; margin-bottom:8px; }
+.process-desc { font-size:13px; color:var(--text-mid); line-height:1.65; font-weight:300; }
+
+@media(max-width:900px){
+  .contact-grid { grid-template-columns:1fr; }
+  .contact-sidebar { position:static; }
+  .form-row { grid-template-columns:1fr; }
+  .process-grid { grid-template-columns:1fr 1fr; }
+}
+@media(max-width:600px){ .process-grid { grid-template-columns:1fr; } }
 </style>
 </head>
 <body>
-
-<nav class="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a class="nav-brand" href="index.html">
-        <div class="nav-logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg>
-        </div>
-        <div><span class="nav-name">TFMS</span><small class="nav-sub">by TechNexus</small></div>
-      </a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="modules.html">Modules</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="about.html">About</a>
-        <a href="contact.html" class="active">Contact</a>
-        <a href="tfms-application-mockup.html" class="nav-cta">Live Demo →</a>
-      </div>
-      <button class="nav-mobile" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='flex'?'none':'flex'">☰</button>
-    </div>
-    <div style="display:none;flex-direction:column;gap:4px;padding:10px 0 14px;border-top:1px solid rgba(255,255,255,.1);">
-      <a href="index.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Home</a>
-      <a href="modules.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Modules</a>
-      <a href="pricing.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Pricing</a>
-      <a href="about.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">About</a>
-      <a href="contact.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Contact</a>
-      <a href="tfms-application-mockup.html" style="color:#5ab5b7;padding:10px 4px;font-size:15px;font-weight:600;">Live Demo →</a>
-    </div>
+<div class="topbar">
+  <div class="topbar-badges">
+    <div class="topbar-badge"><span class="dot"></span>PPDA Registered</div>
+    <div class="topbar-badge"><span class="dot"></span>MANePS Active</div>
+    <div class="topbar-badge"><span class="dot"></span>MSME BRN.A6SNWQY</div>
   </div>
+  <div class="topbar-right">
+    <span>Lilongwe, Malawi</span>
+    <a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a>
+  </div>
+</div>
+<nav class="nav" id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">TF</div>
+    <div><div class="nav-logo-title">TFMS</div><div class="nav-logo-sub">by TechNexus</div></div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="modules.html">Modules</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html" class="active">Contact</a></li>
+    <li><a href="tfms-application-mockup.html" class="nav-cta">Live Demo →</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
 </nav>
 
-<section class="hero" style="padding:72px 0 60px;">
-  <div class="container">
-    <div class="hero-label">Get in touch</div>
-    <h1 style="max-width:580px;">Let's talk about your operation.</h1>
-    <p style="max-width:520px;">Whether you are managing 500 growers or 50,000, we can scope the right TFMS modules for your crop type, team size, and infrastructure.</p>
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-texture"></div>
+  <div class="page-hero-gold-line"></div>
+  <div class="section-inner">
+    <div class="page-hero-inner reveal">
+      <div class="page-hero-eyebrow">Get in Touch</div>
+      <h1 class="page-hero-title">Let's talk about<br/><em>your operation.</em></h1>
+      <p class="page-hero-sub">Whether you are managing 500 growers or 50,000, we will scope the right TFMS modules for your crop type, team size, and infrastructure.</p>
+    </div>
   </div>
 </section>
 
-<section>
-  <div class="container">
-    <div style="display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:start;">
+<!-- CONTACT SECTION -->
+<section class="contact-section">
+  <div class="section-inner">
+    <div class="contact-grid">
+      <!-- FORM -->
+      <div class="reveal">
+        <div class="section-tag">Send Us a Message</div>
+        <h2 class="section-title" style="margin-bottom:32px;">Fill in the form and we'll<br/><em>respond within 1 business day.</em></h2>
 
-      <div class="form-panel">
-        <h2 style="margin-bottom:6px;font-size:22px;">Send us a message</h2>
-        <p style="color:var(--text-muted);font-size:14px;margin-bottom:24px;">Fill in the form and we will respond within 1 business day.</p>
-        <form onsubmit="handleSubmit(event)">
-          <div class="form-grid">
-            <div class="form-field"><label>First name</label><input type="text" placeholder="First name" required /></div>
-            <div class="form-field"><label>Last name</label><input type="text" placeholder="Last name" required /></div>
-            <div class="form-field"><label>Organisation</label><input type="text" placeholder="Company or organisation" /></div>
-            <div class="form-field"><label>Country</label>
-              <select>
-                <option>Malawi</option><option>Mozambique</option><option>Zimbabwe</option>
-                <option>Zambia</option><option>Tanzania</option><option>South Africa</option><option>Other</option>
-              </select>
+        <form id="contactForm" onsubmit="handleSubmit(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="fname">First Name *</label>
+              <input class="form-input" type="text" id="fname" name="fname" required placeholder="e.g. Tafika"/>
             </div>
-            <div class="form-field form-full"><label>Email address</label><input type="email" placeholder="your@email.com" required /></div>
-            <div class="form-field form-full"><label>Module(s) of interest</label>
-              <select>
-                <option>TFMS Full Suite (all modules)</option>
-                <option>TFMS Registry — Farmer onboarding</option>
-                <option>TFMS Field — Field visit monitoring</option>
-                <option>TFMS Inputs — Inputs distribution</option>
-                <option>TFMS Credit — Credit management</option>
-                <option>TFMS Factory — Factory processing</option>
-                <option>TFMS Analytics — Dashboards and reporting</option>
-                <option>Not sure — please advise</option>
-              </select>
-            </div>
-            <div class="form-field form-full"><label>Approximate grower count</label>
-              <select>
-                <option>Under 500 growers</option>
-                <option>500 – 2,000 growers</option>
-                <option>2,000 – 10,000 growers</option>
-                <option>10,000+ growers</option>
-              </select>
-            </div>
-            <div class="form-field form-full"><label>Message</label>
-              <textarea placeholder="Tell us about your operation, crop type, number of districts, and any specific requirements..."></textarea>
+            <div class="form-group">
+              <label class="form-label" for="lname">Last Name *</label>
+              <input class="form-input" type="text" id="lname" name="lname" required placeholder="e.g. Itaye"/>
             </div>
           </div>
-          <button type="submit" class="btn-primary" style="width:100%;padding:14px;font-size:15px;">Send message →</button>
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label" for="org">Organisation *</label>
+              <input class="form-input" type="text" id="org" name="org" required placeholder="Company or organisation"/>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="country">Country *</label>
+              <select class="form-select" id="country" name="country" required>
+                <option value="">Select country…</option>
+                <option>Malawi</option>
+                <option>Mozambique</option>
+                <option>Zimbabwe</option>
+                <option>Zambia</option>
+                <option>Tanzania</option>
+                <option>South Africa</option>
+                <option>Other</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="email">Email Address *</label>
+            <input class="form-input" type="email" id="email" name="email" required placeholder="your@email.com"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="modules">Module(s) of Interest</label>
+            <select class="form-select" id="modules" name="modules">
+              <option value="">Select…</option>
+              <option>TFMS Full Suite (all modules)</option>
+              <option>TFMS Registry — Farmer onboarding</option>
+              <option>TFMS Field — Field visit monitoring</option>
+              <option>TFMS Inputs — Inputs distribution</option>
+              <option>TFMS Credit — Credit management</option>
+              <option>TFMS Factory — Factory processing</option>
+              <option>TFMS Analytics — Dashboards and reporting</option>
+              <option>Not sure — please advise</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="growers">Approximate Grower Count</label>
+            <select class="form-select" id="growers" name="growers">
+              <option value="">Select…</option>
+              <option>Under 500 growers</option>
+              <option>500 – 2,000 growers</option>
+              <option>2,000 – 10,000 growers</option>
+              <option>10,000+ growers</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="message">Message *</label>
+            <textarea class="form-textarea" id="message" name="message" required placeholder="Describe your operation, crop type, and what you're looking to achieve…"></textarea>
+          </div>
+          <div class="form-submit-row">
+            <button type="submit" class="btn-primary">Send Message →</button>
+            <span class="form-note">We respond within 1 business day</span>
+          </div>
         </form>
-        <div class="success-box" id="successBox">
-          <h3>✓ Message received</h3>
-          <p>Thank you. We will review your enquiry and respond within 1 business day.</p>
+        <div class="form-success" id="formSuccess">
+          <strong>✓ Message received.</strong><br/>
+          Thank you. We will review your enquiry and respond within 1 business day with a scoped module recommendation and indicative pricing.
         </div>
       </div>
 
-      <div class="info-panel">
-        <div class="info-card">
-          <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
-          <div>
-            <div class="info-label">Email</div>
-            <div class="info-val"><a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></div>
-            <div class="info-sub">Primary contact for all TFMS enquiries</div>
+      <!-- SIDEBAR -->
+      <div class="contact-sidebar reveal">
+        <div class="contact-card">
+          <div class="contact-card-title">Direct Contact</div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">✉</div>
+            <div>
+              <div class="contact-detail-label">Email</div>
+              <div class="contact-detail-val"><a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></div>
+              <div class="contact-detail-sub">Primary contact for all TFMS enquiries</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📞</div>
+            <div>
+              <div class="contact-detail-label">Phone / WhatsApp</div>
+              <div class="contact-detail-val"><a href="tel:+265992983563">+265 992 983 563</a></div>
+              <div class="contact-detail-sub">Available Mon – Fri, 08:00 – 17:00 CAT</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">📍</div>
+            <div>
+              <div class="contact-detail-label">Location</div>
+              <div class="contact-detail-val">Lilongwe, Malawi</div>
+              <div class="contact-detail-sub">TechNexus · Area 47, Lilongwe</div>
+            </div>
+          </div>
+          <div class="contact-detail">
+            <div class="contact-detail-icon">🌐</div>
+            <div>
+              <div class="contact-detail-label">Website</div>
+              <div class="contact-detail-val"><a href="https://www.technexusmw.com" target="_blank">technexusmw.com</a></div>
+              <div class="contact-detail-sub">TechNexus main company website</div>
+            </div>
           </div>
         </div>
-        <div class="info-card">
-          <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.22 1.18 2 2 0 012.18 0h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.91 7.91a16 16 0 006.29 6.29l1.28-1.28a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
-          <div>
-            <div class="info-label">Phone / WhatsApp</div>
-            <div class="info-val"><a href="tel:+265992983563">+265 992 983 563</a></div>
-            <div class="info-sub">Available Mon – Fri, 08:00 – 17:00 CAT</div>
-          </div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13S3 17 3 10a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
-          <div>
-            <div class="info-label">Location</div>
-            <div class="info-val">Lilongwe, Malawi</div>
-            <div class="info-sub">TechNexus · Area 47, Lilongwe</div>
-          </div>
-        </div>
-        <div class="info-card">
-          <div class="info-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg></div>
-          <div>
-            <div class="info-label">Website</div>
-            <div class="info-val"><a href="https://www.technexusmw.com" target="_blank">technexusmw.com</a></div>
-            <div class="info-sub">TechNexus main company website</div>
-          </div>
-        </div>
-        <div style="background:var(--primary-soft);border:1px solid #b8dfe1;border-radius:16px;padding:22px;">
-          <div style="font-size:13px;font-weight:700;color:var(--primary);margin-bottom:10px;">⚡ Response commitment</div>
-          <p style="font-size:14px;color:var(--text-muted);line-height:1.65;">All TFMS enquiries receive a scoped response within <strong>48 hours</strong> — including indicative pricing, recommended module combination, and implementation timeline estimate.</p>
+
+        <div class="commitment-card">
+          <div class="commitment-icon">⚡</div>
+          <div class="commitment-title">Response Commitment</div>
+          <div class="commitment-text">All TFMS enquiries receive a scoped response within <strong style="color:var(--gold-light);">48 hours</strong> — including indicative pricing, recommended module combination, and implementation timeline estimate.</div>
         </div>
       </div>
     </div>
   </div>
 </section>
-<section class="alt">
-  <div class="container">
-    <div class="section-head center">
-      <div class="section-label">What happens next</div>
-      <h2 class="section-title">Our engagement process</h2>
+
+<!-- PROCESS -->
+<section class="process-section">
+  <div class="section-inner">
+    <div class="reveal">
+      <div class="section-tag">What Happens Next</div>
+      <h2 class="section-title">Our engagement <em>process</em></h2>
     </div>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:20px;">
-      <div style="text-align:center;padding:24px 16px;">
-        <div style="width:48px;height:48px;border-radius:999px;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:800;margin:0 auto 16px;">1</div>
-        <h4 style="margin-bottom:8px;">You enquire</h4>
-        <p style="font-size:14px;color:var(--text-muted);">Send your message with your operation size and crop type.</p>
+    <div class="process-grid reveal">
+      <div class="process-card">
+        <div class="process-num">01</div>
+        <div class="process-title">You Enquire</div>
+        <div class="process-desc">Send your message with your operation size, crop type, and which modules interest you.</div>
       </div>
-      <div style="text-align:center;padding:24px 16px;">
-        <div style="width:48px;height:48px;border-radius:999px;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:800;margin:0 auto 16px;">2</div>
-        <h4 style="margin-bottom:8px;">We scope</h4>
-        <p style="font-size:14px;color:var(--text-muted);">We review your requirements and prepare a module recommendation.</p>
+      <div class="process-card">
+        <div class="process-num">02</div>
+        <div class="process-title">We Scope</div>
+        <div class="process-desc">We review your requirements and prepare a module recommendation tailored to your operation.</div>
       </div>
-      <div style="text-align:center;padding:24px 16px;">
-        <div style="width:48px;height:48px;border-radius:999px;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:800;margin:0 auto 16px;">3</div>
-        <h4 style="margin-bottom:8px;">Proposal</h4>
-        <p style="font-size:14px;color:var(--text-muted);">You receive a formal proposal with pricing and implementation timeline.</p>
+      <div class="process-card">
+        <div class="process-num">03</div>
+        <div class="process-title">Proposal</div>
+        <div class="process-desc">You receive a formal proposal with pricing, module scope, and implementation timeline.</div>
       </div>
-      <div style="text-align:center;padding:24px 16px;">
-        <div style="width:48px;height:48px;border-radius:999px;background:var(--primary);color:#fff;display:grid;place-items:center;font-size:18px;font-weight:800;margin:0 auto 16px;">4</div>
-        <h4 style="margin-bottom:8px;">Deploy</h4>
-        <p style="font-size:14px;color:var(--text-muted);">We configure, train your team, and go live before your next season.</p>
+      <div class="process-card">
+        <div class="process-num">04</div>
+        <div class="process-title">Deploy</div>
+        <div class="process-desc">We configure, train your team, and go live before your next season starts.</div>
       </div>
     </div>
   </div>
 </section>
 
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">
-          <div class="nav-logo" style="width:34px;height:34px;border-radius:9px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#fff;"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg></div>
-          <span>TFMS</span>
-        </div>
-        <p style="font-size:14px;line-height:1.7;margin-bottom:14px;">TechNexus Farmer Management System — built from 15 years of agronomy and factory systems experience across Malawi and Mozambique.</p>
-        <p style="font-size:13px;color:rgba(255,255,255,.45);">A TechNexus product · Lilongwe, Malawi</p>
-      </div>
-      <div>
-        <h4>Product</h4>
-        <ul>
-          <li><a href="modules.html">All modules</a></li>
-          <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="tfms-application-mockup.html">Live demo</a></li>
-          <li><a href="about.html">About TFMS</a></li>
-        </ul>
-      </div>
-      <div>
-        <h4>TechNexus</h4>
-        <ul>
-          <li><a href="https://www.technexusmw.com" target="_blank">Main website</a></li>
-          <li><a href="contact.html">Contact us</a></li>
-          <li><a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 TechNexus · TFMS. All rights reserved.</span>
-      <span>PPDA Registered · MANePS Active · MSME BRN.A6SNWQY</span>
-    </div>
+<footer class="footer"><div class="section-inner">
+  <div class="footer-inner">
+    <div><div class="footer-brand-name">TFMS</div><div class="footer-brand-sub">TechNexus Farmer Management System</div><p class="footer-brand-desc">Built from 15 years of agronomy and factory systems experience across Malawi and Mozambique.</p><div class="footer-contact-item">📍 Lilongwe, Malawi</div><div class="footer-contact-item">✉ <a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></div><div class="footer-contact-item">📞 <a href="tel:+265992983563">+265 992 983 563</a></div><div class="footer-contact-item">🌐 <a href="https://www.technexusmw.com" target="_blank">technexusmw.com</a></div></div>
+    <div><div class="footer-col-title">Product</div><ul class="footer-links"><li><a href="modules.html">All Modules</a></li><li><a href="pricing.html">Pricing</a></li><li><a href="tfms-application-mockup.html">Live Demo</a></li><li><a href="about.html">About TFMS</a></li></ul></div>
+    <div><div class="footer-col-title">TechNexus</div><ul class="footer-links"><li><a href="https://www.technexusmw.com" target="_blank">Main Website</a></li><li><a href="contact.html">Contact Us</a></li></ul></div>
+    <div><div class="footer-col-title">Compliance</div><ul class="footer-links"><li><a href="#">PPDA Registered</a></li><li><a href="#">MANePS Active</a></li><li><a href="#">MSME BRN.A6SNWQY</a></li><li><a href="#">MRA Compliant</a></li></ul></div>
   </div>
-</footer>
-
+  <div class="footer-bottom"><span>© 2026 TechNexus · TFMS. All rights reserved.</span><div class="footer-bottom-badges"><span class="footer-badge">PPDA Registered</span><span class="footer-badge">MANePS Active</span><span class="footer-badge">MRA Compliant</span></div></div>
+</div></footer>
 <script>
-function handleSubmit(e) {
+const nav=document.getElementById('mainNav');
+window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+document.getElementById('navHamburger').addEventListener('click',()=>document.getElementById('navLinks').classList.toggle('open'));
+const ro=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);}}),{threshold:.1});
+document.querySelectorAll('.reveal').forEach(r=>ro.observe(r));
+function handleSubmit(e){
   e.preventDefault();
-  document.getElementById('successBox').style.display = 'block';
-  e.target.style.display = 'none';
+  document.getElementById('contactForm').style.display='none';
+  document.getElementById('formSuccess').classList.add('show');
 }
 </script>
-
 </body>
 </html>

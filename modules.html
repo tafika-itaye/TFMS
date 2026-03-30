@@ -1,291 +1,452 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Explore all six TFMS modules: Registry, Inputs, Credit, Field Visits, Factory, and Analytics. Each module can be purchased individually or as a full suite." />
-  <title>TFMS Modules — Farmer Registration, Field Visits, Factory Processing</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
-</head>
-<body>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TFMS Modules — Six Integrated Modules</title>
+<link rel="stylesheet" href="style.css"/>
+<style>
+/* Page-specific */
+.modules-page { background: var(--cream); }
 
-<nav class="nav">
-  <div class="container">
-    <div class="nav-inner">
-      <a class="nav-brand" href="index.html">
-        <div class="nav-logo">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg>
-        </div>
-        <div><span class="nav-name">TFMS</span><small class="nav-sub">by TechNexus</small></div>
-      </a>
-      <div class="nav-links">
-        <a href="index.html">Home</a>
-        <a href="modules.html" class="active">Modules</a>
-        <a href="pricing.html">Pricing</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-        <a href="tfms-application-mockup.html" class="nav-cta">Live Demo →</a>
-      </div>
-      <button class="nav-mobile" onclick="this.nextElementSibling.style.display=this.nextElementSibling.style.display==='flex'?'none':'flex'">☰</button>
-    </div>
-    <div style="display:none;flex-direction:column;gap:4px;padding:10px 0 14px;border-top:1px solid rgba(255,255,255,.1);">
-      <a href="index.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Home</a>
-      <a href="modules.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Modules</a>
-      <a href="pricing.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Pricing</a>
-      <a href="about.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">About</a>
-      <a href="contact.html" style="color:rgba(255,255,255,.8);padding:10px 4px;font-size:15px;">Contact</a>
-      <a href="tfms-application-mockup.html" style="color:#5ab5b7;padding:10px 4px;font-size:15px;font-weight:600;">Live Demo →</a>
-    </div>
+.module-block {
+  padding: 72px 0;
+  border-bottom: 1px solid rgba(0,0,0,.07);
+}
+.module-block:nth-child(even) { background: var(--white); }
+.module-block:last-child { border-bottom: none; }
+
+.module-layout {
+  display: grid;
+  grid-template-columns: 320px 1fr;
+  gap: 80px;
+  align-items: start;
+}
+.module-sidebar { position: sticky; top: 90px; }
+.module-num-tag {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold);
+  margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.module-num-tag::before { content: ''; width: 16px; height: 1px; background: var(--gold); }
+.module-sidebar-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 600; font-size: 36px; line-height: 1.1;
+  color: var(--green-deep); margin-bottom: 10px;
+}
+.module-sidebar-price {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px; font-weight: 700; color: var(--earth);
+  margin-bottom: 18px;
+}
+.module-sidebar-price span { font-size: 13px; color: var(--text-light); font-weight: 400; }
+.module-sidebar-desc { font-size: 14px; color: var(--text-mid); line-height: 1.7; font-weight: 300; margin-bottom: 24px; }
+.module-icon-lg {
+  width: 64px; height: 64px; background: var(--green-mid);
+  border-radius: 10px; display: flex; align-items: center; justify-content: center;
+  margin-bottom: 24px; border: 1px solid rgba(200,150,42,.2);
+}
+.module-icon-lg svg { width: 28px; height: 28px; stroke: var(--gold); fill: none; stroke-width: 1.5; }
+
+.module-features-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 11px; font-weight: 700; letter-spacing: .18em;
+  text-transform: uppercase; color: var(--text-light);
+  margin-bottom: 16px;
+}
+.module-features-list { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.module-features-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 14px; color: var(--text-mid); line-height: 1.5;
+}
+.module-features-list li::before {
+  content: '✓'; flex-shrink: 0; width: 18px; height: 18px;
+  background: rgba(74,124,74,.12); border-radius: 3px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--green-light); font-size: 10px; font-weight: 700;
+  margin-top: 1px;
+}
+
+.module-platforms { margin-bottom: 28px; }
+.platform-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--cream-dark); border-radius: 3px;
+  padding: 5px 10px; font-size: 11px; font-weight: 600;
+  font-family: 'Barlow Condensed', sans-serif; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--text-mid); margin: 4px 4px 4px 0;
+}
+
+.module-combines { background: rgba(200,150,42,.06); border: 1px solid var(--border); border-radius: 6px; padding: 18px; }
+.module-combines-label { font-size: 11px; color: var(--text-light); font-family: 'Barlow Condensed', sans-serif; letter-spacing: .1em; text-transform: uppercase; margin-bottom: 8px; }
+.module-combines-items { display: flex; flex-direction: column; gap: 6px; }
+.module-combines-item { font-size: 13px; color: var(--earth); font-weight: 500; }
+
+/* CTA section */
+.modules-cta {
+  background: var(--green-deep);
+  padding: 80px 0;
+  position: relative; overflow: hidden;
+}
+.modules-cta-bg { position: absolute; inset: 0; background: radial-gradient(ellipse 60% 80% at 80% 50%, rgba(45,90,45,.2) 0%, transparent 70%); }
+.modules-cta-inner { position: relative; z-index: 2; text-align: center; }
+
+@media (max-width: 900px) {
+  .module-layout { grid-template-columns: 1fr; gap: 32px; }
+  .module-sidebar { position: static; }
+}
+</style>
+</head>
+<body class="modules-page">
+
+<!-- TOPBAR -->
+<div class="topbar">
+  <div class="topbar-badges">
+    <div class="topbar-badge"><span class="dot"></span>PPDA Registered</div>
+    <div class="topbar-badge"><span class="dot"></span>MANePS Active</div>
+    <div class="topbar-badge"><span class="dot"></span>MSME BRN.A6SNWQY</div>
+    <div class="topbar-badge"><span class="dot"></span>MRA Compliant</div>
   </div>
+  <div class="topbar-right">
+    <span>Lilongwe, Malawi</span>
+    <a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="nav" id="mainNav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-mark">TF</div>
+    <div><div class="nav-logo-title">TFMS</div><div class="nav-logo-sub">by TechNexus</div></div>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="modules.html" class="active">Modules</a></li>
+    <li><a href="pricing.html">Pricing</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="tfms-application-mockup.html" class="nav-cta">Live Demo →</a></li>
+  </ul>
+  <button class="nav-hamburger" id="navHamburger"><span></span><span></span><span></span></button>
 </nav>
 
-<section class="hero" style="padding:72px 0 60px;">
-  <div class="container">
-    <div class="hero-label">Modular by design</div>
-    <h1 style="max-width:680px;">Six modules. Buy one, or deploy them all.</h1>
-    <p style="max-width:600px;">TFMS is designed so any agricultural operation — tobacco, maize, groundnuts, or diversified crops — can adopt one module at a time and scale as the operation grows.</p>
-    <div class="hero-actions">
-      <a href="pricing.html" class="btn-primary">See pricing</a>
-      <a href="tfms-application-mockup.html" class="btn-ghost">Live demo →</a>
+<!-- PAGE HERO -->
+<section class="page-hero">
+  <div class="page-hero-bg"></div>
+  <div class="page-hero-texture"></div>
+  <div class="page-hero-gold-line"></div>
+  <div class="section-inner">
+    <div class="page-hero-inner reveal">
+      <div class="page-hero-eyebrow">Modular by Design</div>
+      <h1 class="page-hero-title">Six modules. Buy one,<br/>or <em>deploy them all.</em></h1>
+      <p class="page-hero-sub">TFMS is designed so any agricultural operation — tobacco, maize, groundnuts, or diversified crops — can adopt one module at a time and scale as the operation grows.</p>
+      <div class="page-hero-actions">
+        <a href="pricing.html" class="btn-primary">See Pricing</a>
+        <a href="tfms-application-mockup.html" class="btn-outline btn-outline-light">Live Demo →</a>
+      </div>
     </div>
   </div>
 </section>
 
-<section>
-  <div class="container">
-    <div style="display:grid;gap:48px;">
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-item"><div class="trust-item-icon">✓</div>Android + Windows</div>
+  <div class="trust-item"><div class="trust-item-icon">✓</div>Offline-first Field Ops</div>
+  <div class="trust-item"><div class="trust-item-icon">✓</div>Biometric Registration</div>
+  <div class="trust-item"><div class="trust-item-icon">✓</div>Factory-grade Capture</div>
+  <div class="trust-item"><div class="trust-item-icon">✓</div>Power BI Export Ready</div>
+</div>
 
-      <!-- MODULE 01 -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);">
-        <div style="padding:28px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-          <div><span style="font-size:12px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:.1em;">Module 01</span><h2 style="margin:6px 0 0;font-size:22px;">TFMS Registry</h2></div>
-          <span style="background:var(--primary-soft);color:var(--primary);font-size:13px;font-weight:600;padding:8px 18px;border-radius:999px;">From $4,500</span>
-        </div>
-        <div style="padding:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;">
-          <div>
-            <p style="font-size:16px;color:var(--text-muted);margin-bottom:18px;">Full digital onboarding for growers with biometric capture and printable government-style ID cards.</p>
-            <ul style="list-style:none;display:grid;gap:10px;">
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Photo capture and biometric fingerprint template</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>GPS field boundary mapping</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Household, land size, and crop profile</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Grower ID card print with barcode / QR</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Duplicate detection via face match score</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Multi-district and multi-province support</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Offline Android capture with cloud sync</li>
-            </ul>
-          </div>
-          <div style="background:var(--surface-2);border-radius:14px;padding:20px;">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px;">Platforms</div>
-            <div style="display:grid;gap:10px;">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">📱 Android tablet / phone</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">🖥️ Windows back-office</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">☁️ Cloud sync via REST API</div>
-            </div>
-            <a href="contact.html" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Request module →</a>
-          </div>
+<!-- MODULE 01 -->
+<div class="module-block">
+  <div class="section-inner">
+    <div class="module-layout reveal">
+      <div class="module-sidebar">
+        <div class="module-num-tag">Module 01</div>
+        <div class="module-icon-lg"><svg viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></div>
+        <div class="module-sidebar-name">TFMS Registry</div>
+        <div class="module-sidebar-price">From $4,500 <span>/ MK 8.55M</span></div>
+        <div class="module-sidebar-desc">Full digital onboarding for growers with biometric capture and printable government-style ID cards.</div>
+        <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;display:block;margin-bottom:10px;">Request Module →</a>
+        <a href="pricing.html" class="btn-outline" style="width:100%;text-align:center;display:block;">View Pricing</a>
+      </div>
+      <div>
+        <div class="module-features-title">Features included</div>
+        <ul class="module-features-list">
+          <li>Photo capture and biometric fingerprint template</li>
+          <li>GPS field boundary mapping with acreage calculation</li>
+          <li>Household, land size, and crop profile capture</li>
+          <li>Grower ID card print with barcode / QR code</li>
+          <li>Duplicate detection via face match score</li>
+          <li>Multi-district and multi-province support</li>
+          <li>Offline Android capture with automatic cloud sync</li>
+        </ul>
+        <div class="module-features-title">Platforms</div>
+        <div class="module-platforms">
+          <span class="platform-tag">📱 Android Tablet / Phone</span>
+          <span class="platform-tag">🖥️ Windows Back-office</span>
+          <span class="platform-tag">☁️ Cloud REST API Sync</span>
         </div>
       </div>
-
-      <!-- MODULE 02 -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);">
-        <div style="padding:28px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-          <div><span style="font-size:12px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:.1em;">Module 02</span><h2 style="margin:6px 0 0;font-size:22px;">TFMS Inputs</h2></div>
-          <span style="background:var(--primary-soft);color:var(--primary);font-size:13px;font-weight:600;padding:8px 18px;border-radius:999px;">From $5,500</span>
-        </div>
-        <div style="padding:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;">
-          <div>
-            <p style="font-size:16px;color:var(--text-muted);margin-bottom:18px;">Full inputs chain from warehouse dispatch to grower acknowledgement and end-of-season reconciliation.</p>
-            <ul style="list-style:none;display:grid;gap:10px;">
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Seed, fertilizer, and chemical dispatch management</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Biometric or signature acknowledgement at collection</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Supervisor approval workflow</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Printable dispatch notes per grower</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Season-end reconciliation report</li>
-            </ul>
-          </div>
-          <div style="background:var(--surface-2);border-radius:14px;padding:20px;">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px;">Platforms</div>
-            <div style="display:grid;gap:10px;">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">🖥️ Windows desktop</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">📱 Android field agent</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">🖨️ Print-ready dispatch notes</div>
-            </div>
-            <a href="contact.html" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Request module →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 03 -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);">
-        <div style="padding:28px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-          <div><span style="font-size:12px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:.1em;">Module 03</span><h2 style="margin:6px 0 0;font-size:22px;">TFMS Credit</h2></div>
-          <span style="background:var(--primary-soft);color:var(--primary);font-size:13px;font-weight:600;padding:8px 18px;border-radius:999px;">From $6,500</span>
-        </div>
-        <div style="padding:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;">
-          <div>
-            <p style="font-size:16px;color:var(--text-muted);margin-bottom:18px;">Full seasonal credit ledger with automatic factory-gate deductions and risk flagging.</p>
-            <ul style="list-style:none;display:grid;gap:10px;">
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Per-grower credit balance and history</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Automatic deduction at factory intake</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Risk flags: high balance, overdue, under-delivery</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Season exposure and recovery summary</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Export to Excel for finance team</li>
-            </ul>
-          </div>
-          <div style="background:var(--surface-2);border-radius:14px;padding:20px;">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px;">Best combined with</div>
-            <div style="display:grid;gap:10px;">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">Module 02 — Inputs</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">Module 05 — Factory</div>
-            </div>
-            <a href="contact.html" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Request module →</a>
-          </div>
-        </div>
-  </div>
-        <!-- MODULE 04 -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);">
-        <div style="padding:28px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-          <div><span style="font-size:12px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:.1em;">Module 04</span><h2 style="margin:6px 0 0;font-size:22px;">TFMS Field Visits</h2></div>
-          <span style="background:var(--primary-soft);color:var(--primary);font-size:13px;font-weight:600;padding:8px 18px;border-radius:999px;">From $7,500</span>
-        </div>
-        <div style="padding:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;">
-          <div>
-            <p style="font-size:16px;color:var(--text-muted);margin-bottom:18px;">Mobile-first extension officer visit management with GPS, offline forms, and compliance scoring.</p>
-            <ul style="list-style:none;display:grid;gap:10px;">
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>GPS check-in and check-out per visit</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>DroidSurvey / ODK / KoboToolbox form support</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>GAP and ALP compliance checklist scoring</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Field photo capture and attachment</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Offline-first — works without data signal</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Officer daily progress dashboard</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Visit history per grower with full timeline</li>
-            </ul>
-          </div>
-          <div style="background:var(--surface-2);border-radius:14px;padding:20px;">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px;">Platforms</div>
-            <div style="display:grid;gap:10px;">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">📱 Android — offline-capable</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">🗺️ GPS + map view</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">📋 ODK / KoboToolbox forms</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">🖥️ Supervisor web dashboard</div>
-            </div>
-            <a href="contact.html" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Request module →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 05 -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);">
-        <div style="padding:28px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-          <div><span style="font-size:12px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:.1em;">Module 05</span><h2 style="margin:6px 0 0;font-size:22px;">TFMS Factory & Inventory</h2></div>
-          <span style="background:var(--primary-soft);color:var(--primary);font-size:13px;font-weight:600;padding:8px 18px;border-radius:999px;">From $12,000</span>
-        </div>
-        <div style="padding:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;">
-          <div>
-            <p style="font-size:16px;color:var(--text-muted);margin-bottom:18px;">Tablet-ready factory intake with live scale integration, bale traceability, and inventory management.</p>
-            <ul style="list-style:none;display:grid;gap:10px;">
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Live scale weight capture on tablet</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Grade assignment per delivery batch</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Bale label printing with barcode</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Warehouse bay tracking and inventory ledger</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Shift report and supervisor sign-off</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Curing barn and processing records</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Linked to credit deduction on delivery</li>
-            </ul>
-          </div>
-          <div style="background:var(--surface-2);border-radius:14px;padding:20px;">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px;">Platforms</div>
-            <div style="display:grid;gap:10px;">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">📱 Android tablet at gate</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">🖥️ Windows factory terminal</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">⚖️ Scale integration (RS-232 / USB)</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">🖨️ Label and receipt printer</div>
-            </div>
-            <a href="contact.html" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Request module →</a>
-          </div>
-        </div>
-      </div>
-
-      <!-- MODULE 06 -->
-      <div style="background:var(--surface);border:1px solid var(--border);border-radius:20px;overflow:hidden;box-shadow:var(--shadow-sm);">
-        <div style="padding:28px;border-bottom:1px solid var(--divider);display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;">
-          <div><span style="font-size:12px;color:var(--primary);font-weight:700;text-transform:uppercase;letter-spacing:.1em;">Module 06</span><h2 style="margin:6px 0 0;font-size:22px;">TFMS Analytics</h2></div>
-          <span style="background:var(--primary-soft);color:var(--primary);font-size:13px;font-weight:600;padding:8px 18px;border-radius:999px;">From $4,000</span>
-        </div>
-        <div style="padding:28px;display:grid;grid-template-columns:1.4fr 1fr;gap:32px;">
-          <div>
-            <p style="font-size:16px;color:var(--text-muted);margin-bottom:18px;">Seasonal dashboards, regional performance maps, compliance scores, and BI-ready data export.</p>
-            <ul style="list-style:none;display:grid;gap:10px;">
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Real-time operational dashboard</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Regional intake and compliance charts</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Field officer productivity reports</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Season-vs-season comparison</li>
-              <li style="font-size:14px;display:flex;gap:10px;"><span style="color:var(--primary);font-weight:700;">✓</span>Excel and Power BI export</li>
-            </ul>
-          </div>
-          <div style="background:var(--surface-2);border-radius:14px;padding:20px;">
-            <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--text-muted);margin-bottom:14px;">Best combined with</div>
-            <div style="display:grid;gap:10px;">
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">All modules</div>
-              <div style="background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px;font-size:13px;font-weight:600;">Power BI / Excel</div>
-            </div>
-            <a href="contact.html" class="btn-primary" style="display:block;text-align:center;margin-top:16px;">Request module →</a>
-          </div>
-        </div>
-      </div>
-
-    </div>
-  </div>
-</section>
-<div class="cta-band">
-  <div class="container">
-    <h2>Not sure which modules you need?</h2>
-    <p>Send us a message describing your operation and we will recommend the right combination and provide a custom proposal within 48 hours.</p>
-    <div class="cta-btns">
-      <a href="contact.html" class="btn-primary">Request a proposal →</a>
-      <a href="tfms-application-mockup.html" class="btn-ghost">Try the live demo first</a>
     </div>
   </div>
 </div>
 
-<footer class="footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div>
-        <div class="footer-brand">
-          <div class="nav-logo" style="width:34px;height:34px;border-radius:9px;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:18px;height:18px;color:#fff;"><path d="M5 18L12 5l7 13"/><path d="M8.5 12h7"/></svg></div>
-          <span>TFMS</span>
-        </div>
-        <p style="font-size:14px;line-height:1.7;margin-bottom:14px;">TechNexus Farmer Management System — built from 15 years of agronomy and factory systems experience across Malawi and Mozambique.</p>
-        <p style="font-size:13px;color:rgba(255,255,255,.45);">A TechNexus product · Lilongwe, Malawi</p>
+<!-- MODULE 02 -->
+<div class="module-block">
+  <div class="section-inner">
+    <div class="module-layout reveal">
+      <div class="module-sidebar">
+        <div class="module-num-tag">Module 02</div>
+        <div class="module-icon-lg"><svg viewBox="0 0 24 24"><path d="M5 8h14M5 8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2"/><path d="M5 8l1.5 10.5a2 2 0 0 0 2 1.5h7a2 2 0 0 0 2-1.5L19 8"/><path d="M10 12h4"/></svg></div>
+        <div class="module-sidebar-name">TFMS Inputs</div>
+        <div class="module-sidebar-price">From $5,500 <span>/ MK 10.45M</span></div>
+        <div class="module-sidebar-desc">Full inputs chain from warehouse dispatch to grower acknowledgement and season reconciliation.</div>
+        <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;display:block;margin-bottom:10px;">Request Module →</a>
+        <a href="pricing.html" class="btn-outline" style="width:100%;text-align:center;display:block;">View Pricing</a>
       </div>
       <div>
-        <h4>Product</h4>
-        <ul>
-          <li><a href="modules.html">All modules</a></li>
+        <div class="module-features-title">Features included</div>
+        <ul class="module-features-list">
+          <li>Seed, fertilizer, and chemical dispatch management</li>
+          <li>Biometric or signature acknowledgement at collection</li>
+          <li>Supervisor approval workflow and audit trail</li>
+          <li>Printable dispatch notes per grower</li>
+          <li>Season-end reconciliation report</li>
+        </ul>
+        <div class="module-features-title">Platforms</div>
+        <div class="module-platforms">
+          <span class="platform-tag">🖥️ Windows Desktop</span>
+          <span class="platform-tag">📱 Android Field Agent</span>
+          <span class="platform-tag">🖨️ Print-ready Dispatch Notes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODULE 03 -->
+<div class="module-block">
+  <div class="section-inner">
+    <div class="module-layout reveal">
+      <div class="module-sidebar">
+        <div class="module-num-tag">Module 03</div>
+        <div class="module-icon-lg"><svg viewBox="0 0 24 24"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></div>
+        <div class="module-sidebar-name">TFMS Credit</div>
+        <div class="module-sidebar-price">From $6,500 <span>/ MK 12.35M</span></div>
+        <div class="module-sidebar-desc">Full seasonal credit ledger with automatic factory-gate deductions and risk flagging.</div>
+        <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;display:block;margin-bottom:10px;">Request Module →</a>
+        <div class="module-combines">
+          <div class="module-combines-label">Best combined with</div>
+          <div class="module-combines-items">
+            <div class="module-combines-item">→ Module 02 — Inputs</div>
+            <div class="module-combines-item">→ Module 05 — Factory</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="module-features-title">Features included</div>
+        <ul class="module-features-list">
+          <li>Per-grower credit balance and full history</li>
+          <li>Automatic deduction at factory intake</li>
+          <li>Risk flags: high balance, overdue, under-delivery</li>
+          <li>Season exposure and recovery summary report</li>
+          <li>Export to Excel for finance team review</li>
+        </ul>
+        <div class="module-features-title">Platforms</div>
+        <div class="module-platforms">
+          <span class="platform-tag">🖥️ Windows Back-office</span>
+          <span class="platform-tag">📊 Excel Export</span>
+          <span class="platform-tag">☁️ Cloud Ledger Sync</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODULE 04 -->
+<div class="module-block">
+  <div class="section-inner">
+    <div class="module-layout reveal">
+      <div class="module-sidebar">
+        <div class="module-num-tag">Module 04</div>
+        <div class="module-icon-lg"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+        <div class="module-sidebar-name">TFMS Field Visits</div>
+        <div class="module-sidebar-price">From $7,500 <span>/ MK 14.25M</span></div>
+        <div class="module-sidebar-desc">Mobile-first extension officer visit management with GPS, offline forms, and GAP/ALP compliance scoring.</div>
+        <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;display:block;margin-bottom:10px;">Request Module →</a>
+        <a href="pricing.html" class="btn-outline" style="width:100%;text-align:center;display:block;">View Pricing</a>
+      </div>
+      <div>
+        <div class="module-features-title">Features included</div>
+        <ul class="module-features-list">
+          <li>GPS check-in and check-out per visit</li>
+          <li>DroidSurvey / ODK / KoboToolbox form support</li>
+          <li>GAP and ALP compliance checklist scoring</li>
+          <li>Field photo capture and attachment per visit</li>
+          <li>Offline-first — works without data signal in the field</li>
+          <li>Officer daily progress dashboard</li>
+          <li>Visit history per grower with full timeline</li>
+        </ul>
+        <div class="module-features-title">Platforms</div>
+        <div class="module-platforms">
+          <span class="platform-tag">📱 Android Offline-capable</span>
+          <span class="platform-tag">🗺️ GPS + Map View</span>
+          <span class="platform-tag">📋 ODK / KoboToolbox</span>
+          <span class="platform-tag">🖥️ Supervisor Web Dashboard</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODULE 05 -->
+<div class="module-block">
+  <div class="section-inner">
+    <div class="module-layout reveal">
+      <div class="module-sidebar">
+        <div class="module-num-tag">Module 05</div>
+        <div class="module-icon-lg"><svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/><line x1="12" y1="12" x2="12" y2="16"/><line x1="10" y1="14" x2="14" y2="14"/></svg></div>
+        <div class="module-sidebar-name">TFMS Factory &amp; Inventory</div>
+        <div class="module-sidebar-price">From $12,000 <span>/ MK 22.8M</span></div>
+        <div class="module-sidebar-desc">Tablet-ready factory intake with live scale integration, bale traceability, and full inventory management.</div>
+        <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;display:block;margin-bottom:10px;">Request Module →</a>
+        <a href="pricing.html" class="btn-outline" style="width:100%;text-align:center;display:block;">View Pricing</a>
+      </div>
+      <div>
+        <div class="module-features-title">Features included</div>
+        <ul class="module-features-list">
+          <li>Live scale weight capture on tablet at gate</li>
+          <li>Grade assignment per delivery batch</li>
+          <li>Bale label printing with barcode for full traceability</li>
+          <li>Warehouse bay tracking and inventory ledger</li>
+          <li>Shift report and supervisor sign-off workflow</li>
+          <li>Curing barn and processing records</li>
+          <li>Linked automatically to credit deduction on delivery</li>
+        </ul>
+        <div class="module-features-title">Platforms</div>
+        <div class="module-platforms">
+          <span class="platform-tag">📱 Android Tablet at Gate</span>
+          <span class="platform-tag">🖥️ Windows Factory Terminal</span>
+          <span class="platform-tag">⚖️ Scale Integration RS-232/USB</span>
+          <span class="platform-tag">🖨️ Label + Receipt Printer</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODULE 06 -->
+<div class="module-block">
+  <div class="section-inner">
+    <div class="module-layout reveal">
+      <div class="module-sidebar">
+        <div class="module-num-tag">Module 06</div>
+        <div class="module-icon-lg"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg></div>
+        <div class="module-sidebar-name">TFMS Analytics</div>
+        <div class="module-sidebar-price">From $4,000 <span>/ MK 7.6M</span></div>
+        <div class="module-sidebar-desc">Seasonal dashboards, regional performance maps, compliance scores, and BI-ready data export.</div>
+        <a href="contact.html" class="btn-primary" style="width:100%;text-align:center;display:block;margin-bottom:10px;">Request Module →</a>
+        <div class="module-combines">
+          <div class="module-combines-label">Best combined with</div>
+          <div class="module-combines-items">
+            <div class="module-combines-item">→ All modules</div>
+            <div class="module-combines-item">→ Power BI / Excel</div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <div class="module-features-title">Features included</div>
+        <ul class="module-features-list">
+          <li>Real-time operational dashboard across all modules</li>
+          <li>Regional intake and compliance charts by district</li>
+          <li>Field officer productivity and visit completion reports</li>
+          <li>Season-vs-season comparison analytics</li>
+          <li>Excel and Power BI direct export</li>
+        </ul>
+        <div class="module-features-title">Platforms</div>
+        <div class="module-platforms">
+          <span class="platform-tag">🖥️ Windows + Web Dashboard</span>
+          <span class="platform-tag">📊 Power BI Integration</span>
+          <span class="platform-tag">📁 Excel Export</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<section class="modules-cta">
+  <div class="modules-cta-bg"></div>
+  <div class="section-inner">
+    <div class="modules-cta-inner reveal">
+      <div class="section-tag" style="justify-content:center;color:var(--gold);">Not sure which modules you need?</div>
+      <h2 class="section-title section-title-light" style="text-align:center;margin-bottom:16px;">We will scope the right<br/><em>combination for your operation.</em></h2>
+      <p class="section-lead section-lead-light" style="text-align:center;margin:0 auto 36px;">Tell us your grower count, crop type, and team structure. We respond with a formal proposal within 48 hours.</p>
+      <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+        <a href="contact.html" class="btn-primary">Request a Proposal →</a>
+        <a href="tfms-application-mockup.html" class="btn-outline btn-outline-light">Try Live Demo First</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="section-inner">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-name">TFMS</div>
+        <div class="footer-brand-sub">TechNexus Farmer Management System</div>
+        <p class="footer-brand-desc">Built from 15 years of agronomy and factory systems experience across Malawi and Mozambique.</p>
+        <div class="footer-contact-item">📍 Lilongwe, Malawi</div>
+        <div class="footer-contact-item">✉ <a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></div>
+        <div class="footer-contact-item">📞 <a href="tel:+265992983563">+265 992 983 563</a></div>
+        <div class="footer-contact-item">🌐 <a href="https://www.technexusmw.com" target="_blank">technexusmw.com</a></div>
+      </div>
+      <div>
+        <div class="footer-col-title">Product</div>
+        <ul class="footer-links">
+          <li><a href="modules.html">All Modules</a></li>
           <li><a href="pricing.html">Pricing</a></li>
-          <li><a href="tfms-application-mockup.html">Live demo</a></li>
+          <li><a href="tfms-application-mockup.html">Live Demo</a></li>
           <li><a href="about.html">About TFMS</a></li>
         </ul>
       </div>
       <div>
-        <h4>TechNexus</h4>
-        <ul>
-          <li><a href="https://www.technexusmw.com" target="_blank">Main website</a></li>
-          <li><a href="contact.html">Contact us</a></li>
-          <li><a href="mailto:tafika.itaye@gmail.com">tafika.itaye@gmail.com</a></li>
+        <div class="footer-col-title">TechNexus</div>
+        <ul class="footer-links">
+          <li><a href="https://www.technexusmw.com" target="_blank">Main Website</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Compliance</div>
+        <ul class="footer-links">
+          <li><a href="#">PPDA Registered</a></li>
+          <li><a href="#">MANePS Active</a></li>
+          <li><a href="#">MSME BRN.A6SNWQY</a></li>
+          <li><a href="#">MRA Compliant</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>© 2026 TechNexus · TFMS. All rights reserved.</span>
-      <span>PPDA Registered · MANePS Active · MSME BRN.A6SNWQY</span>
+      <div class="footer-bottom-badges">
+        <span class="footer-badge">PPDA Registered</span>
+        <span class="footer-badge">MANePS Active</span>
+        <span class="footer-badge">MRA Compliant</span>
+      </div>
     </div>
   </div>
 </footer>
 
+<script>
+const nav = document.getElementById('mainNav');
+window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 60));
+document.getElementById('navHamburger').addEventListener('click', () => document.getElementById('navLinks').classList.toggle('open'));
+const ro = new IntersectionObserver(entries => entries.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');ro.unobserve(e.target);} }), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(r => ro.observe(r));
+</script>
 </body>
 </html>
