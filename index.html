@@ -2,106 +2,81 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TFMS — Sign In</title>
-<link rel="stylesheet" href="css/tfms.css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>FVMA — Sign In</title>
+<link rel="stylesheet" href="css/style.css">
 <style>
-  body { overflow: auto; }
-  .login-body { padding: 20px; }
+  body { overflow: auto; display: block; height: auto; min-height: 100vh; }
 </style>
 </head>
-<body class="login-body">
-
-<div class="login-bg"></div>
-
-<div class="login-card">
-  <div class="login-logo">
-    <div class="login-logo-icon">🌿</div>
-    <h1>TFMS</h1>
-    <p>TechNexus Farmer Management System</p>
-  </div>
-
-  <label class="login-form-label">Username</label>
-  <input id="loginUser" class="login-input" type="text" placeholder="Enter your username" autocomplete="username">
-
-  <label class="login-form-label">Password</label>
-  <input id="loginPass" class="login-input" type="password" placeholder="Enter your password" autocomplete="current-password">
-
-  <label class="login-form-label">Role</label>
-  <select id="loginRole" class="login-input">
-    <option value="">— Select role —</option>
-    <option value="System Administrator">System Administrator</option>
-    <option value="Field Officer">Field Officer</option>
-    <option value="Factory Clerk">Factory Clerk</option>
-    <option value="Agronomist">Agronomist</option>
-    <option value="Finance Officer">Finance Officer</option>
-  </select>
-
-  <button class="login-btn" onclick="doLogin()">Sign In to TFMS</button>
-  <div id="loginError" class="login-error"></div>
-
-  <div class="login-creds">
-    <div class="login-creds-title">Demo Credentials — click to fill</div>
-    <div class="cred-row" onclick="fillCreds('admin','tfms2026','System Administrator')">
-      <span>admin / tfms2026</span>
-      <span class="cred-role">System Administrator</span>
+<body>
+<div class="login-wrap">
+  <div class="login-card">
+    <div class="login-brand">
+      <div class="big-leaf">🌿</div>
+      <h1>FVMA</h1>
+      <p>Field Visit Monitoring App</p>
     </div>
-    <div class="cred-row" onclick="fillCreds('officer','field123','Field Officer')">
-      <span>officer / field123</span>
-      <span class="cred-role">Field Officer</span>
-    </div>
-    <div class="cred-row" onclick="fillCreds('factory','clerk123','Factory Clerk')">
-      <span>factory / clerk123</span>
-      <span class="cred-role">Factory Clerk</span>
-    </div>
-    <div class="cred-row" onclick="fillCreds('finance','fin2026','Finance Officer')">
-      <span>finance / fin2026</span>
-      <span class="cred-role">Finance Officer</span>
-    </div>
-  </div>
 
-  <div class="login-footer">
-    TFMS v2.4.1 · Build 2026.03.30 · 
-    <a href="https://github.com/tafika-itaye/TFMS" target="_blank">GitHub</a> · 
-    <a href="mailto:technexus_mw@proton.me">Support</a><br>
-    © 2026 TechNexus · Blantyre, Malawi
+    <label class="login-label">Username</label>
+    <input id="lu" class="login-input" type="text" placeholder="Enter username" autocomplete="username">
+
+    <label class="login-label">Password</label>
+    <input id="lp" class="login-input" type="password" placeholder="Enter password" autocomplete="current-password">
+
+    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <div id="lerr" class="login-err"></div>
+
+    <div class="login-creds">
+      <div class="login-creds-title">Demo Accounts — tap to fill</div>
+
+      <div class="cred-row" onclick="fill('joao','pass123')">
+        <span>joao / pass123 — João Mussa</span>
+        <span class="cred-role role-tag role-supervisor">Supervisor</span>
+      </div>
+      <div class="cred-row" onclick="fill('maria','pass123')">
+        <span>maria / pass123 — Maria Nhantumbo</span>
+        <span class="cred-role role-tag role-technician">Technician</span>
+      </div>
+      <div class="cred-row" onclick="fill('carlos','pass123')">
+        <span>carlos / pass123 — Carlos Gondwe</span>
+        <span class="cred-role role-tag role-manager">Manager</span>
+      </div>
+      <div class="cred-row" onclick="fill('fatima','pass123')">
+        <span>fatima / pass123 — Fatima Nkosi</span>
+        <span class="cred-role role-tag role-technician">Technician</span>
+      </div>
+      <div class="cred-row" onclick="fill('peter','pass123')">
+        <span>peter / pass123 — Peter Kamwendo</span>
+        <span class="cred-role role-tag role-supervisor">Supervisor</span>
+      </div>
+      <div class="cred-row" onclick="fill('admin','admin123')">
+        <span>admin / admin123 — T. Itaye</span>
+        <span class="cred-role role-tag role-admin">Admin/Monitor</span>
+      </div>
+    </div>
+
+    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--text-4)">
+      FVMA v1.0 · TechNexus · Blantyre, Malawi<br>
+      <a href="https://github.com/tafika-itaye/TFMS" target="_blank" style="color:var(--green-text)">github.com/tafika-itaye/TFMS</a>
+    </div>
   </div>
 </div>
 
+<script src="js/data.js"></script>
 <script>
-const USERS = {
-  admin:   { pass:'tfms2026', name:'T. Itaye',     role:'System Administrator' },
-  officer: { pass:'field123', name:'M. Banda',     role:'Field Officer' },
-  factory: { pass:'clerk123', name:'W. Nkhoma',    role:'Factory Clerk' },
-  finance: { pass:'fin2026',  name:'C. Phiri',     role:'Finance Officer' },
-};
-
 function doLogin() {
-  const u = document.getElementById('loginUser').value.trim();
-  const p = document.getElementById('loginPass').value;
-  const r = document.getElementById('loginRole').value;
-  const err = document.getElementById('loginError');
-
-  if (!u || !p || !r) { err.textContent = 'All fields are required.'; return; }
-
-  const user = USERS[u.toLowerCase()];
-  if (!user || user.pass !== p) { err.textContent = 'Incorrect username or password.'; return; }
-  if (r && user.role !== r) { err.textContent = 'Role does not match. Please select correct role.'; return; }
-
-  sessionStorage.setItem('tfms_user', JSON.stringify({ username:u, name:user.name, role:user.role }));
+  const u = document.getElementById('lu').value.trim().toLowerCase();
+  const p = document.getElementById('lp').value;
+  const err = document.getElementById('lerr');
+  if (!u||!p){err.textContent='Both fields required.';return;}
+  const user = DEMO_USERS.find(x=>x.username===u && x.password===p);
+  if (!user){err.textContent='Incorrect username or password.';return;}
+  sessionStorage.setItem('fvma_user', JSON.stringify(user));
   window.location.href = 'app.html';
 }
-
-function fillCreds(u, p, r) {
-  document.getElementById('loginUser').value = u;
-  document.getElementById('loginPass').value = p;
-  document.getElementById('loginRole').value = r;
-  document.getElementById('loginError').textContent = '';
-}
-
-document.addEventListener('keydown', e => {
-  if (e.key === 'Enter') doLogin();
-});
+function fill(u,p){ document.getElementById('lu').value=u; document.getElementById('lp').value=p; document.getElementById('lerr').textContent=''; }
+document.addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
 </script>
 </body>
 </html>
