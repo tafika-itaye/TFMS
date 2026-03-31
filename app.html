@@ -1,243 +1,1355 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>FVMA — Field Visit Monitoring</title>
-<link rel="stylesheet" href="css/style.css">
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>TFMS — TechNexus Farmer Management System</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet"/>
+<style>
+:root {
+  --bg:       #0a1a0a;
+  --surface1: #0f220f;
+  --surface2: #142a14;
+  --surface3: #1a3318;
+  --border:   rgba(200,150,42,0.15);
+  --gold:     #c8962a;
+  --gold-l:   #e0b84a;
+  --green-l:  #4a7c4a;
+  --white:    #ffffff;
+  --text:     rgba(255,255,255,0.82);
+  --text-dim: rgba(255,255,255,0.45);
+  --text-off: rgba(255,255,255,0.25);
+  --success:  #4caf7d;
+  --warn:     #e0a030;
+  --danger:   #e05555;
+  --earth:    #8b6340;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;font-family:'Barlow',sans-serif;background:var(--bg);color:var(--text);}
+
+/* ── SHELL ── */
+.app-shell{display:flex;height:100vh;overflow:hidden;}
+
+/* ── SIDEBAR ── */
+.sidebar{
+  width:240px;flex-shrink:0;
+  background:var(--surface1);
+  border-right:1px solid var(--border);
+  display:flex;flex-direction:column;
+  overflow:hidden;
+}
+.sidebar-brand{
+  padding:20px 18px 16px;
+  border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.brand-mark{
+  width:34px;height:34px;background:var(--gold);border-radius:4px;
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:14px;
+  color:var(--surface1);flex-shrink:0;
+}
+.brand-name{font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:15px;color:var(--white);letter-spacing:.06em;text-transform:uppercase;line-height:1.1;}
+.brand-sub{font-size:9px;color:var(--gold);letter-spacing:.1em;text-transform:uppercase;}
+
+.sidebar-user{
+  padding:14px 18px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;gap:10px;
+}
+.user-av{
+  width:32px;height:32px;border-radius:50%;background:var(--green-l);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Barlow Condensed',sans-serif;font-weight:800;font-size:12px;color:var(--white);flex-shrink:0;
+}
+.user-name{font-size:13px;font-weight:600;color:var(--white);}
+.user-role{font-size:10px;color:var(--text-dim);margin-top:1px;}
+
+.sidebar-nav{flex:1;overflow-y:auto;padding:10px 0;}
+.nav-section-label{
+  font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:.18em;text-transform:uppercase;color:var(--text-off);
+  padding:12px 18px 4px;
+}
+.nav-item{
+  display:flex;align-items:center;gap:10px;padding:9px 18px;cursor:pointer;
+  transition:background .15s,color .15s;border-left:2px solid transparent;
+  font-size:13px;font-weight:500;color:var(--text-dim);
+  position:relative;
+}
+.nav-item:hover{background:rgba(200,150,42,.06);color:var(--white);}
+.nav-item.active{background:rgba(200,150,42,.1);color:var(--gold);border-left-color:var(--gold);}
+.nav-item svg{width:16px;height:16px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0;}
+.nav-badge{
+  margin-left:auto;background:var(--gold);color:var(--surface1);
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:800;
+  border-radius:10px;padding:1px 7px;
+}
+.nav-badge.green{background:var(--success);}
+
+.sidebar-actions{padding:14px;border-top:1px solid var(--border);display:flex;flex-direction:column;gap:6px;}
+.quick-btn{
+  display:flex;align-items:center;gap:8px;padding:8px 12px;border-radius:4px;
+  border:1px solid var(--border);background:transparent;cursor:pointer;
+  font-family:'Barlow',sans-serif;font-size:12px;font-weight:600;color:var(--text-dim);
+  transition:all .15s;text-transform:uppercase;letter-spacing:.06em;
+  font-family:'Barlow Condensed',sans-serif;
+}
+.quick-btn:hover{border-color:var(--gold);color:var(--gold);background:rgba(200,150,42,.06);}
+.quick-btn svg{width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5;flex-shrink:0;}
+
+/* ── MAIN ── */
+.main{flex:1;display:flex;flex-direction:column;overflow:hidden;}
+
+/* Topbar */
+.app-topbar{
+  height:52px;flex-shrink:0;
+  background:var(--surface1);border-bottom:1px solid var(--border);
+  display:flex;align-items:center;padding:0 24px;gap:16px;
+}
+.app-topbar-title{
+  font-family:'Barlow Condensed',sans-serif;font-weight:700;font-size:16px;
+  color:var(--white);letter-spacing:.04em;
+}
+.app-topbar-sub{font-size:12px;color:var(--text-dim);margin-left:4px;}
+.topbar-spacer{flex:1;}
+.topbar-sync{
+  display:flex;align-items:center;gap:6px;
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--success);
+}
+.sync-dot{width:6px;height:6px;border-radius:50%;background:var(--success);animation:pulse 2s infinite;}
+.topbar-badge-tag{
+  background:rgba(200,150,42,.12);border:1px solid rgba(200,150,42,.2);
+  border-radius:3px;padding:3px 10px;
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+  color:var(--gold);letter-spacing:.1em;text-transform:uppercase;
+}
+.topbar-back{
+  display:flex;align-items:center;gap:6px;
+  font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--text-dim);
+  text-decoration:none;transition:color .2s;padding:6px 12px;
+  border:1px solid var(--border);border-radius:3px;
+}
+.topbar-back:hover{color:var(--gold);border-color:rgba(200,150,42,.3);}
+
+/* Content area */
+.content{flex:1;overflow-y:auto;padding:24px;}
+
+/* Tab bar */
+.tab-bar{display:flex;gap:2px;margin-bottom:24px;background:var(--surface2);border-radius:5px;padding:3px;}
+.tab-btn{
+  padding:8px 18px;border-radius:3px;cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);
+  border:none;background:transparent;transition:all .15s;
+}
+.tab-btn.active{background:var(--gold);color:var(--surface1);}
+.tab-btn:hover:not(.active){color:var(--white);background:rgba(255,255,255,.05);}
+
+/* Stats row */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px;}
+.stat-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:20px;
+  position:relative;overflow:hidden;
+}
+.stat-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:2px;
+  background:linear-gradient(90deg,var(--green-l),var(--gold));
+}
+.stat-label{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-off);margin-bottom:8px;}
+.stat-val{font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:700;color:var(--white);line-height:1;margin-bottom:4px;}
+.stat-delta{font-size:11px;color:var(--success);font-weight:500;}
+.stat-delta.warn{color:var(--warn);}
+
+/* Panel grid */
+.panel-grid{display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px;}
+.panel{background:var(--surface2);border:1px solid var(--border);border-radius:6px;overflow:hidden;}
+.panel-header{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 18px;border-bottom:1px solid var(--border);
+}
+.panel-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+.panel-badge{
+  font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;
+  letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(76,175,125,.15);color:var(--success);
+  border-radius:3px;padding:2px 8px;
+  display:flex;align-items:center;gap:4px;
+}
+.panel-body{padding:18px;}
+
+/* Chart bars */
+.chart-bars{display:flex;align-items:flex-end;gap:8px;height:100px;margin-bottom:8px;}
+.chart-bar-wrap{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;}
+.chart-bar{
+  width:100%;border-radius:2px 2px 0 0;
+  background:linear-gradient(to top,var(--green-l),var(--gold));
+  transition:height .3s ease;min-height:4px;
+  opacity:.7;
+}
+.chart-bar.current{opacity:1;box-shadow:0 0 8px rgba(200,150,42,.3);}
+.chart-lbl{font-size:9px;color:var(--text-off);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;}
+
+/* Activity feed */
+.activity-list{display:flex;flex-direction:column;}
+.activity-item{
+  display:flex;align-items:flex-start;gap:12px;
+  padding:12px 18px;border-bottom:1px solid rgba(200,150,42,.07);
+  font-size:12px;
+}
+.activity-item:last-child{border-bottom:none;}
+.activity-time{font-family:'Barlow Condensed',sans-serif;font-size:10px;color:var(--text-off);min-width:36px;margin-top:1px;}
+.activity-dot{width:6px;height:6px;border-radius:50%;margin-top:4px;flex-shrink:0;}
+.activity-text{color:var(--text);line-height:1.5;}
+.activity-text strong{color:var(--gold-l);}
+
+/* Officer progress */
+.officer-list{display:flex;flex-direction:column;gap:14px;}
+.officer-item{}
+.officer-meta{display:flex;justify-content:space-between;margin-bottom:6px;}
+.officer-name{font-size:12px;font-weight:600;color:var(--white);}
+.officer-count{font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--gold);}
+.officer-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;}
+.officer-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green-l),var(--gold));}
+.officer-zone{font-size:10px;color:var(--text-off);margin-top:3px;}
+
+/* ── FARMER TABLE TAB ── */
+.table-toolbar{
+  display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;
+}
+.search-input{
+  flex:1;min-width:200px;background:var(--surface2);border:1px solid var(--border);
+  border-radius:4px;padding:9px 14px;
+  font-family:'Barlow',sans-serif;font-size:13px;color:var(--white);outline:none;
+  transition:border-color .2s;
+}
+.search-input:focus{border-color:var(--gold);}
+.search-input::placeholder{color:var(--text-off);}
+.filter-select{
+  background:var(--surface2);border:1px solid var(--border);border-radius:4px;
+  padding:9px 32px 9px 12px;font-size:12px;color:var(--text-dim);outline:none;
+  font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;text-transform:uppercase;
+  appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath d='M1 1l4 4 4-4' stroke='%238a8a8a' stroke-width='1.2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 10px center;
+}
+.add-btn{
+  background:var(--gold);color:var(--surface1);border:none;
+  padding:9px 18px;border-radius:4px;cursor:pointer;
+  font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;
+  letter-spacing:.1em;text-transform:uppercase;
+  transition:background .15s;white-space:nowrap;
+}
+.add-btn:hover{background:var(--gold-l);}
+
+.data-table{width:100%;border-collapse:collapse;}
+.data-table thead th{
+  background:var(--surface1);padding:10px 14px;text-align:left;
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;
+  letter-spacing:.15em;text-transform:uppercase;color:var(--text-off);
+  border-bottom:1px solid var(--border);white-space:nowrap;
+}
+.data-table tbody tr{border-bottom:1px solid rgba(200,150,42,.06);transition:background .15s;cursor:pointer;}
+.data-table tbody tr:hover{background:rgba(200,150,42,.05);}
+.data-table td{padding:11px 14px;font-size:13px;color:var(--text);}
+.td-id{font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;color:var(--gold);letter-spacing:.06em;}
+.td-name{font-weight:600;color:var(--white);}
+.td-district{font-size:12px;color:var(--text-dim);}
+.status-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  border-radius:3px;padding:2px 8px;
+  font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+}
+.status-active{background:rgba(76,175,125,.15);color:var(--success);}
+.status-pending{background:rgba(224,160,48,.15);color:var(--warn);}
+.status-suspended{background:rgba(224,85,85,.15);color:var(--danger);}
+.biometric-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  font-size:10px;color:var(--success);
+  background:rgba(76,175,125,.1);border-radius:2px;padding:2px 6px;
+  font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;
+}
+
+/* ── FIELD VISITS TAB ── */
+.visits-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.visit-card{
+  background:var(--surface2);border:1px solid var(--border);
+  border-radius:6px;padding:18px;
+  position:relative;overflow:hidden;
+}
+.visit-card-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:12px;}
+.visit-officer{font-size:12px;font-weight:600;color:var(--white);}
+.visit-zone{font-size:10px;color:var(--text-dim);margin-top:2px;}
+.visit-progress-val{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:700;color:var(--gold);}
+.visit-progress-lbl{font-size:9px;color:var(--text-off);text-align:right;}
+.visit-bar{height:3px;background:rgba(255,255,255,.08);border-radius:2px;overflow:hidden;margin-bottom:10px;}
+.visit-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--green-l),var(--gold));}
+.visit-meta{display:flex;gap:12px;font-size:11px;color:var(--text-off);}
+.visit-tag{
+  display:inline-flex;align-items:center;gap:3px;
+  font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
+  background:rgba(200,150,42,.1);color:var(--gold);border-radius:2px;padding:2px 7px;margin-top:8px;
+}
+
+/* Factory tab */
+.factory-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.factory-intake{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:22px;}
+.fi-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;}
+.fi-title{font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);}
+.fi-shift{font-size:11px;color:var(--success);display:flex;align-items:center;gap:5px;}
+.fi-shift::before{content:'';width:6px;height:6px;border-radius:50%;background:var(--success);}
+.bale-table{width:100%;border-collapse:collapse;}
+.bale-table th{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-off);padding:6px 10px;border-bottom:1px solid var(--border);text-align:left;}
+.bale-table td{padding:10px 10px;font-size:12px;color:var(--text);border-bottom:1px solid rgba(200,150,42,.05);}
+.bale-grade{font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--gold-l);}
+.bale-weight{font-weight:600;}
+
+/* Analytics */
+.analytics-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px;}
+.kpi-card{background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:22px;}
+.kpi-header{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-off);margin-bottom:14px;}
+.kpi-big{font-family:'Barlow Condensed',sans-serif;font-size:40px;font-weight:700;color:var(--white);line-height:1;margin-bottom:4px;}
+.kpi-sub{font-size:11px;color:var(--success);}
+
+/* Scroll */
+.content::-webkit-scrollbar{width:4px;}
+.content::-webkit-scrollbar-track{background:transparent;}
+.content::-webkit-scrollbar-thumb{background:rgba(200,150,42,.2);border-radius:2px;}
+
+/* Tabs */
+.tab-pane{display:none;}
+.tab-pane.active{display:block;}
+
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.6;transform:scale(1.3);}}
+
+/* Mobile sidebar toggle */
+.mob-sidebar-btn{
+  display:none;background:none;border:none;cursor:pointer;
+  color:var(--text-dim);padding:4px;
+}
+.mob-sidebar-btn svg{width:20px;height:20px;stroke:currentColor;fill:none;stroke-width:1.5;}
+@media(max-width:900px){
+  .sidebar{position:absolute;z-index:100;height:100%;transform:translateX(-100%);transition:transform .3s;}
+  .sidebar.open{transform:none;}
+  .mob-sidebar-btn{display:flex;}
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .panel-grid{grid-template-columns:1fr;}
+  .visits-grid{grid-template-columns:1fr 1fr;}
+  .factory-row{grid-template-columns:1fr;}
+  .analytics-row{grid-template-columns:1fr;}
+}
+@media(max-width:500px){
+  .stats-row{grid-template-columns:1fr 1fr;}
+  .visits-grid{grid-template-columns:1fr;}
+  .sidebar{width:220px;}
+}
+
+/* ── MODALS ── */
+.modal-overlay{
+  position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);
+  z-index:200;display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;transition:opacity .2s;
+}
+.modal-overlay.open{opacity:1;pointer-events:all;}
+.modal{
+  background:var(--surface1);border:1px solid var(--border);border-radius:8px;
+  width:min(580px,92vw);max-height:88vh;overflow-y:auto;
+  transform:translateY(12px);transition:transform .2s;
+}
+.modal-overlay.open .modal{transform:none;}
+.modal-header{
+  padding:18px 24px;border-bottom:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;background:var(--surface1);z-index:1;
+}
+.modal-title{font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--white);}
+.modal-close{background:none;border:none;color:var(--text-off);cursor:pointer;font-size:18px;line-height:1;padding:2px 6px;transition:color .15s;}
+.modal-close:hover{color:var(--white);}
+.modal-body{padding:22px 24px;}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px;}
+.form-group{display:flex;flex-direction:column;gap:5px;}
+.form-group.full{grid-column:1/-1;}
+.form-label{font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-off);}
+.form-input,.form-select{
+  background:var(--surface2);border:1px solid var(--border);border-radius:4px;
+  padding:9px 12px;font-family:'Barlow',sans-serif;font-size:13px;color:var(--white);
+  outline:none;transition:border-color .2s;
+}
+.form-input:focus,.form-select:focus{border-color:var(--gold);}
+.form-input::placeholder{color:var(--text-off);}
+.form-select{cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:.04em;text-transform:uppercase;color:var(--text-dim);}
+.form-actions{display:flex;gap:10px;justify-content:flex-end;padding-top:16px;border-top:1px solid var(--border);}
+.btn-cancel{background:transparent;border:1px solid var(--border);color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:9px 18px;border-radius:4px;cursor:pointer;transition:all .15s;}
+.btn-cancel:hover{border-color:var(--text-dim);color:var(--white);}
+.btn-submit{background:var(--gold);color:var(--surface1);border:none;font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;padding:9px 22px;border-radius:4px;cursor:pointer;transition:background .15s;}
+.btn-submit:hover{background:var(--gold-l);}
+@media(max-width:560px){.form-grid{grid-template-columns:1fr;}}
+
+/* ── VISIT DETAIL ── */
+.visit-detail-overlay{
+  background:var(--surface1);border:1px solid var(--border);border-radius:6px;
+  margin-bottom:20px;overflow:hidden;
+  animation:fadeSlide .2s ease;
+}
+.visit-detail-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.visit-detail-body{padding:20px;display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+@media(max-width:600px){.visit-detail-body{grid-template-columns:1fr;}}
+.vd-section{}.vd-section-title{font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px;}
+.vd-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(200,150,42,.06);font-size:12px;}
+.vd-row:last-child{border-bottom:none;}
+.vd-key{color:var(--text-off);}.vd-val{color:var(--white);font-weight:500;}
+.check-item{display:flex;align-items:center;gap:8px;padding:6px 0;font-size:12px;color:var(--text);border-bottom:1px solid rgba(200,150,42,.06);}
+.check-item:last-child{border-bottom:none;}
+.chk{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:9px;font-weight:700;}
+.chk-pass{background:rgba(76,175,125,.2);color:var(--success);}
+.chk-fail{background:rgba(224,85,85,.2);color:var(--danger);}
+.chk-na{background:rgba(255,255,255,.06);color:var(--text-off);}
+.close-detail{background:transparent;border:1px solid var(--border);color:var(--text-dim);font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;padding:6px 14px;border-radius:3px;cursor:pointer;transition:all .15s;}
+.close-detail:hover{border-color:var(--gold);color:var(--gold);}
+
+/* ── SUB TABS ── */
+.sub-tab-bar{display:flex;gap:2px;margin-bottom:20px;background:var(--surface2);border-radius:4px;padding:2px;flex-wrap:wrap;}
+.sub-tab-btn{padding:7px 14px;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text-dim);border:none;background:transparent;transition:all .15s;}
+.sub-tab-btn.active{background:var(--surface1);color:var(--white);}
+.sub-tab-btn:hover:not(.active){color:var(--white);}
+.sub-pane{display:none;}.sub-pane.active{display:block;}
+
+/* checklist form */
+.checklist-items{display:flex;flex-direction:column;gap:6px;margin:14px 0;}
+.chk-row{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border:1px solid var(--border);border-radius:4px;}
+.chk-row-lbl{font-size:13px;color:var(--text);}
+.chk-btns{display:flex;gap:5px;}
+.chk-btns button{padding:4px 9px;border-radius:3px;cursor:pointer;font-family:'Barlow Condensed',sans-serif;font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;border:1px solid transparent;transition:all .15s;}
+.btn-pass{background:rgba(76,175,125,.1);color:var(--success);border-color:rgba(76,175,125,.2);}
+.btn-fail{background:rgba(224,85,85,.1);color:var(--danger);border-color:rgba(224,85,85,.2);}
+.btn-na{background:rgba(255,255,255,.04);color:var(--text-off);border-color:var(--border);}
+.btn-pass.sel,.btn-pass:hover{background:rgba(76,175,125,.3);border-color:var(--success);}
+.btn-fail.sel,.btn-fail:hover{background:rgba(224,85,85,.3);border-color:var(--danger);}
+.btn-na.sel,.btn-na:hover{background:rgba(255,255,255,.1);color:var(--white);}
+
+@keyframes fadeSlide{from{opacity:0;transform:translateY(-6px);}to{opacity:1;transform:none;}}
+.modal::-webkit-scrollbar{width:4px;}
+.modal::-webkit-scrollbar-thumb{background:rgba(200,150,42,.2);border-radius:2px;}
+
+</style>
 </head>
 <body>
-
-<!-- ══════════ TOP BAR ══════════ -->
-<div class="topbar">
-  <button class="hamburger" onclick="toggleSidebar()">☰</button>
-  <div class="topbar-logo">
-    <span class="leaf">🌿</span> FVMA
-  </div>
-  <div style="margin-left:8px">
-    <div class="topbar-title">Field Visit Monitoring</div>
-  </div>
-  <div class="topbar-right">
-    <span id="clock"></span>
-  </div>
-</div>
-
-<!-- ══════════ APP SHELL ══════════ -->
 <div class="app-shell">
 
   <!-- SIDEBAR -->
-  <nav class="sidebar" id="sidebar">
+  <div class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-mark">TF</div>
+      <div><div class="brand-name">TFMS</div><div class="brand-sub">TechNexus</div></div>
+    </div>
     <div class="sidebar-user">
-      <div class="su-avatar" id="userAvatar">TI</div>
-      <div class="su-name"  id="userName">Loading…</div>
-      <div class="su-role"  id="userRole">—</div>
-      <div class="su-target" id="userTarget"></div>
+      <div class="user-av">TI</div>
+      <div><div class="user-name">T. Itaye</div><div class="user-role">System Administrator</div></div>
     </div>
-
-    <div class="nav">
-      <div class="nav-section-label">Navigation</div>
-      <div class="nav-item active" data-view="dashboard">
-        <span class="nav-icon">⊞</span> Dashboard
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Main</div>
+      <div class="nav-item active" onclick="switchTab('dashboard', this)" id="nav-dashboard">
+        <svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/></svg>
+        Dashboard
       </div>
-      <div class="nav-item" data-view="my-visits">
-        <span class="nav-icon">📋</span> My Visits
+      <div class="nav-item" onclick="switchTab('registry', this)" id="nav-registry">
+        <svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        Farmer Registry
+        <span class="nav-badge">12,480</span>
       </div>
-      <div class="nav-item" data-view="log-visit">
-        <span class="nav-icon">＋</span> Log Visit
+      <div class="nav-item" onclick="switchTab('field', this)" id="nav-field">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        Field Visits
+        <span class="nav-badge green">184</span>
       </div>
-      <div class="nav-item" data-view="team">
-        <span class="nav-icon">👥</span> Team
+      <div class="nav-item" onclick="switchTab('inputs', this)" id="nav-inputs">
+        <svg viewBox="0 0 24 24"><path d="M5 8h14M5 8a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v0a2 2 0 0 1-2 2"/><path d="M5 8l1.5 10.5a2 2 0 0 0 2 1.5h7a2 2 0 0 0 2-1.5L19 8"/></svg>
+        Inputs &amp; Credit
       </div>
-      <div class="nav-item" data-view="reports">
-        <span class="nav-icon">📊</span> Reports
+      <div class="nav-item" onclick="switchTab('factory', this)" id="nav-factory">
+        <svg viewBox="0 0 24 24"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/></svg>
+        Factory &amp; Inventory
       </div>
+      <div class="nav-item" onclick="switchTab('analytics', this)" id="nav-analytics">
+        <svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+        Analytics
+      </div>
+    </nav>
+    <div class="sidebar-actions">
+      <button class="quick-btn" onclick="openModal('modalFarmer')">
+        <svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="20" y1="8" x2="20" y2="14"/><line x1="23" y1="11" x2="17" y2="11"/></svg>
+        New Farmer
+      </button>
+      <button class="quick-btn" onclick="openModal('modalVisit')">
+        <svg viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+        New Field Visit
+      </button>
+      <button class="quick-btn" onclick="openModal('modalWeight')">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
+        Record Weight
+      </button>
     </div>
+  </div>
 
-    <div class="sidebar-bottom">
-      <button class="logout-btn" onclick="logout()">⏏ Sign Out</button>
-    </div>
-  </nav>
-
-  <!-- MAIN -->
+  <!-- MAIN AREA -->
   <div class="main">
+    <!-- App Topbar -->
+    <div class="app-topbar">
+      <button class="mob-sidebar-btn" id="sidebarToggle">
+        <svg viewBox="0 0 24 24"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+      </button>
+      <span class="app-topbar-title" id="pageTitle">Operational Dashboard</span>
+      <span class="app-topbar-sub" id="pageSubtitle">2026 Buying Season · Malawi &amp; Mozambique Operations</span>
+      <div class="topbar-spacer"></div>
+      <div class="topbar-sync"><span class="sync-dot"></span>Offline-ready</div>
+      <div class="topbar-badge-tag">Season Active</div>
+      <a href="index.html" class="topbar-back">
+        <svg viewBox="0 0 24 24" style="width:12px;height:12px;stroke:currentColor;fill:none;stroke-width:2;"><path d="M19 12H5"/><path d="M12 5l-7 7 7 7"/></svg>
+        Back to Site
+      </a>
+    </div>
 
-    <!-- ════ DASHBOARD ════ -->
-    <div class="view active" id="view-dashboard">
-      <div class="dash-grid">
+    <div class="content">
 
-        <!-- Left: progress ring -->
-        <div style="display:flex;flex-direction:column;gap:14px">
-          <div class="progress-card" id="dashCard">
-            <div class="panel-title" style="align-self:flex-start;font-size:11px;font-weight:700;color:var(--text-3);text-transform:uppercase;letter-spacing:1px">Today's Progress</div>
-            <div class="ring-wrap">
-              <svg class="ring-svg" width="130" height="130" viewBox="0 0 130 130">
-                <circle class="ring-track" cx="65" cy="65" r="54" fill="none" stroke-width="10"/>
-                <circle id="progressRing" class="ring-fill" cx="65" cy="65" r="54" fill="none" stroke-width="10" stroke-dasharray="339" stroke-dashoffset="339"/>
-              </svg>
-              <div class="ring-center">
-                <div class="ring-pct" id="dashPct">0%</div>
-                <div class="ring-sub">completion</div>
-              </div>
-            </div>
-            <div class="prog-stats">
-              <div class="prog-stat">
-                <div class="prog-stat-val" id="dashDone">0</div>
-                <div class="prog-stat-lbl">Visits Done</div>
-              </div>
-              <div class="prog-stat">
-                <div class="prog-stat-val" id="dashTarget">—</div>
-                <div class="prog-stat-lbl">Daily Target</div>
-              </div>
-              <div class="prog-stat">
-                <div class="prog-stat-val" id="dashRemaining">—</div>
-                <div class="prog-stat-lbl">Remaining</div>
-              </div>
-              <div class="prog-stat">
-                <div class="prog-stat-val" style="font-size:16px">2026</div>
-                <div class="prog-stat-lbl">Season</div>
-              </div>
-            </div>
-            <div id="flagBanner" style="width:100%"></div>
-            <button class="btn btn-primary" onclick="switchView('log-visit')" style="width:100%;justify-content:center">
-              ＋ Log New Visit
-            </button>
+      <!-- ══ DASHBOARD TAB ══ -->
+      <div class="tab-pane active" id="tab-dashboard">
+        <div class="stats-row">
+          <div class="stat-card">
+            <div class="stat-label">Farmers Registered</div>
+            <div class="stat-val">12,480</div>
+            <div class="stat-delta">▲ +326 this month</div>
           </div>
+          <div class="stat-card">
+            <div class="stat-label">Field Visits Today</div>
+            <div class="stat-val">184</div>
+            <div class="stat-delta">▲ 92% completed</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Inputs Issued</div>
+            <div class="stat-val">MK 84.2M</div>
+            <div class="stat-delta warn">⏳ 8 pending</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-label">Factory Intake</div>
+            <div class="stat-val">38.6T</div>
+            <div class="stat-delta">▲ Shift A active</div>
+          </div>
+        </div>
 
-          <!-- Team summary widget -->
+        <div class="panel-grid">
+          <!-- Chart panel -->
           <div class="panel">
-            <div id="dashTeamSummary" style="padding:14px 16px"></div>
+            <div class="panel-header">
+              <span class="panel-title">Season Trend — Farmer Registrations</span>
+              <span class="panel-badge"><span style="width:5px;height:5px;border-radius:50%;background:var(--success);display:inline-block;"></span>Live</span>
+            </div>
+            <div class="panel-body">
+              <div class="chart-bars" id="chartBars"></div>
+              <div style="display:flex;justify-content:space-between;padding:0 4px;">
+                <span style="font-size:9px;color:var(--text-off);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;">SEP</span>
+                <span style="font-size:9px;color:var(--text-off);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;">OCT</span>
+                <span style="font-size:9px;color:var(--text-off);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;">NOV</span>
+                <span style="font-size:9px;color:var(--text-off);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;">DEC</span>
+                <span style="font-size:9px;color:var(--text-off);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;">JAN</span>
+                <span style="font-size:9px;color:var(--text-off);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;">FEB</span>
+                <span style="font-size:9px;color:var(--gold);font-family:'Barlow Condensed',sans-serif;letter-spacing:.06em;font-weight:700;">MAR ▲</span>
+              </div>
+              <div style="height:16px;"></div>
+              <!-- Today action queue -->
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-off);margin-bottom:10px;">Today's Action Queue</div>
+              <div class="activity-list">
+                <div class="activity-item"><div class="activity-time">08:30</div><div class="activity-dot" style="background:var(--success)"></div><div class="activity-text">Kasungu team uploaded <strong>27</strong> farmer inspections.</div></div>
+                <div class="activity-item"><div class="activity-time">10:15</div><div class="activity-dot" style="background:var(--danger)"></div><div class="activity-text">Bale discrepancy flagged at <strong>Gate 2</strong>.</div></div>
+                <div class="activity-item"><div class="activity-time">11:10</div><div class="activity-dot" style="background:var(--success)"></div><div class="activity-text">Inputs dispatch approved for <strong>Mchinji</strong> cluster.</div></div>
+                <div class="activity-item"><div class="activity-time">12:05</div><div class="activity-dot" style="background:var(--gold)"></div><div class="activity-text"><strong>14</strong> biometric cards printed for new growers.</div></div>
+                <div class="activity-item"><div class="activity-time">13:47</div><div class="activity-dot" style="background:var(--success)"></div><div class="activity-text">Factory Shift A: <strong>38.6T</strong> intake recorded.</div></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right panels -->
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <!-- Modules quick links -->
+            <div class="panel">
+              <div class="panel-header"><span class="panel-title">TFMS Modules</span><span style="font-size:10px;color:var(--text-off);font-family:'Barlow Condensed',sans-serif;letter-spacing:.1em;">MODULAR PRICING</span></div>
+              <div style="display:flex;flex-direction:column;gap:1px;background:rgba(200,150,42,.08);">
+                <div onclick="switchTab('registry',document.getElementById('nav-registry'))" style="background:var(--surface2);padding:14px 18px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(200,150,42,.08)'" onmouseout="this.style.background='var(--surface2)'">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;">Registry</div>
+                  <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Farmer profiles, biometrics, GPS, ID card</div>
+                  <div style="font-size:10px;color:var(--earth);font-family:'Barlow Condensed',sans-serif;margin-top:4px;font-weight:700;">From $4,500</div>
+                </div>
+                <div onclick="switchTab('field',document.getElementById('nav-field'))" style="background:var(--surface2);padding:14px 18px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(200,150,42,.08)'" onmouseout="this.style.background='var(--surface2)'">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;">Field Visits</div>
+                  <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">GPS, DroidSurvey forms, offline sync</div>
+                  <div style="font-size:10px;color:var(--earth);font-family:'Barlow Condensed',sans-serif;margin-top:4px;font-weight:700;">From $7,500</div>
+                </div>
+                <div onclick="switchTab('inputs',document.getElementById('nav-inputs'))" style="background:var(--surface2);padding:14px 18px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(200,150,42,.08)'" onmouseout="this.style.background='var(--surface2)'">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;">Inputs &amp; Credit</div>
+                  <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Dispatch, credit ledger, deductions</div>
+                  <div style="font-size:10px;color:var(--earth);font-family:'Barlow Condensed',sans-serif;margin-top:4px;font-weight:700;">From $5,500</div>
+                </div>
+                <div onclick="switchTab('factory',document.getElementById('nav-factory'))" style="background:var(--surface2);padding:14px 18px;cursor:pointer;transition:background .15s;" onmouseover="this.style.background='rgba(200,150,42,.08)'" onmouseout="this.style.background='var(--surface2)'">
+                  <div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.06em;">Factory</div>
+                  <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Weight capture, grading, bale traceability</div>
+                  <div style="font-size:10px;color:var(--earth);font-family:'Barlow Condensed',sans-serif;margin-top:4px;font-weight:700;">From $12,000</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Officer progress -->
+            <div class="panel">
+              <div class="panel-header"><span class="panel-title">Field Officer Progress</span></div>
+              <div class="panel-body">
+                <div class="officer-list">
+                  <div class="officer-item">
+                    <div class="officer-meta"><span class="officer-name">T. Itaye</span><span class="officer-count">14/16</span></div>
+                    <div class="officer-bar"><div class="officer-fill" style="width:87%"></div></div>
+                    <div class="officer-zone">Kasungu West</div>
+                  </div>
+                  <div class="officer-item">
+                    <div class="officer-meta"><span class="officer-name">M. Banda</span><span class="officer-count">11/12</span></div>
+                    <div class="officer-bar"><div class="officer-fill" style="width:91%"></div></div>
+                    <div class="officer-zone">Mchinji South</div>
+                  </div>
+                  <div class="officer-item">
+                    <div class="officer-meta"><span class="officer-name">P. Mussa</span><span class="officer-count">7/12</span></div>
+                    <div class="officer-bar"><div class="officer-fill" style="width:58%"></div></div>
+                    <div class="officer-zone">Dowa Cluster</div>
+                  </div>
+                  <div class="officer-item">
+                    <div class="officer-meta"><span class="officer-name">R. João</span><span class="officer-count">9/9</span></div>
+                    <div class="officer-bar"><div class="officer-fill" style="width:100%"></div></div>
+                    <div class="officer-zone">Tete Border Zone ✓</div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+      </div>
 
-        <!-- Right: today's visits list -->
+      <!-- ══ FARMER REGISTRY TAB ══ -->
+      <div class="tab-pane" id="tab-registry">
+        <div class="sub-tab-bar">
+          <button class="sub-tab-btn active" onclick="switchSubTab(this,'reg-list')">All Growers</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'reg-biometric')">Biometric</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'reg-idcard')">ID Cards</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'reg-gps')">GPS Mapping</button>
+        </div>
+        <div class="sub-pane active" id="reg-list">
+        <div class="table-toolbar">
+          <input class="search-input" type="text" placeholder="Search by name, ID, district…" oninput="filterTable(this.value)"/>
+          <select class="filter-select" onchange="filterDistrict(this.value)">
+            <option value="">All Districts</option>
+            <option>Kasungu</option>
+            <option>Lilongwe</option>
+            <option>Mchinji</option>
+            <option>Dowa</option>
+          </select>
+          <select class="filter-select">
+            <option value="">All Statuses</option>
+            <option>Active</option>
+            <option>Pending</option>
+            <option>Suspended</option>
+          </select>
+          <button class="add-btn" onclick="openModal('modalFarmer')">+ New Farmer</button>
+        </div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+          <table class="data-table" id="farmerTable">
+            <thead>
+              <tr>
+                <th>Grower ID</th>
+                <th>Full Name</th>
+                <th>District</th>
+                <th>Crop</th>
+                <th>Hectares</th>
+                <th>Status</th>
+                <th>Biometric</th>
+                <th>Registered</th>
+              </tr>
+            </thead>
+            <tbody id="farmerTbody"></tbody>
+          </table>
+          <div style="padding:12px 18px;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-family:'Barlow Condensed',sans-serif;font-size:11px;color:var(--text-off);letter-spacing:.08em;text-transform:uppercase;">Showing 15 of 12,480 farmers</span>
+            <div style="display:flex;gap:6px;">
+              <button style="background:var(--surface1);border:1px solid var(--border);color:var(--text-dim);padding:5px 12px;border-radius:3px;cursor:pointer;font-size:12px;">Prev</button>
+              <button style="background:var(--gold);border:none;color:var(--surface1);padding:5px 12px;border-radius:3px;cursor:pointer;font-size:12px;font-weight:700;">1</button>
+              <button style="background:var(--surface1);border:1px solid var(--border);color:var(--text-dim);padding:5px 12px;border-radius:3px;cursor:pointer;font-size:12px;">2</button>
+              <button style="background:var(--surface1);border:1px solid var(--border);color:var(--text-dim);padding:5px 12px;border-radius:3px;cursor:pointer;font-size:12px;">Next</button>
+            </div>
+          </div>
+        </div>
+        </div><!-- /reg-list -->
+        <div class="sub-pane" id="reg-biometric">
+          <div class="stats-row" style="margin-bottom:20px;">
+            <div class="stat-card"><div class="stat-label">Total Enrolled</div><div class="stat-val">11,842</div><div class="stat-delta">▲ 94.9% of registry</div></div>
+            <div class="stat-card"><div class="stat-label">Pending Enrolment</div><div class="stat-val">638</div><div class="stat-delta warn">⏳ Field visit needed</div></div>
+            <div class="stat-card"><div class="stat-label">Cards Printed</div><div class="stat-val">11,204</div><div class="stat-delta">▲ 94.6% enrolled</div></div>
+            <div class="stat-card"><div class="stat-label">Duplicates</div><div class="stat-val">3</div><div class="stat-delta warn">▼ Under review</div></div>
+          </div>
+          <div class="panel"><div class="panel-header"><span class="panel-title">Enrolment Queue</span><button class="add-btn" onclick="showToast('Opening biometric capture device…')" style="font-size:11px;padding:5px 12px;">Start Capture</button></div><div class="panel-body" style="font-size:13px;color:var(--text-dim);line-height:1.8;">Biometric enrolment is performed using the TFMS Android app with a supported fingerprint scanner. Select Enrolment Mode on the mobile app and scan the grower's fingerprint against their registered profile. Records sync automatically when online.</div></div>
+        </div>
+        <div class="sub-pane" id="reg-idcard">
+          <div class="panel"><div class="panel-header"><span class="panel-title">ID Card Print Queue (14 pending)</span><button class="add-btn" onclick="showToast('Sending 14 cards to printer…')" style="font-size:11px;padding:5px 12px;">Print Queue (14)</button></div><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Grower ID</th><th>Full Name</th><th>District</th><th>Card Status</th><th>Printed</th></tr></thead><tbody><tr onclick="showToast('Previewing card: Chitedze')"><td class="td-id">GRW-KS-10482</td><td class="td-name">Chitedze, James B.</td><td class="td-district">Kasungu</td><td><span class="status-badge status-active">Printed</span></td><td style="color:var(--text-off);font-size:11px;">2025-10-14</td></tr><tr onclick="showToast('Previewing card: Nkhata')"><td class="td-id">GRW-LL-07391</td><td class="td-name">Nkhata, Lucia M.</td><td class="td-district">Lilongwe</td><td><span class="status-badge status-pending">Queued</span></td><td style="color:var(--text-off);font-size:11px;">—</td></tr><tr onclick="showToast('Previewing card: Mhango')"><td class="td-id">GRW-LL-07182</td><td class="td-name">Mhango, Violet J.</td><td class="td-district">Lilongwe</td><td><span class="status-badge status-pending">Queued</span></td><td style="color:var(--text-off);font-size:11px;">—</td></tr></tbody></table></div></div>
+        </div>
+        <div class="sub-pane" id="reg-gps">
+          <div class="stats-row" style="margin-bottom:20px;">
+            <div class="stat-card"><div class="stat-label">GPS Mapped</div><div class="stat-val">10,840</div><div class="stat-delta">▲ 86.9% registry</div></div>
+            <div class="stat-card"><div class="stat-label">Pending</div><div class="stat-val">1,640</div><div class="stat-delta warn">⏳ Scheduled</div></div>
+            <div class="stat-card"><div class="stat-label">Total Area</div><div class="stat-val">28,420 ha</div><div class="stat-delta">▲ Avg 2.6 ha/farm</div></div>
+            <div class="stat-card"><div class="stat-label">Disputes</div><div class="stat-val">12</div><div class="stat-delta warn">▼ Under review</div></div>
+          </div>
+          <div class="panel"><div class="panel-header"><span class="panel-title">GPS Map View</span><button class="add-btn" onclick="showToast('Opening GPS capture mode…')" style="font-size:11px;padding:5px 12px;">Add GPS Point</button></div><div class="panel-body" style="text-align:center;padding:48px;color:var(--text-off);"><svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1" style="margin-bottom:12px;opacity:.3;"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg><div style="font-family:'Barlow Condensed',sans-serif;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;margin-bottom:6px;">Interactive Map</div><div style="font-size:12px;">GPS farm boundary data is captured via the TFMS Android app in the field.</div></div></div>
+        </div>
+      </div>
+
+      <!-- ══ FIELD VISITS TAB ══ -->
+      <div class="tab-pane" id="tab-field">
+        <div class="sub-tab-bar">
+          <button class="sub-tab-btn active" onclick="switchSubTab(this,'fv-overview')">Overview</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'fv-log')">Visit Log</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'fv-checklist')">New Checklist</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'fv-sync')">Sync Queue</button>
+        </div>
+        <!-- OVERVIEW -->
+        <div class="sub-pane active" id="fv-overview">
+          <div class="stats-row" style="margin-bottom:20px;">
+            <div class="stat-card"><div class="stat-label">Visits Today</div><div class="stat-val">184</div><div class="stat-delta">▲ 92% done</div></div>
+            <div class="stat-card"><div class="stat-label">Officers Active</div><div class="stat-val">24</div><div class="stat-delta">▲ 3 offline</div></div>
+            <div class="stat-card"><div class="stat-label">GAP Compliance</div><div class="stat-val">87%</div><div class="stat-delta warn">▼ -2% vs last wk</div></div>
+            <div class="stat-card"><div class="stat-label">Pending Sync</div><div class="stat-val">14</div><div class="stat-delta warn">⏳ Uploading…</div></div>
+          </div>
+          <div id="visitDetail" style="display:none;"></div>
+          <div class="visits-grid" id="visitsGrid"></div>
+        </div>
+        <!-- LOG -->
+        <div class="sub-pane" id="fv-log">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+            <input class="search-input" style="flex:1;min-width:160px;" type="text" placeholder="Search visits…"/>
+            <select class="filter-select"><option>All Officers</option><option>T. Itaye</option><option>M. Banda</option><option>P. Mussa</option><option>R. João</option></select>
+            <select class="filter-select"><option>All Forms</option><option>GAP</option><option>ALP</option><option>ODK</option></select>
+            <button class="add-btn" onclick="openModal('modalVisit')">+ Log Visit</button>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;overflow:hidden;">
+            <table class="data-table">
+              <thead><tr><th>Visit ID</th><th>Officer</th><th>Grower</th><th>Zone</th><th>Form</th><th>GAP Score</th><th>GPS</th><th>Date</th><th>Status</th></tr></thead>
+              <tbody id="visitLogBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <!-- CHECKLIST -->
+        <div class="sub-pane" id="fv-checklist">
+          <div class="panel">
+            <div class="panel-header"><span class="panel-title">New GAP / ALP Checklist</span></div>
+            <div class="panel-body">
+              <div class="form-grid">
+                <div class="form-group"><label class="form-label">Field Officer</label><select class="form-select"><option>T. Itaye</option><option>M. Banda</option><option>P. Mussa</option></select></div>
+                <div class="form-group"><label class="form-label">Grower ID</label><input class="form-input" placeholder="GRW-KS-XXXXX"/></div>
+                <div class="form-group"><label class="form-label">Visit Date</label><input class="form-input" type="date" value="2026-03-31"/></div>
+                <div class="form-group"><label class="form-label">Form Type</label><select class="form-select" onchange="renderChecklist(this.value)"><option value="GAP">GAP Compliance</option><option value="ALP">ALP Assessment</option></select></div>
+                <div class="form-group full"><label class="form-label">GPS Coordinates</label><input class="form-input" placeholder="-13.0000, 33.0000"/></div>
+              </div>
+              <div style="font-family:'Barlow Condensed',sans-serif;font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-off);margin-bottom:8px;">Compliance Items</div>
+              <div class="checklist-items" id="checklistItems"></div>
+              <div class="form-actions">
+                <button class="btn-cancel" onclick="renderChecklist('GAP')">Reset</button>
+                <button class="btn-submit" onclick="submitChecklist()">Submit Visit</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- SYNC QUEUE -->
+        <div class="sub-pane" id="fv-sync">
+          <div class="stats-row" style="margin-bottom:20px;">
+            <div class="stat-card"><div class="stat-label">Pending Upload</div><div class="stat-val">14</div><div class="stat-delta warn">⏳ Awaiting signal</div></div>
+            <div class="stat-card"><div class="stat-label">Synced Today</div><div class="stat-val">170</div><div class="stat-delta">▲ Last sync 13:47</div></div>
+            <div class="stat-card"><div class="stat-label">Devices Online</div><div class="stat-val">21/24</div><div class="stat-delta">▲ 3 offline</div></div>
+            <div class="stat-card"><div class="stat-label">Conflicts</div><div class="stat-val">0</div><div class="stat-delta">✓ Clean</div></div>
+          </div>
+          <div class="panel">
+            <div class="panel-header"><span class="panel-title">Sync Queue</span><button class="add-btn" onclick="showToast('Triggering manual sync…')" style="font-size:11px;padding:5px 12px;">Force Sync</button></div>
+            <div class="panel-body" style="font-size:12px;color:var(--text-dim);line-height:1.8;">
+              14 visit records are queued for upload. Records sync automatically when devices regain connectivity.
+              <div style="margin-top:16px;padding:12px;background:rgba(224,160,48,.06);border:1px solid rgba(224,160,48,.15);border-radius:4px;color:var(--warn);font-size:11px;">
+                ⚠ 3 devices (P. Mussa, C. Mkandawire, B. Nyirenda) have not synced in over 2 hours.
+              </div>
+              <div style="margin-top:12px;">
+                <table class="data-table" style="margin-top:8px;">
+                  <thead><tr><th>Device / Officer</th><th>Records Pending</th><th>Last Seen</th><th>Status</th></tr></thead>
+                  <tbody>
+                    <tr><td class="td-name">T. Itaye (KW-01)</td><td>3</td><td>13:44</td><td><span class="status-badge status-active">Online</span></td></tr>
+                    <tr><td class="td-name">M. Banda (MC-01)</td><td>2</td><td>13:41</td><td><span class="status-badge status-active">Online</span></td></tr>
+                    <tr><td class="td-name">P. Mussa (DW-01)</td><td>4</td><td>11:12</td><td><span class="status-badge status-pending">Offline</span></td></tr>
+                    <tr><td class="td-name">C. Mkandawire (KE-01)</td><td>3</td><td>10:58</td><td><span class="status-badge status-pending">Offline</span></td></tr>
+                    <tr><td class="td-name">B. Nyirenda (LL-01)</td><td>2</td><td>11:32</td><td><span class="status-badge status-pending">Offline</span></td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ══ INPUTS & CREDIT TAB ══ -->
+      <div class="tab-pane" id="tab-inputs">
+        <div class="sub-tab-bar">
+          <button class="sub-tab-btn active" onclick="switchSubTab(this,'inp-dispatch')">Dispatch Notes</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'inp-credit')">Credit Ledger</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'inp-stock')">Stock Levels</button>
+        </div>
+        <div class="sub-pane active" id="inp-dispatch">
+        <div class="stats-row" style="margin-bottom:20px;">
+          <div class="stat-card"><div class="stat-label">Inputs Issued</div><div class="stat-val">MK 84.2M</div><div class="stat-delta">▲ Season to date</div></div>
+          <div class="stat-card"><div class="stat-label">Pending Dispatch</div><div class="stat-val">8</div><div class="stat-delta warn">⏳ Awaiting approval</div></div>
+          <div class="stat-card"><div class="stat-label">Credit Exposure</div><div class="stat-val">MK 142M</div><div class="stat-delta warn">▼ 12 risk flags</div></div>
+          <div class="stat-card"><div class="stat-label">Recovery Rate</div><div class="stat-val">78%</div><div class="stat-delta">▲ Season avg</div></div>
+        </div>
         <div class="panel">
-          <div class="panel-header">
-            <span class="panel-title">Today's Visits</span>
-            <button class="btn btn-ghost btn-sm" onclick="switchView('my-visits')">View all →</button>
+          <div class="panel-header"><span class="panel-title">Recent Dispatch Notes</span><button class="add-btn" onclick="openModal('modalDispatch')" style="font-size:11px;padding:5px 12px;">+ New Dispatch</button></div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead><tr><th>Dispatch ID</th><th>Grower</th><th>District</th><th>Input Type</th><th>Quantity</th><th>Value (MWK)</th><th>Status</th><th>Date</th></tr></thead>
+              <tbody>
+                <tr onclick="showToast('Opening dispatch DN-2026-0847')"><td class="td-id">DN-2026-0847</td><td class="td-name">Chitedze, James B.</td><td class="td-district">Kasungu</td><td>Fertiliser (23:21:0)</td><td>2 × 50kg</td><td>MK 28,400</td><td><span class="status-badge status-active">Confirmed</span></td><td style="color:var(--text-dim);font-size:11px;">2026-03-18</td></tr>
+                <tr onclick="showToast('Opening dispatch DN-2026-0846')"><td class="td-id">DN-2026-0846</td><td class="td-name">Mwanza, Grace T.</td><td class="td-district">Mchinji</td><td>Seed (Flue-cured)</td><td>3 × 100g pkt</td><td>MK 9,600</td><td><span class="status-badge status-pending">Pending</span></td><td style="color:var(--text-dim);font-size:11px;">2026-03-18</td></tr>
+                <tr onclick="showToast('Opening dispatch DN-2026-0845')"><td class="td-id">DN-2026-0845</td><td class="td-name">Phiri, Emmanuel K.</td><td class="td-district">Dowa</td><td>Chemical (Ridomil)</td><td>4 × 1L</td><td>MK 44,000</td><td><span class="status-badge status-active">Confirmed</span></td><td style="color:var(--text-dim);font-size:11px;">2026-03-17</td></tr>
+                <tr onclick="showToast('Opening dispatch DN-2026-0844')"><td class="td-id">DN-2026-0844</td><td class="td-name">Nkhata, Lucia M.</td><td class="td-district">Lilongwe</td><td>Fertiliser (CAN)</td><td>4 × 50kg</td><td>MK 56,000</td><td><span class="status-badge status-active">Confirmed</span></td><td style="color:var(--text-dim);font-size:11px;">2026-03-17</td></tr>
+                <tr onclick="showToast('Opening dispatch DN-2026-0843')"><td class="td-id">DN-2026-0843</td><td class="td-name">Tembo, Patrick J.</td><td class="td-district">Kasungu</td><td>Seed (Burley)</td><td>2 × 100g pkt</td><td>MK 6,400</td><td><span class="status-badge status-suspended">Held — Risk Flag</span></td><td style="color:var(--text-dim);font-size:11px;">2026-03-16</td></tr>
+              </tbody>
+            </table>
           </div>
-          <div class="panel-body-scroll" id="dashVisitList">
-            <div class="empty-state">Loading…</div>
+        </div>
+      </div>
+
+        </div><!-- /inp-dispatch -->
+        <div class="sub-pane" id="inp-credit">
+          <div class="panel"><div class="panel-header"><span class="panel-title">Credit Ledger</span></div><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Grower ID</th><th>Name</th><th>Credit Issued</th><th>Deducted</th><th>Balance</th><th>Risk</th></tr></thead><tbody>
+            <tr onclick="showToast('Opening ledger: Chitedze')"><td class="td-id">GRW-KS-10482</td><td class="td-name">Chitedze, J.</td><td>MK 28,400</td><td>MK 12,000</td><td style="color:var(--warn);font-weight:600;">MK 16,400</td><td>—</td></tr>
+            <tr onclick="showToast('Opening ledger: Mwanza')"><td class="td-id">GRW-MC-09841</td><td class="td-name">Mwanza, G.</td><td>MK 9,600</td><td>MK 0</td><td style="color:var(--danger);font-weight:600;">MK 9,600</td><td><span class="status-badge status-pending">Pending</span></td></tr>
+            <tr onclick="showToast('Opening ledger: Tembo')"><td class="td-id">GRW-KS-10479</td><td class="td-name">Tembo, P.</td><td>MK 82,000</td><td>MK 14,000</td><td style="color:var(--danger);font-weight:600;">MK 68,000</td><td><span class="status-badge status-suspended">Risk Flag</span></td></tr>
+          </tbody></table></div></div>
+        </div>
+        <div class="sub-pane" id="inp-stock">
+          <div class="stats-row" style="margin-bottom:20px;">
+            <div class="stat-card"><div class="stat-label">Fertiliser</div><div class="stat-val">12.4T</div><div class="stat-delta">▲ 3 warehouses</div></div>
+            <div class="stat-card"><div class="stat-label">Seed</div><div class="stat-val">840 pkts</div><div class="stat-delta warn">▼ Reorder needed</div></div>
+            <div class="stat-card"><div class="stat-label">Chemicals</div><div class="stat-val">480 L</div><div class="stat-delta">▲ Adequate</div></div>
+            <div class="stat-card"><div class="stat-label">Total Value</div><div class="stat-val">MK 58M</div><div class="stat-delta">▲ Current season</div></div>
+          </div>
+          <div class="panel"><div class="panel-header"><span class="panel-title">Stock Inventory</span></div><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Item</th><th>Category</th><th>Unit</th><th>On Hand</th><th>Reorder Level</th><th>Status</th></tr></thead><tbody>
+            <tr><td class="td-name">NPK 23:21:0</td><td>Fertiliser</td><td>50 kg bags</td><td>248</td><td>100</td><td><span class="status-badge status-active">OK</span></td></tr>
+            <tr><td class="td-name">CAN 26%</td><td>Fertiliser</td><td>50 kg bags</td><td>156</td><td>80</td><td><span class="status-badge status-active">OK</span></td></tr>
+            <tr><td class="td-name">Flue-cured Seed</td><td>Seed</td><td>100g pkts</td><td>420</td><td>500</td><td><span class="status-badge status-suspended">Reorder</span></td></tr>
+            <tr><td class="td-name">Burley Seed</td><td>Seed</td><td>100g pkts</td><td>420</td><td>300</td><td><span class="status-badge status-active">OK</span></td></tr>
+            <tr><td class="td-name">Ridomil Gold</td><td>Chemical</td><td>1L bottles</td><td>180</td><td>100</td><td><span class="status-badge status-active">OK</span></td></tr>
+          </tbody></table></div></div>
+        </div>
+      </div><!-- /inputs tab -->
+
+      <!-- ══ FACTORY TAB ══ -->
+      <div class="tab-pane" id="tab-factory">
+        <div class="sub-tab-bar">
+          <button class="sub-tab-btn active" onclick="switchSubTab(this,'fac-intake')">Live Intake</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'fac-grading')">Grading</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'fac-shifts')">Shifts</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'fac-trace')">Bale Traceability</button>
+        </div>
+        <div class="sub-pane active" id="fac-intake">
+        <div class="stats-row" style="margin-bottom:20px;">
+          <div class="stat-card"><div class="stat-label">Today's Intake</div><div class="stat-val">38.6T</div><div class="stat-delta">▲ Shift A</div></div>
+          <div class="stat-card"><div class="stat-label">Bales Processed</div><div class="stat-val">247</div><div class="stat-delta">▲ 12 pending QC</div></div>
+          <div class="stat-card"><div class="stat-label">Season Total</div><div class="stat-val">1,842T</div><div class="stat-delta">▲ On target</div></div>
+          <div class="stat-card"><div class="stat-label">Credit Deducted</div><div class="stat-val">MK 28.4M</div><div class="stat-delta">▲ Auto-applied</div></div>
+        </div>
+        <div class="factory-row">
+          <div class="factory-intake">
+            <div class="fi-header">
+              <span class="fi-title">Live Bale Intake — Shift A</span>
+              <span class="fi-shift">Shift A Active</span>
+            </div>
+            <table class="bale-table">
+              <thead><tr><th>Bale ID</th><th>Grower</th><th>Grade</th><th>Weight (kg)</th><th>Time</th><th>Status</th></tr></thead>
+              <tbody id="baleBody"></tbody>
+            </table>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <div class="factory-intake">
+              <div class="fi-header"><span class="fi-title">Grade Summary</span></div>
+              <div id="gradeSummary"></div>
+            </div>
+            <div class="factory-intake">
+              <div class="fi-header"><span class="fi-title">Shift Notes</span></div>
+              <div style="font-size:12px;color:var(--text-dim);line-height:1.7;">
+                Gate 2 discrepancy at 10:15 — under investigation.<br/>
+                Scale calibrated 07:30 — certified.<br/>
+                Shift handover at 15:00 CAT.
+              </div>
+            </div>
           </div>
         </div>
-
-      </div>
-    </div>
-
-    <!-- ════ MY VISITS ════ -->
-    <div class="view" id="view-my-visits">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <h2 style="font-size:22px;font-weight:800">My Visits</h2>
-        <button class="btn btn-primary btn-sm" onclick="switchView('log-visit')">＋ Log Visit</button>
       </div>
 
-      <div id="mvStats"></div>
+        </div><!-- /fac-intake -->
+        <div class="sub-pane" id="fac-grading">
+          <div class="panel"><div class="panel-header"><span class="panel-title">Grade Reference Table</span></div><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Grade</th><th>Description</th><th>Price (MWK/kg)</th><th>Volume Today</th></tr></thead><tbody>
+            <tr><td class="bale-grade">B1L</td><td>Best Leaf — Bright</td><td>MK 2,800</td><td>7,840 kg</td></tr>
+            <tr><td class="bale-grade">B2F</td><td>Second Leaf — Fine</td><td>MK 2,400</td><td>12,240 kg</td></tr>
+            <tr><td class="bale-grade">B2L</td><td>Second Leaf — Standard</td><td>MK 2,100</td><td>16,380 kg</td></tr>
+            <tr><td class="bale-grade">B3F</td><td>Third Leaf — Fine</td><td>MK 1,600</td><td>5,440 kg</td></tr>
+            <tr><td class="bale-grade">B4L</td><td>Lower Grade</td><td>MK 900</td><td>2,170 kg</td></tr>
+          </tbody></table></div></div>
+        </div>
+        <div class="sub-pane" id="fac-shifts">
+          <div class="panel"><div class="panel-header"><span class="panel-title">Shift Reports — 2026-03-31</span><button class="add-btn" onclick="showToast('Generating PDF…')" style="font-size:11px;padding:5px 12px;">Export PDF</button></div><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>Shift</th><th>Start</th><th>End</th><th>Supervisor</th><th>Bales</th><th>Weight (T)</th><th>Discrepancies</th><th>Status</th></tr></thead><tbody>
+            <tr><td class="td-id">Shift A</td><td>06:00</td><td>14:00</td><td class="td-name">K. Phiri</td><td>247</td><td>38.6</td><td style="color:var(--danger);">1</td><td><span class="status-badge status-active">Complete</span></td></tr>
+            <tr><td class="td-id">Shift B</td><td>14:00</td><td>22:00</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="status-badge status-pending">Upcoming</span></td></tr>
+          </tbody></table></div></div>
+        </div>
+        <div class="sub-pane" id="fac-trace">
+          <div style="display:flex;align-items:center;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
+            <input class="search-input" style="flex:1;" type="text" placeholder="Search bale ID or grower…"/>
+            <select class="filter-select"><option>All Grades</option><option>B1L</option><option>B2F</option><option>B2L</option><option>B3F</option><option>B4L</option></select>
+            <button class="add-btn" onclick="openModal('modalWeight')">+ Record Bale</button>
+          </div>
+          <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;overflow:hidden;"><table class="data-table"><thead><tr><th>Bale ID</th><th>Grower</th><th>Grade</th><th>Net Weight (kg)</th><th>Shift</th><th>Credit Deducted</th><th>Status</th></tr></thead><tbody id="baleTraceBody"></tbody></table></div>
+        </div>
 
-      <div class="filter-bar">
-        <input id="mvDateFilter" class="filter-input" type="date" onchange="renderMyVisits()">
-      </div>
-
-      <div class="panel">
-        <div style="overflow-x:auto">
-          <table class="data-table">
-            <thead>
-              <tr>
-                <th>Time</th><th>Farmer</th><th>Duration</th>
-                <th>Topics</th><th>Photo</th><th>GPS</th>
-              </tr>
-            </thead>
-            <tbody id="mvTableBody">
-              <tr><td colspan="6" class="empty-td">Loading…</td></tr>
-            </tbody>
-          </table>
+      <!-- ══ ANALYTICS TAB ══ -->
+      <div class="tab-pane" id="tab-analytics">
+        <div class="sub-tab-bar">
+          <button class="sub-tab-btn active" onclick="switchSubTab(this,'an-kpis')">Season KPIs</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'an-regional')">Regional</button>
+          <button class="sub-tab-btn" onclick="switchSubTab(this,'an-export')">Export</button>
+        </div>
+        <div class="sub-pane active" id="an-kpis">
+        <div class="analytics-row">
+          <div class="kpi-card">
+            <div class="kpi-header">Season Registrations vs Target</div>
+            <div class="kpi-big">12,480</div>
+            <div class="kpi-sub">▲ 124.8% of 10,000 target</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">GAP Compliance Score</div>
+            <div class="kpi-big">87%</div>
+            <div class="kpi-sub">▲ +4% vs last season</div>
+          </div>
+        </div>
+        <div class="analytics-row">
+          <div class="kpi-card">
+            <div class="kpi-header">Credit Recovery Rate</div>
+            <div class="kpi-big">78%</div>
+            <div class="kpi-sub" style="color:var(--warn);">▼ Target: 90%</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-header">Factory Intake Season Total</div>
+            <div class="kpi-big">1,842T</div>
+            <div class="kpi-sub">▲ On pace for 2,400T season target</div>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="panel-header"><span class="panel-title">Regional Performance Summary</span><button class="add-btn" onclick="showToast('Exporting to Excel…')" style="font-size:11px;padding:5px 12px;">Export Excel</button></div>
+          <div style="overflow-x:auto;">
+            <table class="data-table">
+              <thead><tr><th>District</th><th>Registered Farmers</th><th>Field Visits</th><th>GAP Score</th><th>Inputs Issued</th><th>Factory Intake</th><th>Credit Recovery</th></tr></thead>
+              <tbody>
+                <tr><td class="td-name">Kasungu</td><td>4,280</td><td>68</td><td><span class="status-badge status-active">91%</span></td><td>MK 28.4M</td><td>14.2T</td><td>82%</td></tr>
+                <tr><td class="td-name">Mchinji</td><td>3,100</td><td>42</td><td><span class="status-badge status-active">88%</span></td><td>MK 20.1M</td><td>10.4T</td><td>79%</td></tr>
+                <tr><td class="td-name">Lilongwe</td><td>2,640</td><td>48</td><td><span class="status-badge status-pending">74%</span></td><td>MK 18.2M</td><td>8.8T</td><td>71%</td></tr>
+                <tr><td class="td-name">Dowa</td><td>2,460</td><td>26</td><td><span class="status-badge status-pending">79%</span></td><td>MK 17.5M</td><td>5.2T</td><td>76%</td></tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
-    </div>
 
-    <!-- ════ LOG VISIT ════ -->
-    <div class="view" id="view-log-visit">
-      <div id="logVisitContent">
-        <div class="empty-state">Loading form…</div>
-      </div>
-    </div>
-
-    <!-- ════ TEAM ════ -->
-    <div class="view" id="view-team">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px">
-        <h2 style="font-size:22px;font-weight:800">Team Performance</h2>
-        <span style="font-size:12px;color:var(--text-3)">Today · <span id="teamDate"></span></span>
-      </div>
-      <div class="team-grid" id="teamGrid">
-        <div class="empty-state">Loading…</div>
-      </div>
-    </div>
-
-    <!-- ════ REPORTS ════ -->
-    <div class="view" id="view-reports">
-      <div class="report-header">
-        <h2>Weekly Report</h2>
-        <div class="week-nav">
-          <button class="btn btn-ghost btn-sm" onclick="prevWeek()">‹</button>
-          <span class="week-label" id="reportWeekLabel">—</span>
-          <button class="btn btn-ghost btn-sm" onclick="nextWeek()">›</button>
+        </div><!-- /an-kpis -->
+        <div class="sub-pane" id="an-regional">
+          <div class="panel"><div class="panel-header"><span class="panel-title">Regional Performance</span><button class="add-btn" onclick="showToast('Exporting to Excel…')" style="font-size:11px;padding:5px 12px;">Export Excel</button></div><div style="overflow-x:auto;"><table class="data-table"><thead><tr><th>District</th><th>Registered Farmers</th><th>Field Visits</th><th>GAP Score</th><th>Inputs Issued</th><th>Factory Intake</th><th>Credit Recovery</th></tr></thead><tbody>
+            <tr><td class="td-name">Kasungu</td><td>4,280</td><td>68</td><td><span class="status-badge status-active">91%</span></td><td>MK 28.4M</td><td>14.2T</td><td>82%</td></tr>
+            <tr><td class="td-name">Mchinji</td><td>3,100</td><td>42</td><td><span class="status-badge status-active">88%</span></td><td>MK 20.1M</td><td>10.4T</td><td>79%</td></tr>
+            <tr><td class="td-name">Lilongwe</td><td>2,640</td><td>48</td><td><span class="status-badge status-pending">74%</span></td><td>MK 18.2M</td><td>8.8T</td><td>71%</td></tr>
+            <tr><td class="td-name">Dowa</td><td>2,460</td><td>26</td><td><span class="status-badge status-pending">79%</span></td><td>MK 17.5M</td><td>5.2T</td><td>76%</td></tr>
+          </tbody></table></div></div>
         </div>
-      </div>
+        <div class="sub-pane" id="an-export">
+          <div class="panel"><div class="panel-header"><span class="panel-title">Export Options</span></div><div class="panel-body" style="display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--surface1);border:1px solid var(--border);border-radius:4px;"><div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:.06em;">Full Season Report</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px;">All modules · Excel · PDF</div></div><button class="add-btn" onclick="showToast('Generating full season report…')">Export</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--surface1);border:1px solid var(--border);border-radius:4px;"><div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:.06em;">Farmer Registry</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px;">All growers · CSV · Excel</div></div><button class="add-btn" onclick="showToast('Exporting registry…')">Export</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--surface1);border:1px solid var(--border);border-radius:4px;"><div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:.06em;">Field Visit Data</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px;">GPS, compliance scores, visit log</div></div><button class="add-btn" onclick="showToast('Exporting visits…')">Export</button></div>
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px;background:var(--surface1);border:1px solid var(--border);border-radius:4px;"><div><div style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white);text-transform:uppercase;letter-spacing:.06em;">Power BI Dataset</div><div style="font-size:11px;color:var(--text-dim);margin-top:2px;">JSON / ODATA feed</div></div><button class="add-btn" onclick="showToast('Connecting Power BI…')">Connect</button></div>
+          </div></div>
 
-      <div class="role-stat-cards" id="roleStatCards">
-        loading…
-      </div>
-
-      <div class="panel" style="margin-bottom:0">
-        <div class="panel-header">
-          <span class="panel-title">Field Staff Summary</span>
-          <span style="font-size:11px;color:var(--text-3)">⚠️ = below 70% of weekly target</span>
-        </div>
-        <div class="summary-table-wrap">
-          <table class="summary-table">
-            <thead>
-              <tr>
-                <th>Name</th><th>Role</th><th>Daily Target</th>
-                <th>Week Target</th><th>Done</th><th>Completion</th>
-                <th>Avg Duration</th><th>Photos</th><th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="reportTableBody">
-              <tr><td colspan="9" class="empty-td">Loading…</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
+    </div><!-- /content -->
   </div><!-- /main -->
 </div><!-- /app-shell -->
 
-<!-- ══════════ MODAL ══════════ -->
-<div class="modal-overlay" id="modal">
-  <div class="modal-card">
-    <div class="modal-header">
-      <h3 id="modalTitle">Detail</h3>
-      <button class="modal-close" onclick="closeModal()">✕</button>
+<!-- TOAST -->
+<div id="toast" style="position:fixed;bottom:24px;right:24px;background:var(--surface3);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:4px;padding:12px 20px;font-size:13px;color:var(--text);font-family:'Barlow',sans-serif;z-index:999;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none;"></div>
+
+<script>
+// Tab switching
+function switchTab(id, el) {
+  document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  if(el) el.classList.add('active');
+  const titles = {
+    dashboard:'Operational Dashboard',registry:'Farmer Registry',
+    field:'Field Visits',inputs:'Inputs & Credit',
+    factory:'Factory & Inventory',analytics:'Analytics'
+  };
+  const subs = {
+    dashboard:'2026 Buying Season · Malawi & Mozambique Operations',
+    registry:'Digital grower registration with biometrics',
+    field:'GPS visit management · Offline-capable',
+    inputs:'Seed, fertiliser and chemical dispatch',
+    factory:'Weight capture · Bale traceability · Shift reporting',
+    analytics:'Seasonal dashboards · Power BI / Excel export'
+  };
+  document.getElementById('pageTitle').textContent = titles[id];
+  document.getElementById('pageSubtitle').innerHTML = subs[id];
+}
+
+// Toast
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.opacity='1';t.style.transform='translateY(0)';
+  setTimeout(()=>{t.style.opacity='0';t.style.transform='translateY(8px)';},2200);
+}
+
+// Mobile sidebar
+renderChecklist("GAP");
+renderVisitLog();
+renderBaleTrace();
+document.getElementById('sidebarToggle').addEventListener('click',()=>{
+  document.getElementById('sidebar').classList.toggle('open');
+});
+
+// Chart bars
+const barData=[42,58,73,65,88,94,110];
+const chartEl=document.getElementById('chartBars');
+barData.forEach((v,i)=>{
+  const w=document.createElement('div');w.className='chart-bar-wrap';
+  const b=document.createElement('div');b.className='chart-bar'+(i===6?' current':'');
+  b.style.height='0';
+  setTimeout(()=>b.style.height=(v/120*100)+'px',200+i*80);
+  w.appendChild(b);chartEl.appendChild(w);
+});
+
+// Farmer table data
+const farmers=[
+  {id:'GRW-KS-10482',name:'Chitedze, James B.',district:'Kasungu',crop:'Flue-cured Tobacco',ha:'2.4',status:'active',bio:true,date:'2025-10-12'},
+  {id:'GRW-MC-09841',name:'Mwanza, Grace T.',district:'Mchinji',crop:'Burley Tobacco',ha:'1.8',status:'active',bio:true,date:'2025-10-08'},
+  {id:'GRW-DW-08764',name:'Phiri, Emmanuel K.',district:'Dowa',crop:'Flue-cured Tobacco',ha:'3.1',status:'active',bio:true,date:'2025-10-15'},
+  {id:'GRW-LL-07391',name:'Nkhata, Lucia M.',district:'Lilongwe',crop:'Maize / Groundnuts',ha:'1.2',status:'pending',bio:false,date:'2025-11-03'},
+  {id:'GRW-KS-10479',name:'Tembo, Patrick J.',district:'Kasungu',crop:'Burley Tobacco',ha:'2.0',status:'suspended',bio:true,date:'2025-10-10'},
+  {id:'GRW-MC-09712',name:'Banda, Florence M.',district:'Mchinji',crop:'Flue-cured Tobacco',ha:'2.8',status:'active',bio:true,date:'2025-10-06'},
+  {id:'GRW-DW-08832',name:'Chilowa, Robert A.',district:'Dowa',crop:'Burley Tobacco',ha:'1.6',status:'active',bio:true,date:'2025-10-18'},
+  {id:'GRW-LL-07254',name:'Gondwe, Mary C.',district:'Lilongwe',crop:'Flue-cured Tobacco',ha:'2.2',status:'active',bio:true,date:'2025-10-22'},
+  {id:'GRW-KS-10391',name:'Mbewe, George T.',district:'Kasungu',crop:'Burley Tobacco',ha:'3.4',status:'active',bio:true,date:'2025-09-28'},
+  {id:'GRW-MC-09654',name:'Kaunda, Alice B.',district:'Mchinji',crop:'Flue-cured Tobacco',ha:'1.9',status:'active',bio:false,date:'2025-10-14'},
+  {id:'GRW-DW-08714',name:'Zuze, Daniel K.',district:'Dowa',crop:'Maize / Tobacco',ha:'2.6',status:'active',bio:true,date:'2025-10-09'},
+  {id:'GRW-LL-07182',name:'Mhango, Violet J.',district:'Lilongwe',crop:'Flue-cured Tobacco',ha:'1.4',status:'pending',bio:false,date:'2025-11-12'},
+  {id:'GRW-KS-10348',name:'Phoya, Samuel R.',district:'Kasungu',crop:'Burley Tobacco',ha:'2.1',status:'active',bio:true,date:'2025-10-05'},
+  {id:'GRW-MC-09590',name:'Chirwa, Esther P.',district:'Mchinji',crop:'Flue-cured Tobacco',ha:'3.0',status:'active',bio:true,date:'2025-10-11'},
+  {id:'GRW-DW-08671',name:'Msiska, Henry C.',district:'Dowa',crop:'Burley Tobacco',ha:'1.7',status:'active',bio:true,date:'2025-10-16'},
+];
+function renderFarmers(list){
+  const tb=document.getElementById('farmerTbody');
+  tb.innerHTML=list.map(f=>`
+    <tr onclick="showToast('Opening grower profile: ${f.name}')">
+      <td class="td-id">${f.id}</td>
+      <td class="td-name">${f.name}</td>
+      <td class="td-district">${f.district}</td>
+      <td style="font-size:12px;color:var(--text-dim)">${f.crop}</td>
+      <td style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:var(--white)">${f.ha} ha</td>
+      <td><span class="status-badge status-${f.status}">${f.status==='active'?'Active':f.status==='pending'?'Pending Verification':'Suspended'}</span></td>
+      <td>${f.bio?'<span class="biometric-chip">✓ Enrolled</span>':'<span style="font-size:11px;color:var(--text-off)">Not enrolled</span>'}</td>
+      <td style="color:var(--text-off);font-size:11px">${f.date}</td>
+    </tr>
+  `).join('');
+}
+renderFarmers(farmers);
+function filterTable(q){const low=q.toLowerCase();renderFarmers(farmers.filter(f=>f.name.toLowerCase().includes(low)||f.id.toLowerCase().includes(low)||f.district.toLowerCase().includes(low)));}
+function filterDistrict(d){renderFarmers(d?farmers.filter(f=>f.district===d):farmers);}
+
+// Field visits
+const visits=[
+  {name:'T. Itaye',zone:'Kasungu West',done:14,total:16,tags:['GAP','ALP']},
+  {name:'M. Banda',zone:'Mchinji South',done:11,total:12,tags:['GAP']},
+  {name:'P. Mussa',zone:'Dowa Cluster',done:7,total:12,tags:['ALP']},
+  {name:'R. João',zone:'Tete Border Zone',done:9,total:9,tags:['GAP','ALP']},
+  {name:'C. Mkandawire',zone:'Kasungu East',done:10,total:14,tags:['GAP']},
+  {name:'B. Nyirenda',zone:'Lilongwe Rural',done:5,total:10,tags:['ODK']},
+];
+const vg=document.getElementById('visitsGrid');
+visits.forEach(v=>{
+  const pct=Math.round(v.done/v.total*100);
+  const visitIdx = visits.indexOf(v);
+  vg.innerHTML+=`<div class="visit-card" onclick="showVisitDetail(visits[${visitIdx}])">
+    <div class="visit-card-top">
+      <div><div class="visit-officer">${v.name}</div><div class="visit-zone">${v.zone}</div></div>
+      <div><div class="visit-progress-val">${v.done}/${v.total}</div><div class="visit-progress-lbl">${pct}%</div></div>
     </div>
-    <div class="modal-content" id="modalBody"></div>
+    <div class="visit-bar"><div class="visit-fill" style="width:${pct}%"></div></div>
+    <div class="visit-meta"><span>📍 GPS Active</span><span>📋 Forms synced</span></div>
+    <div style="margin-top:8px;">${v.tags.map(t=>`<span class="visit-tag">${t}</span>`).join(' ')}</div>
+  </div>`;
+});
+
+// Bale table
+const bales=[
+  {id:'BL-0247',grower:'Chitedze, J.',grade:'B2L',weight:'182.4',time:'13:42',status:'Accepted'},
+  {id:'BL-0246',grower:'Mwanza, G.',grade:'B3F',weight:'176.8',time:'13:28',status:'Accepted'},
+  {id:'BL-0245',grower:'Phiri, E.',grade:'B1L',weight:'190.2',time:'13:15',status:'Accepted'},
+  {id:'BL-0244',grower:'Banda, F.',grade:'B2F',weight:'168.0',time:'12:58',status:'Accepted'},
+  {id:'BL-0243',grower:'Tembo, P.',grade:'B4L',weight:'155.6',time:'12:41',status:'QC Hold'},
+];
+const bb=document.getElementById('baleBody');
+bales.forEach(b=>bb.innerHTML+=`<tr onclick="showToast('Opening bale ${b.id}')"><td class="td-id">${b.id}</td><td class="td-name" style="font-size:12px">${b.grower}</td><td class="bale-grade">${b.grade}</td><td class="bale-weight">${b.weight}</td><td style="font-size:11px;color:var(--text-off)">${b.time}</td><td><span class="status-badge ${b.status==='Accepted'?'status-active':'status-pending'}">${b.status}</span></td></tr>`);
+document.getElementById('gradeSummary').innerHTML=`
+  ${[['B1L','42 bales','7,840 kg'],['B2F','68 bales','12,240 kg'],['B2L','91 bales','16,380 kg'],['B3F','32 bales','5,440 kg'],['B4L','14 bales','2,170 kg']].map(r=>`
+    <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(200,150,42,.06);font-size:12px;">
+      <span class="bale-grade">${r[0]}</span>
+      <span style="color:var(--text-dim)">${r[1]}</span>
+      <span style="color:var(--white);font-weight:600">${r[2]}</span>
+    </div>`).join('')}`;
+
+// ── SUB TABS ──
+function switchSubTab(btn, targetId) {
+  const bar = btn.closest('.sub-tab-bar');
+  bar.querySelectorAll('.sub-tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  // hide sibling sub-panes
+  const allPanes = btn.closest('.tab-pane').querySelectorAll('.sub-pane');
+  allPanes.forEach(p => p.classList.remove('active'));
+  document.getElementById(targetId).classList.add('active');
+  // init checklist if needed
+  if (targetId === 'fv-checklist') renderChecklist('GAP');
+  // render visit log if needed
+  if (targetId === 'fv-log') renderVisitLog();
+  // render bale trace
+  if (targetId === 'fac-trace') renderBaleTrace();
+}
+
+// ── MODALS ──
+function openModal(id){ document.getElementById(id).classList.add('open'); }
+function closeModal(id){ document.getElementById(id).classList.remove('open'); }
+function submitForm(id, msg){ closeModal(id); showToast(msg); }
+// close on overlay click
+document.querySelectorAll('.modal-overlay').forEach(o => {
+  o.addEventListener('click', e => { if(e.target === o) o.classList.remove('open'); });
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') document.querySelectorAll('.modal-overlay.open').forEach(o => o.classList.remove('open'));
+});
+
+// ── VISIT DETAIL ──
+function showVisitDetail(v) {
+  const el = document.getElementById('visitDetail');
+  const pct = Math.round(v.done/v.total*100);
+  el.innerHTML = `<div class="visit-detail-overlay">
+    <div class="visit-detail-header">
+      <div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:13px;font-weight:700;color:var(--gold);text-transform:uppercase;letter-spacing:.08em;">${v.name} — ${v.zone}</div>
+        <div style="font-size:11px;color:var(--text-dim);margin-top:2px;">Today's visit summary · ${v.done}/${v.total} completed (${pct}%)</div>
+      </div>
+      <button class="close-detail" onclick="document.getElementById('visitDetail').style.display='none'">Close ✕</button>
+    </div>
+    <div class="visit-detail-body">
+      <div class="vd-section">
+        <div class="vd-section-title">Visit Details</div>
+        <div class="vd-row"><span class="vd-key">Officer</span><span class="vd-val">${v.name}</span></div>
+        <div class="vd-row"><span class="vd-key">Zone</span><span class="vd-val">${v.zone}</span></div>
+        <div class="vd-row"><span class="vd-key">Progress</span><span class="vd-val">${v.done}/${v.total} visits</span></div>
+        <div class="vd-row"><span class="vd-key">GPS Status</span><span class="vd-val" style="color:var(--success);">Active</span></div>
+        <div class="vd-row"><span class="vd-key">Form Types</span><span class="vd-val">${v.tags.join(', ')}</span></div>
+        <div class="vd-row"><span class="vd-key">Sync Status</span><span class="vd-val" style="color:var(--success);">Synced</span></div>
+      </div>
+      <div class="vd-section">
+        <div class="vd-section-title">Last Visit — GAP Checklist</div>
+        <div class="check-item"><span class="chk chk-pass">✓</span> Grower present and identified</div>
+        <div class="check-item"><span class="chk chk-pass">✓</span> Crop condition — acceptable</div>
+        <div class="check-item"><span class="chk chk-pass">✓</span> Fertiliser application records</div>
+        <div class="check-item"><span class="chk chk-pass">✓</span> Chemical storage compliant</div>
+        <div class="check-item"><span class="chk chk-fail">✗</span> Curing barn ventilation — noted</div>
+        <div class="check-item"><span class="chk chk-pass">✓</span> Water source protected</div>
+        <div class="check-item"><span class="chk chk-na">—</span> Child labour — not applicable</div>
+      </div>
+    </div>
+  </div>`;
+  el.style.display = 'block';
+  el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+// ── VISIT LOG ──
+const visitLogData = [
+  {id:'VIS-2026-1084',officer:'T. Itaye',grower:'Chitedze, J.',zone:'Kasungu West',form:'GAP',gap:'94%',gps:'✓',date:'2026-03-31',status:'synced'},
+  {id:'VIS-2026-1083',officer:'M. Banda',grower:'Mwanza, G.',zone:'Mchinji South',form:'GAP',gap:'88%',gps:'✓',date:'2026-03-31',status:'synced'},
+  {id:'VIS-2026-1082',officer:'P. Mussa',grower:'Phiri, E.',zone:'Dowa Cluster',form:'ALP',gap:'—',gps:'✓',date:'2026-03-31',status:'pending'},
+  {id:'VIS-2026-1081',officer:'R. João',grower:'Banda, F.',zone:'Tete Border Zone',form:'GAP',gap:'100%',gps:'✓',date:'2026-03-31',status:'synced'},
+  {id:'VIS-2026-1080',officer:'T. Itaye',grower:'Tembo, P.',zone:'Kasungu West',form:'GAP',gap:'72%',gps:'✓',date:'2026-03-30',status:'synced'},
+];
+function renderVisitLog() {
+  const el = document.getElementById('visitLogBody');
+  if (!el) return;
+  el.innerHTML = visitLogData.map(v => `<tr onclick="showToast('Opening visit ${v.id}')">
+    <td class="td-id">${v.id}</td>
+    <td class="td-name" style="font-size:12px;">${v.officer}</td>
+    <td style="font-size:12px;color:var(--text-dim);">${v.grower}</td>
+    <td style="font-size:11px;color:var(--text-dim);">${v.zone}</td>
+    <td><span class="status-badge" style="background:rgba(200,150,42,.1);color:var(--gold);">${v.form}</span></td>
+    <td style="font-family:'Barlow Condensed',sans-serif;font-weight:700;color:${v.gap==='—'?'var(--text-off)':'var(--success)'};">${v.gap}</td>
+    <td style="color:var(--success);">${v.gps}</td>
+    <td style="font-size:11px;color:var(--text-off);">${v.date}</td>
+    <td><span class="status-badge ${v.status==='synced'?'status-active':'status-pending'}">${v.status==='synced'?'Synced':'Pending'}</span></td>
+  </tr>`).join('');
+}
+
+// ── CHECKLIST ──
+const gapItems = ['Grower present and verified','Crop condition assessed','Fertiliser records checked','Chemical storage compliant','Curing barn ventilation','Water source protected','PPE usage observed','Child labour — not observed','Land title / lease verified','Soil management practices'];
+const alpItems = ['Labour rights briefing','Working conditions observed','Wage records reviewed','Housing standards met','Community engagement confirmed'];
+const checkState = {};
+function renderChecklist(type) {
+  const items = type === 'GAP' ? gapItems : alpItems;
+  items.forEach(it => { if(!checkState[it]) checkState[it] = 'na'; });
+  const el = document.getElementById('checklistItems');
+  if (!el) return;
+  el.innerHTML = items.map(it => `<div class="chk-row">
+    <span class="chk-row-lbl">${it}</span>
+    <div class="chk-btns">
+      <button class="btn-pass ${checkState[it]==='pass'?'sel':''}" onclick="setCheck('${it}','pass',this)">Pass</button>
+      <button class="btn-fail ${checkState[it]==='fail'?'sel':''}" onclick="setCheck('${it}','fail',this)">Fail</button>
+      <button class="btn-na ${checkState[it]==='na'?'sel':''}" onclick="setCheck('${it}','na',this)">N/A</button>
+    </div>
+  </div>`).join('');
+}
+function setCheck(item, val, btn) {
+  checkState[item] = val;
+  const row = btn.closest('.chk-row');
+  row.querySelectorAll('.chk-btns button').forEach(b => b.classList.remove('sel'));
+  btn.classList.add('sel');
+}
+function submitChecklist() {
+  const pass = Object.values(checkState).filter(v=>v==='pass').length;
+  const fail = Object.values(checkState).filter(v=>v==='fail').length;
+  showToast(`Checklist submitted: ${pass} passed, ${fail} failed`);
+}
+
+// ── BALE TRACEABILITY ──
+function renderBaleTrace() {
+  const el = document.getElementById('baleTraceBody');
+  if (!el) return;
+  const balesExt = [
+    {id:'BL-0247',grower:'Chitedze, J.',grade:'B2L',weight:'180.4',shift:'A',credit:'MK 4,200',status:'Accepted'},
+    {id:'BL-0246',grower:'Mwanza, G.',grade:'B3F',weight:'174.8',shift:'A',credit:'MK 3,100',status:'Accepted'},
+    {id:'BL-0245',grower:'Phiri, E.',grade:'B1L',weight:'188.2',shift:'A',credit:'MK 5,600',status:'Accepted'},
+    {id:'BL-0244',grower:'Banda, F.',grade:'B2F',weight:'166.0',shift:'A',credit:'MK 4,100',status:'Accepted'},
+    {id:'BL-0243',grower:'Tembo, P.',grade:'B4L',weight:'153.6',shift:'A',credit:'—',status:'QC Hold'},
+  ];
+  el.innerHTML = balesExt.map(b=>`<tr onclick="showToast('Opening bale ${b.id}')">
+    <td class="td-id">${b.id}</td><td class="td-name" style="font-size:12px;">${b.grower}</td>
+    <td class="bale-grade">${b.grade}</td><td style="font-weight:600;">${b.weight}</td>
+    <td style="font-size:11px;color:var(--text-dim);">${b.shift}</td>
+    <td style="font-size:12px;color:var(--gold);">${b.credit}</td>
+    <td><span class="status-badge ${b.status==='Accepted'?'status-active':'status-pending'}">${b.status}</span></td>
+  </tr>`).join('');
+}
+
+</script>
+
+<!-- ══ MODALS ══ -->
+<!-- New Farmer -->
+<div class="modal-overlay" id="modalFarmer">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">New Farmer Registration</span><button class="modal-close" onclick="closeModal('modalFarmer')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">First Name</label><input class="form-input" placeholder="James"/></div>
+        <div class="form-group"><label class="form-label">Surname</label><input class="form-input" placeholder="Chitedze"/></div>
+        <div class="form-group"><label class="form-label">District</label><select class="form-select"><option>Kasungu</option><option>Mchinji</option><option>Lilongwe</option><option>Dowa</option></select></div>
+        <div class="form-group"><label class="form-label">Zone / Village</label><input class="form-input" placeholder="Kasungu West"/></div>
+        <div class="form-group"><label class="form-label">Primary Crop</label><select class="form-select"><option>Flue-cured Tobacco</option><option>Burley Tobacco</option><option>Maize</option><option>Groundnuts</option></select></div>
+        <div class="form-group"><label class="form-label">Farm Size (ha)</label><input class="form-input" type="number" placeholder="2.4" step="0.1"/></div>
+        <div class="form-group"><label class="form-label">National ID</label><input class="form-input" placeholder="NID-XXXXXXX"/></div>
+        <div class="form-group"><label class="form-label">Phone</label><input class="form-input" placeholder="+265 9XX XXX XXX"/></div>
+        <div class="form-group full"><label class="form-label">GPS Coordinates</label><input class="form-input" placeholder="-13.0000, 33.0000"/></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="closeModal('modalFarmer')">Cancel</button>
+        <button class="btn-submit" onclick="submitForm('modalFarmer','Farmer registered successfully')">Register Farmer</button>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ══════════ TOAST ══════════ -->
-<div class="toast" id="toast"></div>
+<!-- New Field Visit -->
+<div class="modal-overlay" id="modalVisit">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Log New Field Visit</span><button class="modal-close" onclick="closeModal('modalVisit')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Field Officer</label><select class="form-select"><option>T. Itaye</option><option>M. Banda</option><option>P. Mussa</option><option>R. João</option><option>C. Mkandawire</option></select></div>
+        <div class="form-group"><label class="form-label">Grower ID</label><input class="form-input" placeholder="GRW-KS-XXXXX"/></div>
+        <div class="form-group"><label class="form-label">Visit Date</label><input class="form-input" type="date" value="2026-03-31"/></div>
+        <div class="form-group"><label class="form-label">Time</label><input class="form-input" type="time" value="09:00"/></div>
+        <div class="form-group"><label class="form-label">Form Type</label><select class="form-select"><option>GAP Compliance</option><option>ALP Assessment</option><option>ODK Custom</option></select></div>
+        <div class="form-group"><label class="form-label">Zone</label><select class="form-select"><option>Kasungu West</option><option>Kasungu East</option><option>Mchinji South</option><option>Dowa Cluster</option><option>Tete Border Zone</option><option>Lilongwe Rural</option></select></div>
+        <div class="form-group full"><label class="form-label">GPS Coordinates</label><input class="form-input" placeholder="-13.0000, 33.0000"/></div>
+        <div class="form-group full"><label class="form-label">Notes</label><input class="form-input" placeholder="Optional field notes…"/></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="closeModal('modalVisit')">Cancel</button>
+        <button class="btn-submit" onclick="submitForm('modalVisit','Field visit logged successfully')">Log Visit</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-<!-- ══════════ SCRIPTS ══════════ -->
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
+<!-- Record Weight -->
+<div class="modal-overlay" id="modalWeight">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">Record Bale Weight</span><button class="modal-close" onclick="closeModal('modalWeight')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Grower ID</label><input class="form-input" placeholder="GRW-KS-XXXXX"/></div>
+        <div class="form-group"><label class="form-label">Shift</label><select class="form-select"><option>Shift A (06:00–14:00)</option><option>Shift B (14:00–22:00)</option></select></div>
+        <div class="form-group"><label class="form-label">Gross Weight (kg)</label><input class="form-input" type="number" placeholder="182.4" step="0.1"/></div>
+        <div class="form-group"><label class="form-label">Tare Weight (kg)</label><input class="form-input" type="number" placeholder="2.0" step="0.1"/></div>
+        <div class="form-group"><label class="form-label">Grade</label><select class="form-select"><option>B1L</option><option>B2F</option><option>B2L</option><option>B3F</option><option>B4L</option></select></div>
+        <div class="form-group"><label class="form-label">Gate</label><select class="form-select"><option>Gate 1</option><option>Gate 2</option><option>Gate 3</option></select></div>
+        <div class="form-group full"><label class="form-label">Notes</label><input class="form-input" placeholder="Discrepancies or notes…"/></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="closeModal('modalWeight')">Cancel</button>
+        <button class="btn-submit" onclick="submitForm('modalWeight','Bale recorded successfully')">Record Bale</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-<script>
-  // Set default date filter to today
-  document.addEventListener('DOMContentLoaded', () => {
-    const mv = document.getElementById('mvDateFilter');
-    if (mv) mv.value = new Date().toISOString().slice(0,10);
-    const td = document.getElementById('teamDate');
-    if (td) td.textContent = new Date().toLocaleDateString('en-GB',{weekday:'long',day:'2-digit',month:'short'});
-  });
-</script>
+<!-- New Dispatch -->
+<div class="modal-overlay" id="modalDispatch">
+  <div class="modal">
+    <div class="modal-header"><span class="modal-title">New Dispatch Note</span><button class="modal-close" onclick="closeModal('modalDispatch')">✕</button></div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group"><label class="form-label">Grower ID</label><input class="form-input" placeholder="GRW-KS-XXXXX"/></div>
+        <div class="form-group"><label class="form-label">District</label><select class="form-select"><option>Kasungu</option><option>Mchinji</option><option>Lilongwe</option><option>Dowa</option></select></div>
+        <div class="form-group"><label class="form-label">Input Type</label><select class="form-select"><option>Fertiliser (23:21:0)</option><option>Fertiliser (CAN)</option><option>Seed (Flue-cured)</option><option>Seed (Burley)</option><option>Chemical (Ridomil)</option></select></div>
+        <div class="form-group"><label class="form-label">Quantity</label><input class="form-input" placeholder="e.g. 2 × 50kg"/></div>
+        <div class="form-group"><label class="form-label">Value (MWK)</label><input class="form-input" type="number" placeholder="28400"/></div>
+        <div class="form-group"><label class="form-label">Dispatch Date</label><input class="form-input" type="date" value="2026-03-31"/></div>
+        <div class="form-group full"><label class="form-label">Notes</label><input class="form-input" placeholder="Authorization ref or notes…"/></div>
+      </div>
+      <div class="form-actions">
+        <button class="btn-cancel" onclick="closeModal('modalDispatch')">Cancel</button>
+        <button class="btn-submit" onclick="submitForm('modalDispatch','Dispatch note created')">Create Dispatch</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 </body>
 </html>

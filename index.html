@@ -1,82 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<title>FVMA — Sign In</title>
-<link rel="stylesheet" href="css/style.css">
-<style>
-  body { overflow: auto; display: block; height: auto; min-height: 100vh; }
-</style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Sign In — TFMS · TechNexus</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="css/tfms.css"/>
 </head>
 <body>
 <div class="login-wrap">
   <div class="login-card">
     <div class="login-brand">
-      <div class="big-leaf">🌿</div>
-      <h1>FVMA</h1>
-      <p>Field Visit Monitoring App</p>
+      <div class="login-logo">TF</div>
+      <h1>TFMS</h1>
+      <p>TechNexus Farmer Management System</p>
     </div>
-
     <label class="login-label">Username</label>
-    <input id="lu" class="login-input" type="text" placeholder="Enter username" autocomplete="username">
-
+    <input id="lu" class="login-input" type="text" placeholder="Enter username" autocomplete="username"/>
     <label class="login-label">Password</label>
-    <input id="lp" class="login-input" type="password" placeholder="Enter password" autocomplete="current-password">
-
-    <button class="login-btn" onclick="doLogin()">Sign In</button>
+    <input id="lp" class="login-input" type="password" placeholder="Enter password" autocomplete="current-password"/>
+    <button class="login-btn" onclick="doLogin()">Sign In →</button>
     <div id="lerr" class="login-err"></div>
-
     <div class="login-creds">
-      <div class="login-creds-title">Demo Accounts — tap to fill</div>
-
-      <div class="cred-row" onclick="fill('joao','pass123')">
-        <span>joao / pass123 — João Mussa</span>
-        <span class="cred-role role-tag role-supervisor">Supervisor</span>
-      </div>
-      <div class="cred-row" onclick="fill('maria','pass123')">
-        <span>maria / pass123 — Maria Nhantumbo</span>
-        <span class="cred-role role-tag role-technician">Technician</span>
-      </div>
-      <div class="cred-row" onclick="fill('carlos','pass123')">
-        <span>carlos / pass123 — Carlos Gondwe</span>
-        <span class="cred-role role-tag role-manager">Manager</span>
-      </div>
-      <div class="cred-row" onclick="fill('fatima','pass123')">
-        <span>fatima / pass123 — Fatima Nkosi</span>
-        <span class="cred-role role-tag role-technician">Technician</span>
-      </div>
-      <div class="cred-row" onclick="fill('peter','pass123')">
-        <span>peter / pass123 — Peter Kamwendo</span>
-        <span class="cred-role role-tag role-supervisor">Supervisor</span>
-      </div>
-      <div class="cred-row" onclick="fill('admin','admin123')">
-        <span>admin / admin123 — T. Itaye</span>
-        <span class="cred-role role-tag role-admin">Admin/Monitor</span>
-      </div>
+      <div class="login-creds-title">Demo Accounts — click to fill</div>
+      <div class="cred-row" onclick="fill('admin','tfms2026')"><span>admin / tfms2026 — T. Itaye</span><span class="role-tag role-admin">Administrator</span></div>
+      <div class="cred-row" onclick="fill('officer','field123')"><span>officer / field123 — M. Banda</span><span class="role-tag role-technician">Field Officer</span></div>
+      <div class="cred-row" onclick="fill('factory','clerk123')"><span>factory / clerk123 — K. Phiri</span><span class="role-tag role-clerk">Factory Clerk</span></div>
+      <div class="cred-row" onclick="fill('finance','fin2026')"><span>finance / fin2026 — R. João</span><span class="role-tag role-supervisor">Finance Officer</span></div>
+      <div class="cred-row" onclick="fill('joao','pass123')"><span>joao / pass123 — João Mussa</span><span class="role-tag role-supervisor">Supervisor</span></div>
+      <div class="cred-row" onclick="fill('maria','pass123')"><span>maria / pass123 — Maria Nhantumbo</span><span class="role-tag role-technician">Technician</span></div>
+      <div class="cred-row" onclick="fill('carlos','pass123')"><span>carlos / pass123 — Carlos Gondwe</span><span class="role-tag role-manager">Manager</span></div>
     </div>
-
-    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--text-4)">
-      FVMA v1.0 · TechNexus · Blantyre, Malawi<br>
-      <a href="https://github.com/tafika-itaye/TFMS" target="_blank" style="color:var(--green-text)">github.com/tafika-itaye/TFMS</a>
+    <div style="margin-top:20px;text-align:center;font-size:11px;color:var(--text-off)">
+      TFMS v2.0 · TechNexus · Blantyre, Malawi<br>
+      <a href="https://github.com/tafika-itaye/TFMS" target="_blank" style="color:var(--success)">github.com/tafika-itaye/TFMS</a>
     </div>
   </div>
 </div>
-
 <script src="js/data.js"></script>
 <script>
-function doLogin() {
-  const u = document.getElementById('lu').value.trim().toLowerCase();
-  const p = document.getElementById('lp').value;
-  const err = document.getElementById('lerr');
-  if (!u||!p){err.textContent='Both fields required.';return;}
-  const user = DEMO_USERS.find(x=>x.username===u && x.password===p);
-  if (!user){err.textContent='Incorrect username or password.';return;}
-  sessionStorage.setItem('fvma_user', JSON.stringify(user));
-  window.location.href = 'app.html';
+function doLogin(){
+  const u=document.getElementById('lu').value.trim().toLowerCase();
+  const p=document.getElementById('lp').value;
+  const err=document.getElementById('lerr');
+  if(!u||!p){err.textContent='Both fields required.';return;}
+  const user=DEMO_USERS.find(x=>x.username===u&&x.password===p);
+  if(!user){err.textContent='Incorrect username or password.';return;}
+  sessionStorage.setItem('tfms_user',JSON.stringify(user));
+  window.location.href='app.html';
 }
-function fill(u,p){ document.getElementById('lu').value=u; document.getElementById('lp').value=p; document.getElementById('lerr').textContent=''; }
-document.addEventListener('keydown', e => { if(e.key==='Enter') doLogin(); });
+function fill(u,p){document.getElementById('lu').value=u;document.getElementById('lp').value=p;document.getElementById('lerr').textContent='';}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 </script>
-</body>
-</html>
+</body></html>
