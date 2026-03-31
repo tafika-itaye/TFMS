@@ -1,0 +1,1065 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TFMS — TechNexus Farmer Management System</title>
+<link rel="stylesheet" href="css/tfms.css">
+</head>
+<body>
+
+<!-- ═══════════════ TITLE BAR ═══════════════ -->
+<div class="titlebar">
+  <div class="titlebar-logo">
+    <span class="leaf">🌿</span> TFMS
+  </div>
+  <div class="titlebar-path">
+    TechNexus Farmer Management System ·
+    <span>2026 Buying Season</span>
+  </div>
+  <div class="win-controls">
+    <div class="win-btn">─</div>
+    <div class="win-btn">□</div>
+    <div class="win-btn close" onclick="if(confirm('Sign out of TFMS?'))logout()">✕</div>
+  </div>
+</div>
+
+<!-- ═══════════════ MENU BAR ═══════════════ -->
+<div class="menubar">
+  <div class="menu-item" data-menu="file">
+    <span class="menu-label">File</span>
+    <div class="menu-dropdown">
+      <div class="menu-opt" onclick="exportCSV('farmers')">Export Farmers CSV <span class="shortcut">Ctrl+E</span></div>
+      <div class="menu-opt" onclick="exportCSV('visits')">Export Visits CSV</div>
+      <div class="menu-opt" onclick="exportCSV('inputs')">Export Inputs CSV</div>
+      <div class="menu-sep"></div>
+      <div class="menu-opt" onclick="openAbout()">About TFMS</div>
+      <div class="menu-sep"></div>
+      <div class="menu-opt" onclick="logout()">Sign Out <span class="shortcut">Ctrl+Q</span></div>
+    </div>
+  </div>
+  <div class="menu-item" data-menu="view">
+    <span class="menu-label">View</span>
+    <div class="menu-dropdown">
+      <div class="menu-opt" onclick="switchTab('dashboard')">Dashboard</div>
+      <div class="menu-opt" onclick="switchTab('registry')">Farmer Registry</div>
+      <div class="menu-opt" onclick="switchTab('fieldvisits')">Field Visits</div>
+      <div class="menu-opt" onclick="switchTab('inputs')">Inputs &amp; Credit</div>
+      <div class="menu-opt" onclick="switchTab('factory')">Factory &amp; Weighbridge</div>
+      <div class="menu-opt" onclick="switchTab('analytics')">Analytics</div>
+    </div>
+  </div>
+  <div class="menu-item" data-menu="farmers">
+    <span class="menu-label">Farmers</span>
+    <div class="menu-dropdown">
+      <div class="menu-opt" onclick="openModal('modalNewFarmer')">Register New Farmer</div>
+      <div class="menu-opt" onclick="openModal('modalNewVisit')">Log Field Visit</div>
+      <div class="menu-opt" onclick="openModal('modalNewDispatch')">Dispatch Inputs</div>
+    </div>
+  </div>
+  <div class="menu-item" data-menu="factory">
+    <span class="menu-label">Factory</span>
+    <div class="menu-dropdown">
+      <div class="menu-opt" onclick="openModal('modalNewWeight')">Record Weight Ticket</div>
+      <div class="menu-opt" onclick="switchTab('factory')">View Delivery Register</div>
+    </div>
+  </div>
+  <div class="menu-item" data-menu="reports">
+    <span class="menu-label">Reports</span>
+    <div class="menu-dropdown">
+      <div class="menu-opt" onclick="switchTab('analytics')">Season Analytics</div>
+      <div class="menu-opt" onclick="exportCSV('farmers')">Farmer Register Export</div>
+      <div class="menu-opt" onclick="exportCSV('visits')">Field Visits Export</div>
+      <div class="menu-opt" onclick="exportCSV('inputs')">Credit Ledger Export</div>
+    </div>
+  </div>
+  <div class="menu-item" data-menu="help">
+    <span class="menu-label">Help</span>
+    <div class="menu-dropdown">
+      <div class="menu-opt" onclick="openAbout()">About TFMS</div>
+      <div class="menu-sep"></div>
+      <div class="menu-opt" onclick="window.open('https://github.com/tafika-itaye/TFMS','_blank')">GitHub Repository</div>
+      <div class="menu-opt" onclick="window.open('mailto:technexus_mw@proton.me','_blank')">Contact Support</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════ TOOLBAR ═══════════════ -->
+<div class="toolbar">
+  <button class="toolbar-btn primary" onclick="openModal('modalNewFarmer')">
+    <span class="tb-icon">👤</span> Register Farmer
+  </button>
+  <button class="toolbar-btn primary" onclick="openModal('modalNewVisit')">
+    <span class="tb-icon">📍</span> New Visit
+  </button>
+  <button class="toolbar-btn" onclick="openModal('modalNewDispatch')">
+    <span class="tb-icon">🌱</span> Dispatch
+  </button>
+  <button class="toolbar-btn" onclick="openModal('modalNewWeight')">
+    <span class="tb-icon">⚖</span> Weigh Ticket
+  </button>
+  <div class="toolbar-sep"></div>
+  <button class="toolbar-btn" onclick="exportCSV('farmers')">
+    <span class="tb-icon">↓</span> Export
+  </button>
+  <button class="toolbar-btn" onclick="switchTab('analytics')">
+    <span class="tb-icon">📊</span> Analytics
+  </button>
+  <div class="toolbar-sep"></div>
+  <button class="toolbar-btn" onclick="openAbout()">
+    <span class="tb-icon">ℹ</span> About
+  </button>
+  <button class="toolbar-btn" onclick="logout()" style="margin-left:auto">
+    <span class="tb-icon">⏏</span> Sign Out
+  </button>
+</div>
+
+<!-- ═══════════════ WORKSPACE ═══════════════ -->
+<div class="workspace">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar">
+    <div class="sidebar-brand">
+      <div class="brand-logo"><span class="b-leaf">🌿</span> TFMS</div>
+      <div class="brand-tagline">TechNexus · Blantyre</div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Main</div>
+      <div class="nav-item active" data-tab="dashboard">
+        <span class="nav-icon">⊞</span>
+        <span>Dashboard</span>
+      </div>
+      <div class="nav-item" data-tab="registry">
+        <span class="nav-icon">👥</span>
+        <span>Farmer Registry</span>
+        <span class="nav-badge" id="badgeFarmers">30</span>
+      </div>
+      <div class="nav-item" data-tab="fieldvisits">
+        <span class="nav-icon">📍</span>
+        <span>Field Visits</span>
+        <span class="nav-badge gold" id="badgeVisits">14</span>
+      </div>
+      <div class="nav-item" data-tab="inputs">
+        <span class="nav-icon">🌱</span>
+        <span>Inputs &amp; Credit</span>
+      </div>
+      <div class="nav-item" data-tab="factory">
+        <span class="nav-icon">⚖</span>
+        <span>Factory</span>
+      </div>
+      <div class="nav-item" data-tab="analytics">
+        <span class="nav-icon">📊</span>
+        <span>Analytics</span>
+      </div>
+    </div>
+
+    <div class="nav-group">
+      <div class="nav-group-label">Quick Add</div>
+      <div class="nav-item" onclick="openModal('modalNewFarmer')">
+        <span class="nav-icon">＋</span>
+        <span>New Farmer</span>
+      </div>
+      <div class="nav-item" onclick="openModal('modalNewVisit')">
+        <span class="nav-icon">＋</span>
+        <span>New Visit</span>
+      </div>
+      <div class="nav-item" onclick="openModal('modalNewDispatch')">
+        <span class="nav-icon">＋</span>
+        <span>Dispatch</span>
+      </div>
+    </div>
+
+    <div class="sidebar-footer">
+      <div class="user-chip">
+        <div class="user-avatar" id="userInitials">TI</div>
+        <div class="user-meta">
+          <div class="user-name-txt" id="userNameBadge">T. Itaye</div>
+          <div class="user-role-txt" id="userRoleBadge">Administrator</div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN AREA -->
+  <div class="main-area">
+
+    <!-- TOPBAR -->
+    <div class="topbar">
+      <div class="topbar-title-wrap">
+        <h1 id="topbarTitle">Operational Dashboard</h1>
+        <p id="topbarSub">2026 Buying Season · Malawi &amp; Mozambique Operations</p>
+      </div>
+      <div class="topbar-actions">
+        <span style="font-family:var(--mono);font-size:11px;color:var(--text-3)">
+          <span style="color:var(--ok)">●</span> Season 2026
+        </span>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content">
+
+      <!-- ══════════════ DASHBOARD ══════════════ -->
+      <div class="tab-view active" id="tab-dashboard">
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Farmers Registered</div>
+            <div class="kpi-value" id="kpi-farmers">—</div>
+            <div class="kpi-sub" id="kpi-farmers-sub">loading…</div>
+          </div>
+          <div class="kpi-card gold">
+            <div class="kpi-label">Field Visits Today</div>
+            <div class="kpi-value" id="kpi-visits">—</div>
+            <div class="kpi-sub" id="kpi-visits-sub">loading…</div>
+          </div>
+          <div class="kpi-card ok">
+            <div class="kpi-label">Inputs Issued</div>
+            <div class="kpi-value" id="kpi-inputs">—</div>
+            <div class="kpi-sub" id="kpi-inputs-sub">loading…</div>
+          </div>
+          <div class="kpi-card warn">
+            <div class="kpi-label">Factory Intake</div>
+            <div class="kpi-value" id="kpi-factory">—</div>
+            <div class="kpi-sub" id="kpi-factory-sub">loading…</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-title">Monthly Intake — 2026 Season <span class="pt-sub">Tonnes</span></div>
+            <div class="chart-wrap" id="dashChartBar">
+              <div class="chart-bar" style="height:20%"></div>
+              <div class="chart-bar" style="height:35%"></div>
+              <div class="chart-bar" style="height:55%"></div>
+              <div class="chart-bar" style="height:78%"></div>
+              <div class="chart-bar" style="height:90%"></div>
+              <div class="chart-bar" style="height:100%"></div>
+              <div class="chart-bar highlight" style="height:21%"></div>
+            </div>
+            <div class="chart-labels">
+              <span>Sep</span><span>Oct</span><span>Nov</span>
+              <span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Today's Action Queue <span class="pt-sub"><span class="live-dot"></span>Live</span></div>
+            <div class="feed-item"><div class="feed-time">08:30</div><div class="feed-bar"></div><div class="feed-text">Kasungu team uploaded <strong>27</strong> farmer inspections.</div></div>
+            <div class="feed-item"><div class="feed-time">10:15</div><div class="feed-bar danger"></div><div class="feed-text">Bale discrepancy flagged at <strong>Gate 2</strong>.</div></div>
+            <div class="feed-item"><div class="feed-time">11:10</div><div class="feed-bar"></div><div class="feed-text">Inputs dispatch approved for <strong>Mchinji</strong> cluster.</div></div>
+            <div class="feed-item"><div class="feed-time">12:05</div><div class="feed-bar gold"></div><div class="feed-text"><strong>14</strong> biometric cards printed for new growers.</div></div>
+            <div class="feed-item"><div class="feed-time">13:47</div><div class="feed-bar"></div><div class="feed-text">Factory shift A: <strong>38.6T</strong> intake recorded.</div></div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-title">TFMS Modules <span class="pt-sub" style="color:var(--gold)">Modular pricing</span></div>
+            <div class="module-grid">
+              <div class="module-card" onclick="switchTab('registry')">
+                <div class="module-icon">👥</div>
+                <div class="module-name">Registry</div>
+                <div class="module-desc">Farmer profiles, biometrics, GPS, ID card.</div>
+                <div class="module-price">From $4,500</div>
+              </div>
+              <div class="module-card" onclick="switchTab('fieldvisits')">
+                <div class="module-icon">📍</div>
+                <div class="module-name">Field</div>
+                <div class="module-desc">GPS visits, GAP scoring, offline sync.</div>
+                <div class="module-price">From $7,500</div>
+              </div>
+              <div class="module-card" onclick="switchTab('inputs')">
+                <div class="module-icon">🌱</div>
+                <div class="module-name">Inputs &amp; Credit</div>
+                <div class="module-desc">Dispatch, credit ledger, deductions.</div>
+                <div class="module-price">From $5,500</div>
+              </div>
+              <div class="module-card" onclick="switchTab('factory')">
+                <div class="module-icon">⚖</div>
+                <div class="module-name">Factory</div>
+                <div class="module-desc">Weighbridge, grading, bale traceability.</div>
+                <div class="module-price">From $12,000</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="panel-title">Officer Field Progress Today</div>
+            <div id="officerProgress">
+              <div class="prog-item"><div class="prog-hdr"><span>Loading…</span></div></div>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /dashboard -->
+
+      <!-- ══════════════ REGISTRY ══════════════ -->
+      <div class="tab-view" id="tab-registry">
+
+        <div class="stat-row">
+          <div class="stat-chip">
+            <div class="stat-chip-label">Total Farmers</div>
+            <div class="stat-chip-val" id="regTotal">—</div>
+          </div>
+          <div class="stat-chip">
+            <div class="stat-chip-label">Active</div>
+            <div class="stat-chip-val ok" id="regActive">—</div>
+          </div>
+          <div class="stat-chip">
+            <div class="stat-chip-label">Pending Verification</div>
+            <div class="stat-chip-val warn" id="regPending">—</div>
+          </div>
+          <div class="stat-chip">
+            <div class="stat-chip-label">Suspended</div>
+            <div class="stat-chip-val danger" id="regSuspended">—</div>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <input id="rfSearch" type="text" placeholder="🔍  Search by name, ID or village…">
+          <select id="rfDistrict">
+            <option value="">All Districts</option>
+            <option>Kasungu</option><option>Mchinji</option><option>Dowa</option>
+            <option>Lilongwe</option><option>Nampula (MZ)</option><option>Tete (MZ)</option>
+          </select>
+          <select id="rfStatus">
+            <option value="">All Statuses</option>
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="suspended">Suspended</option>
+          </select>
+          <select id="rfSeason">
+            <option value="">All Seasons</option>
+            <option>2026</option><option>2025</option><option>2024</option>
+          </select>
+          <button class="btn btn-primary btn-sm ml-auto" onclick="openModal('modalNewFarmer')">＋ Register Farmer</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportCSV('farmers')">↓ Export CSV</button>
+        </div>
+
+        <div class="table-panel">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Farmer ID</th><th>Name</th><th>District</th><th>Village</th>
+                <th>Ha</th><th>Crops</th><th>Biometric</th><th>Status</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="farmerTableBody">
+              <tr><td colspan="9" class="muted" style="text-align:center;padding:24px">Loading…</td></tr>
+            </tbody>
+          </table>
+          <div class="pager" id="farmerPager"></div>
+        </div>
+
+      </div><!-- /registry -->
+
+      <!-- ══════════════ FIELD VISITS ══════════════ -->
+      <div class="tab-view" id="tab-fieldvisits">
+
+        <div class="stat-row">
+          <div class="stat-chip"><div class="stat-chip-label">Today's Visits</div><div class="stat-chip-val gold" id="fvTotalToday">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Completed</div><div class="stat-chip-val ok" id="fvCompleted">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Pending Sync</div><div class="stat-chip-val warn" id="fvPending">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Flagged Issues</div><div class="stat-chip-val danger" id="fvFlagged">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Total Season</div><div class="stat-chip-val" id="fvSeasonTotal">—</div></div>
+        </div>
+
+        <div class="two-col" style="margin-bottom:14px">
+          <div class="panel">
+            <div class="panel-title">Visits by Cluster Today</div>
+            <div class="bar-h-row"><label>Kasungu West</label><div class="bar-h-track"><div class="bar-h-fill" style="width:87%"></div></div><span class="mono">14</span></div>
+            <div class="bar-h-row"><label>Mchinji South</label><div class="bar-h-track"><div class="bar-h-fill" style="width:92%"></div></div><span class="mono">11</span></div>
+            <div class="bar-h-row"><label>Dowa Cluster</label><div class="bar-h-track"><div class="bar-h-fill amber" style="width:58%"></div></div><span class="mono">7</span></div>
+            <div class="bar-h-row"><label>Tete Border Zone</label><div class="bar-h-track"><div class="bar-h-fill" style="width:100%"></div></div><span class="mono">9</span></div>
+            <div class="bar-h-row"><label>Lilongwe Central</label><div class="bar-h-track"><div class="bar-h-fill red" style="width:50%"></div></div><span class="mono">5</span></div>
+            <div class="bar-h-row"><label>Nampula Zone</label><div class="bar-h-track"><div class="bar-h-fill" style="width:100%"></div></div><span class="mono">8</span></div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Officer Field Status</div>
+            <div id="officerProgressFV">
+              <div class="prog-item"><div class="prog-hdr"><span>Loading…</span></div></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="filter-row">
+          <input id="vfSearch" type="text" placeholder="🔍  Search by farmer ID or officer…">
+          <select id="vfCluster">
+            <option value="">All Clusters</option>
+            <option>Kasungu West</option><option>Kasungu North</option><option>Mchinji South</option>
+            <option>Dowa Cluster</option><option>Tete Border Zone</option><option>Nampula Zone</option><option>Lilongwe Central</option>
+          </select>
+          <select id="vfStatus">
+            <option value="">All Statuses</option>
+            <option value="completed">Completed</option>
+            <option value="pending">Pending sync</option>
+            <option value="flagged">Flagged</option>
+          </select>
+          <input id="vfDate" type="date">
+          <button class="btn btn-primary btn-sm ml-auto" onclick="openModal('modalNewVisit')">＋ New Visit</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportCSV('visits')">↓ Export</button>
+        </div>
+
+        <div class="table-panel">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Visit ID</th><th>Farmer</th><th>Officer</th><th>Cluster</th>
+                <th>Crop Stage</th><th>GAP Score</th><th>Date / Time</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="visitTableBody">
+              <tr><td colspan="8" class="muted" style="text-align:center;padding:24px">Loading…</td></tr>
+            </tbody>
+          </table>
+          <div class="pager" id="visitPager"></div>
+        </div>
+
+      </div><!-- /fieldvisits -->
+
+      <!-- ══════════════ INPUTS & CREDIT ══════════════ -->
+      <div class="tab-view" id="tab-inputs">
+
+        <div class="stat-row">
+          <div class="stat-chip"><div class="stat-chip-label">Total Issued</div><div class="stat-chip-val gold" id="inputTotalMK">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Delivered</div><div class="stat-chip-val ok" id="inputDelivMK">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Pending Dispatch</div><div class="stat-chip-val warn" id="inputPendingCt">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Farmers Covered</div><div class="stat-chip-val" id="inputFarmerCt">—</div></div>
+        </div>
+
+        <div class="filter-row">
+          <input id="ifSearch" type="text" placeholder="🔍  Search by farmer ID or name…">
+          <select id="ifStatus">
+            <option value="">All Statuses</option>
+            <option value="delivered">Delivered</option>
+            <option value="pending">Pending</option>
+          </select>
+          <button class="btn btn-primary btn-sm ml-auto" onclick="openModal('modalNewDispatch')">＋ Dispatch Inputs</button>
+          <button class="btn btn-ghost btn-sm" onclick="exportCSV('inputs')">↓ Export Ledger</button>
+        </div>
+
+        <div class="table-panel">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Dispatch ID</th><th>Farmer</th><th>Cluster</th><th>Date</th>
+                <th>Inputs</th><th>Total MK</th><th>Recovery Method</th><th>Status</th><th></th>
+              </tr>
+            </thead>
+            <tbody id="inputTableBody">
+              <tr><td colspan="9" class="muted" style="text-align:center;padding:24px">Loading…</td></tr>
+            </tbody>
+          </table>
+          <div class="pager" id="inputPager"></div>
+        </div>
+
+      </div><!-- /inputs -->
+
+      <!-- ══════════════ FACTORY ══════════════ -->
+      <div class="tab-view" id="tab-factory">
+
+        <div class="stat-row">
+          <div class="stat-chip"><div class="stat-chip-label">Today's Net Intake</div><div class="stat-chip-val gold" id="factTodayNet">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Bales Today</div><div class="stat-chip-val" id="factTodayBales">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Total Tickets</div><div class="stat-chip-val" id="factTickets">—</div></div>
+          <div class="stat-chip"><div class="stat-chip-label">Discrepancies</div><div class="stat-chip-val danger" id="factDiscrep">—</div></div>
+        </div>
+
+        <div class="two-col" style="margin-bottom:14px">
+          <div class="panel">
+            <div class="panel-title">Grade Distribution Today</div>
+            <div id="gradeDistrib">
+              <div class="bar-h-row"><label>Grade A</label><div class="bar-h-track"><div class="bar-h-fill" style="width:67%"></div></div><span class="mono">67%</span></div>
+              <div class="bar-h-row"><label>Grade B1</label><div class="bar-h-track"><div class="bar-h-fill amber" style="width:22%"></div></div><span class="mono">22%</span></div>
+              <div class="bar-h-row"><label>Grade B2</label><div class="bar-h-track"><div class="bar-h-fill amber" style="width:9%"></div></div><span class="mono">9%</span></div>
+              <div class="bar-h-row"><label>Rejected</label><div class="bar-h-track"><div class="bar-h-fill red" style="width:2%"></div></div><span class="mono">2%</span></div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Gate Log <span class="pt-sub"><span class="live-dot"></span>Shift A Active</span></div>
+            <div class="feed-item"><div class="feed-time">06:00</div><div class="feed-bar"></div><div class="feed-text">Shift A opened. <strong>Gate 1</strong> &amp; <strong>Gate 3</strong> active.</div></div>
+            <div class="feed-item"><div class="feed-time">08:30</div><div class="feed-bar"></div><div class="feed-text">Truck TRK-4421 unloaded: <strong>4.2T</strong> Kasungu delivery.</div></div>
+            <div class="feed-item"><div class="feed-time">10:15</div><div class="feed-bar danger"></div><div class="feed-text">Discrepancy: <strong>BA-004</strong> weight mismatch vs delivery note.</div></div>
+            <div class="feed-item"><div class="feed-time">12:00</div><div class="feed-bar"></div><div class="feed-text">Truck TRK-4428 unloaded: <strong>6.8T</strong> Mchinji delivery.</div></div>
+            <div class="feed-item"><div class="feed-time">13:47</div><div class="feed-bar"></div><div class="feed-text">Cumulative intake: <strong>38.6T</strong>. Shift A continues.</div></div>
+          </div>
+        </div>
+
+        <div style="display:flex;gap:8px;margin-bottom:14px;align-items:center">
+          <span class="muted small mono">Delivery Register</span>
+          <button class="btn btn-primary btn-sm ml-auto" onclick="openModal('modalNewWeight')">＋ Record Weight Ticket</button>
+        </div>
+
+        <div class="table-panel">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>Ticket</th><th>Truck</th><th>Origin</th>
+                <th>Gross (kg)</th><th>Tare (kg)</th><th>Net (kg)</th>
+                <th>Bales</th><th>Gate</th><th>Date / Time</th><th>Status</th>
+              </tr>
+            </thead>
+            <tbody id="factoryTableBody">
+              <tr><td colspan="10" class="muted" style="text-align:center;padding:24px">Loading…</td></tr>
+            </tbody>
+          </table>
+          <div class="pager" id="factoryPager"></div>
+        </div>
+
+      </div><!-- /factory -->
+
+      <!-- ══════════════ ANALYTICS ══════════════ -->
+      <div class="tab-view" id="tab-analytics">
+
+        <div class="kpi-grid">
+          <div class="kpi-card">
+            <div class="kpi-label">Total Production</div>
+            <div class="kpi-value" id="anlProd">—</div>
+            <div class="kpi-sub pos">Season cumulative</div>
+          </div>
+          <div class="kpi-card gold">
+            <div class="kpi-label">Avg GAP Score</div>
+            <div class="kpi-value" id="anlGap">—</div>
+            <div class="kpi-sub pos">Enrolled farmers</div>
+          </div>
+          <div class="kpi-card ok">
+            <div class="kpi-label">Inputs Credit Issued</div>
+            <div class="kpi-value" id="anlCredit">—</div>
+            <div class="kpi-sub">Season 2026</div>
+          </div>
+          <div class="kpi-card">
+            <div class="kpi-label">Active Farmers</div>
+            <div class="kpi-value" id="anlFarmers">—</div>
+            <div class="kpi-sub">Enrolled &amp; active</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-title">Production by District <span class="pt-sub">2026 Season (T)</span></div>
+            <div id="anlDistrictBars">loading…</div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Monthly Intake 2026 <span class="pt-sub">Tonnes</span></div>
+            <div class="chart-wrap" id="anlMonthlyChart">
+              <div class="chart-bar" style="height:20%"></div>
+              <div class="chart-bar" style="height:35%"></div>
+              <div class="chart-bar" style="height:55%"></div>
+              <div class="chart-bar" style="height:78%"></div>
+              <div class="chart-bar" style="height:90%"></div>
+              <div class="chart-bar" style="height:100%"></div>
+              <div class="chart-bar highlight" style="height:21%"></div>
+            </div>
+            <div class="chart-labels">
+              <span>Sep</span><span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div class="panel">
+            <div class="panel-title">GAP Score Distribution <span class="pt-sub">All enrolled farmers</span></div>
+            <div id="anlGapBars">loading…</div>
+          </div>
+          <div class="panel">
+            <div class="panel-title">Crop Breakdown <span class="pt-sub">Registered farmers by primary crop</span></div>
+            <div class="bar-h-row"><label>Tobacco</label><div class="bar-h-track"><div class="bar-h-fill" style="width:100%"></div></div><span class="mono">8,840</span></div>
+            <div class="bar-h-row"><label>Maize</label><div class="bar-h-track"><div class="bar-h-fill" style="width:41%"></div></div><span class="mono">3,620</span></div>
+            <div class="bar-h-row"><label>Cotton</label><div class="bar-h-track"><div class="bar-h-fill amber" style="width:24%"></div></div><span class="mono">2,120</span></div>
+            <div class="bar-h-row"><label>Soya</label><div class="bar-h-track"><div class="bar-h-fill amber" style="width:18%"></div></div><span class="mono">1,590</span></div>
+            <div class="bar-h-row"><label>Tea</label><div class="bar-h-track"><div class="bar-h-fill" style="width:5%"></div></div><span class="mono">440</span></div>
+            <div class="bar-h-row"><label>Coffee</label><div class="bar-h-track"><div class="bar-h-fill" style="width:3%"></div></div><span class="mono">280</span></div>
+            <div class="bar-h-row"><label>Sugar Cane</label><div class="bar-h-track"><div class="bar-h-fill" style="width:2%"></div></div><span class="mono">190</span></div>
+          </div>
+        </div>
+
+      </div><!-- /analytics -->
+
+    </div><!-- /content -->
+  </div><!-- /main-area -->
+</div><!-- /workspace -->
+
+<!-- ═══════════════ STATUS BAR ═══════════════ -->
+<div class="statusbar">
+  <div class="sb-item"><div class="sb-dot"></div> <span id="statusUser">Online</span></div>
+  <div class="sb-item"><span class="sb-label">Season:</span> 2026 · Malawi &amp; Mozambique</div>
+  <div class="sb-item"><span class="sb-label">Stack:</span> ASP.NET Core 8 · Blazor · PostgreSQL 16</div>
+  <div class="sb-item statusbar-right"><span id="statusClock">—</span></div>
+</div>
+
+
+<!-- ══════════════════════════════════
+     MODALS
+══════════════════════════════════ -->
+
+<!-- New Farmer -->
+<div class="modal-overlay" id="modalNewFarmer">
+  <div class="modal">
+    <div class="modal-titlebar">
+      <span class="modal-title">👤 Register New Farmer</span>
+      <button class="modal-close" onclick="closeModal('modalNewFarmer')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="formNewFarmer">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Full Name *</label>
+          <input id="nfName" class="form-input" placeholder="e.g. Aleke James Phiri" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">District *</label>
+          <select id="nfDistrict" class="form-input">
+            <option>Kasungu</option><option>Mchinji</option><option>Dowa</option>
+            <option>Lilongwe</option><option>Nampula (MZ)</option><option>Tete (MZ)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Village *</label>
+          <input id="nfVillage" class="form-input" placeholder="e.g. Chulu" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cluster</label>
+          <select id="nfCluster" class="form-input">
+            <option>Kasungu West</option><option>Kasungu North</option>
+            <option>Mchinji South</option><option>Dowa Cluster</option>
+            <option>Lilongwe Central</option><option>Tete Border Zone</option><option>Nampula Zone</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Hectares</label>
+          <input id="nfHa" class="form-input" type="number" step="0.1" min="0.1" placeholder="e.g. 2.4">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gender</label>
+          <select id="nfGender" class="form-input">
+            <option value="M">Male</option><option value="F">Female</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Phone</label>
+          <input id="nfPhone" class="form-input" placeholder="+265 999 xxx xxx">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Primary Crop</label>
+          <select id="nfCrops" class="form-input">
+            <option>Tobacco</option><option>Maize</option><option>Cotton</option>
+            <option>Soya</option><option>Tea</option><option>Coffee</option><option>Sugar Cane</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" onclick="submitNewFarmer()">✔ Register Farmer</button>
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modalNewFarmer')">Cancel</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Edit Farmer -->
+<div class="modal-overlay" id="modalEditFarmer">
+  <div class="modal modal-sm">
+    <div class="modal-titlebar">
+      <span class="modal-title">✎ Edit Farmer</span>
+      <button class="modal-close" onclick="closeModal('modalEditFarmer')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input id="efId" type="hidden">
+      <div class="form-grid">
+        <div class="form-group full"><label class="form-label">Full Name</label><input id="efName" class="form-input"></div>
+        <div class="form-group">
+          <label class="form-label">District</label>
+          <select id="efDistrict" class="form-input">
+            <option>Kasungu</option><option>Mchinji</option><option>Dowa</option>
+            <option>Lilongwe</option><option>Nampula (MZ)</option><option>Tete (MZ)</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Village</label><input id="efVillage" class="form-input"></div>
+        <div class="form-group">
+          <label class="form-label">Cluster</label>
+          <select id="efCluster" class="form-input">
+            <option>Kasungu West</option><option>Kasungu North</option>
+            <option>Mchinji South</option><option>Dowa Cluster</option>
+            <option>Lilongwe Central</option><option>Tete Border Zone</option><option>Nampula Zone</option>
+          </select>
+        </div>
+        <div class="form-group"><label class="form-label">Hectares</label><input id="efHa" class="form-input" type="number" step="0.1"></div>
+        <div class="form-group"><label class="form-label">Phone</label><input id="efPhone" class="form-input"></div>
+        <div class="form-group">
+          <label class="form-label">Status</label>
+          <select id="efStatus" class="form-input">
+            <option value="active">Active</option>
+            <option value="pending">Pending</option>
+            <option value="suspended">Suspended</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" onclick="saveEditFarmer()">✔ Save Changes</button>
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modalEditFarmer')">Cancel</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Farmer Detail -->
+<div class="modal-overlay" id="modalFarmerDetail">
+  <div class="modal modal-lg">
+    <div class="modal-titlebar">
+      <span class="modal-title">👤 Farmer Profile — <span id="fdId"></span></span>
+      <button class="modal-close" onclick="closeModal('modalFarmerDetail')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div style="font-family:var(--font-ui);font-size:18px;font-weight:800;color:var(--text);margin-bottom:14px" id="fdName"></div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">District / Village</div><div class="fd-field-val" id="fdDistrict"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Cluster</div><div class="fd-field-val" id="fdCluster"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Hectares</div><div class="fd-field-val mono" id="fdHa"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Crops</div><div class="fd-field-val" id="fdCrops"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Gender</div><div class="fd-field-val" id="fdGender"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Phone</div><div class="fd-field-val mono" id="fdPhone"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Biometric</div><div class="fd-field-val" id="fdBiometric"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Status</div><div class="fd-field-val" id="fdStatus"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Latest GAP Score</div><div class="fd-field-val" id="fdGap"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Credit Balance / Limit</div><div class="fd-field-val" id="fdCredit"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Total Visits</div><div class="fd-field-val mono" id="fdVisitCount"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Last Visit</div><div class="fd-field-val mono" id="fdLastVisit"></div></div>
+      </div>
+      <div class="fd-section-title">Recent Field Visits</div>
+      <div id="fdVisitHistory"></div>
+      <div style="margin-top:16px;display:flex;gap:8px">
+        <button class="btn btn-primary btn-sm" onclick="closeModal('modalFarmerDetail');openModal('modalEditFarmer')">✎ Edit Farmer</button>
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('modalFarmerDetail')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- New Visit -->
+<div class="modal-overlay" id="modalNewVisit">
+  <div class="modal">
+    <div class="modal-titlebar">
+      <span class="modal-title">📍 Log Field Visit</span>
+      <button class="modal-close" onclick="closeModal('modalNewVisit')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="formNewVisit">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Farmer ID *</label>
+          <input id="nvFarmerId" class="form-input" placeholder="TF-XXXXX" style="text-transform:uppercase">
+          <span class="form-hint">Must match an existing farmer record.</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Cluster</label>
+          <select id="nvCluster" class="form-input">
+            <option>Kasungu West</option><option>Kasungu North</option>
+            <option>Mchinji South</option><option>Dowa Cluster</option>
+            <option>Lilongwe Central</option><option>Tete Border Zone</option><option>Nampula Zone</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Crop Stage</label>
+          <select id="nvStage" class="form-input">
+            <option>Seedbed</option><option>Transplanted</option><option>Topping</option>
+            <option>Flowering</option><option>Ripening</option><option>Harvesting</option><option>Curing</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">GAP Score (0–100)</label>
+          <input id="nvGap" class="form-input" type="number" min="0" max="100" placeholder="e.g. 88">
+        </div>
+        <div class="form-group">
+          <label class="form-label">GPS Latitude</label>
+          <input id="nvLat" class="form-input" type="number" step="0.0001" placeholder="-13.0000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">GPS Longitude</label>
+          <input id="nvLng" class="form-input" type="number" step="0.0001" placeholder="33.7000">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Observations / Issues</label>
+          <textarea id="nvNotes" class="form-input" rows="3" placeholder="Note any pest pressure, soil issues, crop deviations…"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" onclick="submitNewVisit()">✔ Save Visit</button>
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modalNewVisit')">Cancel</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Visit Detail -->
+<div class="modal-overlay" id="modalVisitDetail">
+  <div class="modal modal-sm">
+    <div class="modal-titlebar">
+      <span class="modal-title">📍 Field Visit — <span id="vdId"></span></span>
+      <button class="modal-close" onclick="closeModal('modalVisitDetail')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Farmer</div><div class="fd-field-val" id="vdFarmer"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Officer</div><div class="fd-field-val" id="vdOfficer"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Cluster</div><div class="fd-field-val" id="vdCluster"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Crop Stage</div><div class="fd-field-val" id="vdStage"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Date / Time</div><div class="fd-field-val mono" id="vdDate"></div></div>
+        <div class="fd-field"><div class="fd-field-label">GPS</div><div class="fd-field-val mono" id="vdGps"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">GAP Score</div><div class="fd-field-val" id="vdGap"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Status</div><div class="fd-field-val" id="vdStatus"></div></div>
+      </div>
+      <div class="fd-section-title">Field Notes</div>
+      <div id="vdNotes" class="small" style="color:var(--text-2);line-height:1.6"></div>
+      <div style="margin-top:16px">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('modalVisitDetail')">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Dispatch Inputs -->
+<div class="modal-overlay" id="modalNewDispatch">
+  <div class="modal">
+    <div class="modal-titlebar">
+      <span class="modal-title">🌱 Dispatch Inputs</span>
+      <button class="modal-close" onclick="closeModal('modalNewDispatch')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="formNewDispatch">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Farmer ID *</label>
+          <input id="disFarmerId" class="form-input" placeholder="TF-XXXXX" style="text-transform:uppercase">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Dispatch Date</label>
+          <input id="disDate" class="form-input" type="date">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Compound D Fertiliser (Bags)</label>
+          <input id="disCompD" class="form-input" type="number" min="0" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">CAN Fertiliser (Bags)</label>
+          <input id="disCan" class="form-input" type="number" min="0" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Seed (kg)</label>
+          <input id="disSeed" class="form-input" type="number" step="0.5" min="0" placeholder="0.0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Pesticide (Litres)</label>
+          <input id="disPest" class="form-input" type="number" min="0" placeholder="0">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Calculated Total (MK)</label>
+          <input id="disTotal" class="form-input" readonly placeholder="Auto-calculated">
+        </div>
+        <div class="form-group" style="align-items:center;justify-content:flex-end">
+          <div class="stat-chip-label">Total Value</div>
+          <div id="disTotalCalc" style="font-family:var(--mono);font-size:20px;color:var(--gold);font-weight:700">—</div>
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Recovery Method</label>
+          <select id="disMethod" class="form-input">
+            <option>Deduct from crop proceeds</option>
+            <option>Cash payment</option>
+            <option>Bank transfer</option>
+          </select>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" onclick="submitDispatch()">✔ Approve Dispatch</button>
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modalNewDispatch')">Cancel</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Input Detail -->
+<div class="modal-overlay" id="modalInputDetail">
+  <div class="modal modal-sm">
+    <div class="modal-titlebar">
+      <span class="modal-title">🌱 Input Dispatch — <span id="idId"></span></span>
+      <button class="modal-close" onclick="closeModal('modalInputDetail')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Farmer</div><div class="fd-field-val" id="idFarmer"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Cluster</div><div class="fd-field-val" id="idCluster"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Date</div><div class="fd-field-val mono" id="idDate"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Status</div><div class="fd-field-val" id="idStatus"></div></div>
+      </div>
+      <div class="fd-section-title">Inputs Breakdown</div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Compound D</div><div class="fd-field-val mono" id="idCompD"></div></div>
+        <div class="fd-field"><div class="fd-field-label">CAN Fertiliser</div><div class="fd-field-val mono" id="idCan"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Seed</div><div class="fd-field-val mono" id="idSeed"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Pesticide</div><div class="fd-field-val mono" id="idPest"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Total Value</div><div class="fd-field-val mono" style="color:var(--gold);font-size:16px" id="idTotal"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Recovery Method</div><div class="fd-field-val" id="idMethod"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field full"><div class="fd-field-label">Authorised By</div><div class="fd-field-val" id="idAuth"></div></div>
+      </div>
+      <div style="margin-top:14px"><button class="btn btn-ghost btn-sm" onclick="closeModal('modalInputDetail')">Close</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- New Weight Ticket -->
+<div class="modal-overlay" id="modalNewWeight">
+  <div class="modal">
+    <div class="modal-titlebar">
+      <span class="modal-title">⚖ Record Weight Ticket</span>
+      <button class="modal-close" onclick="closeModal('modalNewWeight')">✕</button>
+    </div>
+    <div class="modal-body">
+      <form id="formNewWeight">
+      <div class="form-grid">
+        <div class="form-group">
+          <label class="form-label">Truck / Vehicle *</label>
+          <input id="wtTruck" class="form-input" placeholder="TRK-XXXX" style="text-transform:uppercase">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Origin Cluster</label>
+          <select id="wtOrigin" class="form-input">
+            <option>Kasungu West</option><option>Kasungu North</option>
+            <option>Mchinji South</option><option>Dowa Cluster</option>
+            <option>Lilongwe Central</option><option>Tete Border Zone</option><option>Nampula Zone</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gate</label>
+          <select id="wtGate" class="form-input">
+            <option>Gate 1</option><option>Gate 2</option><option>Gate 3</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Number of Bales</label>
+          <input id="wtBales" class="form-input" type="number" min="0" placeholder="e.g. 48">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Gross Weight (kg) *</label>
+          <input id="wtGross" class="form-input" type="number" placeholder="e.g. 10,400">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Tare Weight (kg) *</label>
+          <input id="wtTare" class="form-input" type="number" placeholder="e.g. 4,220">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Notes / Flags</label>
+          <textarea id="wtNotes" class="form-input" rows="2" placeholder="Any discrepancies or observations…"></textarea>
+        </div>
+        <div class="form-actions">
+          <button type="button" class="btn btn-primary" onclick="submitWeightTicket()">✔ Record Weight</button>
+          <button type="button" class="btn btn-ghost" onclick="closeModal('modalNewWeight')">Cancel</button>
+        </div>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Weight Detail -->
+<div class="modal-overlay" id="modalWeightDetail">
+  <div class="modal modal-sm">
+    <div class="modal-titlebar">
+      <span class="modal-title">⚖ Weight Ticket — <span id="wdId"></span></span>
+      <button class="modal-close" onclick="closeModal('modalWeightDetail')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Truck</div><div class="fd-field-val mono" id="wdTruck"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Origin</div><div class="fd-field-val" id="wdOrigin"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Gross (kg)</div><div class="fd-field-val mono" id="wdGross"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Tare (kg)</div><div class="fd-field-val mono" id="wdTare"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Net Weight</div><div class="fd-field-val mono" style="color:var(--gold);font-size:16px" id="wdNet"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Bales</div><div class="fd-field-val mono" id="wdBales"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Gate</div><div class="fd-field-val" id="wdGate"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Operator</div><div class="fd-field-val" id="wdOp"></div></div>
+      </div>
+      <div class="fd-row">
+        <div class="fd-field"><div class="fd-field-label">Date / Time</div><div class="fd-field-val mono" id="wdDate"></div></div>
+        <div class="fd-field"><div class="fd-field-label">Status</div><div class="fd-field-val" id="wdStatus"></div></div>
+      </div>
+      <div class="fd-section-title">Grade Split</div>
+      <div id="wdGrades"></div>
+      <div class="fd-section-title mt-8">Notes</div>
+      <div id="wdNotes" class="small" style="color:var(--text-2)"></div>
+      <div style="margin-top:14px"><button class="btn btn-ghost btn-sm" onclick="closeModal('modalWeightDetail')">Close</button></div>
+    </div>
+  </div>
+</div>
+
+<!-- About -->
+<div class="modal-overlay" id="modalAbout">
+  <div class="modal modal-sm">
+    <div class="modal-titlebar">
+      <span class="modal-title">🌿 About TFMS</span>
+      <button class="modal-close" onclick="closeModal('modalAbout')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="small" style="color:var(--text-2);line-height:1.7">
+        A modular agronomy and factory management system for tobacco and agricultural operations across Malawi and Mozambique.
+        Built by TechNexus · Blantyre, Malawi.
+      </p>
+      <div class="about-grid">
+        <div class="about-card"><h4>Version</h4><p>TFMS v2.4.1 · Build 2026.03.30<br>ASP.NET Core 8 · Blazor Server<br>PostgreSQL 16</p></div>
+        <div class="about-card"><h4>Coverage</h4><p>Malawi &amp; Mozambique Operations<br>6 districts · Season 2026</p></div>
+        <div class="about-card"><h4>Modules</h4><p>Registry · Field Visits<br>Inputs &amp; Credit · Factory<br>Analytics</p></div>
+        <div class="about-card"><h4>Support</h4><p>technexus_mw@proton.me<br>+265 995 753 326<br><a href="https://github.com/tafika-itaye/TFMS" target="_blank" style="color:var(--green-text)">GitHub Repo ↗</a></p></div>
+      </div>
+      <div style="margin-top:16px;display:flex;gap:8px">
+        <button class="btn btn-ghost btn-sm" onclick="closeModal('modalAbout')">Close</button>
+        <button class="btn btn-ghost btn-sm" onclick="window.open('https://github.com/tafika-itaye/TFMS','_blank')">View on GitHub ↗</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── TOAST ─── -->
+<div class="toast" id="toast"></div>
+
+<!-- ═══════════════ SCRIPTS ═══════════════ -->
+<script src="js/data.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+  // Set today's date in dispatch form
+  document.addEventListener('DOMContentLoaded', () => {
+    const disDate = document.getElementById('disDate');
+    if (disDate) disDate.value = new Date().toISOString().slice(0,10);
+  });
+</script>
+
+</body>
+</html>
