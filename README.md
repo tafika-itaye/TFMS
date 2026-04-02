@@ -25,68 +25,6 @@ This repository contains the **working executive prototype** — a fully interac
 | **Reports**         | Season performance vs target, exportable report templates                   |
 | **Settings**        | Organisation config, users & access, system info                            |
 
-## Deployment (GitHub Pages)
-
-1. Push this folder to a GitHub repository
-2. Go to **Settings → Pages**
-3. Set source to **Deploy from a branch** → `main` → `/ (root)`
-4. The site will be live at `https://<username>.github.io/TFMS/`
-
-No build step. No Node.js. No npm. Just static files served by GitHub Pages.
-
-## Project Structure
-
-```
-TFMS/
-├── index.html              ← Entry point (loads CDN dependencies)
-├── assets/
-│   ├── css/
-│   │   └── tfms.css        ← All styles (Microsoft Fluent inspired)
-│   ├── js/
-│   │   └── app.jsx         ← React application (compiled by Babel in-browser)
-│   └── images/             ← Place sourced images here
-└── README.md
-```
-
-## Image Placeholders
-
-The prototype uses avatar initials and icon-based visuals. For the full production experience, source royalty-free images using these search terms and place them in `assets/images/`:
-
-| Filename suggestion                  | Search term                                            |
-|--------------------------------------|--------------------------------------------------------|
-| `hero-tobacco-field.jpg`             | Malawi tobacco farmer field inspection                 |
-| `farmer-woman-harvest.jpg`           | African woman farmer harvesting crops                  |
-| `curing-barn.jpg`                    | Tobacco leaf curing barn Africa                        |
-| `landscape-agriculture.jpg`          | Malawi rural agriculture landscape                     |
-| `extension-officer.jpg`              | African agricultural extension officer field visit      |
-| `drying-shed.jpg`                    | Burley tobacco drying shed Malawi                      |
-| `weighing-harvest.jpg`               | Smallholder farmer weighing crop harvest Africa         |
-| `maize-field.jpg`                    | Maize field southeastern Africa                        |
-| `cooperative-meeting.jpg`            | African farmer cooperative meeting                     |
-| `village-agriculture.jpg`            | Rural Malawi village agriculture                       |
-| `groundnut-harvest.jpg`              | Groundnut harvest Africa hands                         |
-| `cotton-field.jpg`                   | Cotton picking field Africa workers                    |
-| `auction-floor.jpg`                  | Agricultural auction floor tobacco Africa              |
-| `farmer-mobile.jpg`                  | African farmer mobile phone technology                 |
-| `irrigation.jpg`                     | Irrigation canal rural Africa farmland                 |
-
-**Sources:** Unsplash, Pexels, Pixabay (royalty-free)
-
-## Technology Notes
-
-**This prototype simulates:**
-- User authentication (ASP.NET Core Identity)
-- Database queries (PostgreSQL / Entity Framework)
-- GPS field tracking (Geolocation API — real when available, simulated fallback)
-- Visit timer with elapsed time counter (real)
-- Report generation endpoints
-
-**Production stack:**
-- ASP.NET Core 8 + Blazor Server
-- PostgreSQL 16
-- Entity Framework Core
-- SignalR (real-time updates)
-- Azure Maps / Leaflet.js (field mapping)
 
 ## Team
 
@@ -99,7 +37,7 @@ The prototype uses avatar initials and icon-based visuals. For the full producti
 
 ## Contact
 
-**TechNexus MW**  
+**TechNexus Malawi**  
 Plot 484 Naperi Avenue, Blantyre, Malawi  
 +265 889 941 700 · technexus_mw@proton.me
 
