@@ -44,5 +44,30 @@
   <!-- Application -->
   <script type="text/babel" src="assets/js/app.jsx" data-type="module"></script>
 
+  <!-- Loader dismissal (independent of Babel compilation) -->
+  <script>
+    (function() {
+      function dismissLoader() {
+        var el = document.getElementById('app-loader');
+        if (el && !el.classList.contains('fade-out')) {
+          el.classList.add('fade-out');
+          setTimeout(function() { if (el.parentNode) el.parentNode.removeChild(el); }, 500);
+        }
+      }
+
+      // Strategy 1: Watch for React rendering into #root
+      var root = document.getElementById('root');
+      if (root && typeof MutationObserver !== 'undefined') {
+        var obs = new MutationObserver(function(mutations) {
+          if (root.children.length > 0) { obs.disconnect(); setTimeout(dismissLoader, 200); }
+        });
+        obs.observe(root, { childList: true });
+      }
+
+      // Strategy 2: Hard failsafe — dismiss after 5 seconds no matter what
+      setTimeout(dismissLoader, 5000);
+    })();
+  </script>
+
 </body>
 </html>
