@@ -3,237 +3,46 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TechNexus Farmer Management System — centralised platform for farmer registration, field visit tracking, crop monitoring, and delivery management across Malawi.">
+  <meta name="author" content="TechNexus MW">
+  <meta name="theme-color" content="#002050">
   <title>TFMS — TechNexus Farmer Management System</title>
-  <link rel="stylesheet" href="assets/css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='20' fill='%2300B294'/><text x='50' y='68' font-family='Arial' font-size='48' font-weight='bold' fill='white' text-anchor='middle'>TF</text></svg>">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="assets/css/tfms.css">
+
+  <!-- React 18 (Production) -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+
+  <!-- Recharts (Charts library) -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/recharts/2.15.3/Recharts.min.js"></script>
+
+  <!-- Babel Standalone (JSX compilation in browser) -->
+  <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.26.9/babel.min.js"></script>
 </head>
 <body>
-  <!-- Navbar -->
-  <nav class="navbar">
-    <div class="nav-container">
-      <div class="nav-brand">
-        <i class="fas fa-leaf"></i>
-        <span>TFMS</span>
+
+  <!-- Loading Screen -->
+  <div id="app-loader">
+    <div class="loader-brand">
+      <div class="loader-icon">TF</div>
+      <div class="loader-text">
+        <h1>TFMS</h1>
+        <p>FARMER MANAGEMENT SYSTEM</p>
       </div>
-      <div class="nav-menu" id="nav-menu">
-        <a href="#dashboard" class="nav-link active">Dashboard</a>
-        <a href="#farmers" class="nav-link">Farmers</a>
-        <a href="#visits" class="nav-link">Field Visits</a>
-        <a href="#drone" class="nav-link">Drone Survey</a>
-        <a href="#inputs" class="nav-link">Inputs</a>
-        <a href="#reports" class="nav-link">Reports</a>
-      </div>
-      <button class="nav-toggle" id="nav-toggle">
-        <i class="fas fa-bars"></i>
-      </button>
     </div>
-  </nav>
+    <div class="loader-bar"><div class="loader-bar-fill"></div></div>
+  </div>
 
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <div class="sidebar-header">
-      <h3>Field Visit</h3>
-      <button class="sidebar-close" id="sidebar-close">
-        <i class="fas fa-times"></i>
-      </button>
-    </div>
-    <div class="sidebar-content" id="sidebar-content">
-      <!-- Dynamic content -->
-    </div>
-  </aside>
+  <!-- React Mount Point -->
+  <div id="root"></div>
 
-  <!-- Overlay -->
-  <div class="overlay" id="overlay"></div>
+  <!-- Application -->
+  <script type="text/babel" src="assets/js/app.jsx" data-type="module"></script>
 
-  <!-- Main Content -->
-  <main class="main-content">
-
-    <!-- Dashboard -->
-    <section id="dashboard" class="dashboard">
-      <div class="container">
-        <div class="dash-header">
-          <h1>TFMS Dashboard</h1>
-          <p>TechNexus Farmer Management System — Serving 10,000+ tobacco growers</p>
-        </div>
-
-        <div class="stats-grid">
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-users"></i>
-            </div>
-            <div class="stat-info">
-              <span class="stat-number" data-target="12700">0</span>
-              <span class="stat-label">Active Growers</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-map-marker-alt"></i>
-            </div>
-            <div class="stat-info">
-              <span class="stat-number" data-target="120">0</span>
-              <span class="stat-label">Field Visits Today</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-tractor"></i>
-            </div>
-            <div class="stat-info">
-              <span class="stat-number" data-target="850">0</span>
-              <span class="stat-label">Ha Surveyed</span>
-            </div>
-          </div>
-          <div class="stat-card">
-            <div class="stat-icon">
-              <i class="fas fa-seedling"></i>
-            </div>
-            <div class="stat-info">
-              <span class="stat-number" data-target="95">0</span>
-              <span class="stat-label">% Healthy Crops</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="recent-activity">
-          <h3>Recent Activity</h3>
-          <div class="activity-list">
-            <div class="activity-item">
-              <div class="activity-icon"><i class="fas fa-map-marker-alt"></i></div>
-              <div class="activity-details">
-                <strong>Field Visit</strong> - Farmer 001234, Chiradzulu
-                <span>2 hours ago</span>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon"><i class="fas fa-drone"></i></div>
-              <div class="activity-details">
-                <strong>Drone Survey</strong> - Plot A1-B3, 4.2 Ha
-                <span>Today 14:30</span>
-              </div>
-            </div>
-            <div class="activity-item">
-              <div class="activity-icon"><i class="fas fa-file-invoice"></i></div>
-              <div class="activity-details">
-                <strong>Input Delivery</strong> - Fertilizer batch to Farmer 005678
-                <span>Yesterday</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Farmers -->
-    <section id="farmers" class="section hidden">
-      <div class="container">
-        <div class="section-header">
-          <h2>Farmer Registry</h2>
-          <p>12,700 registered tobacco growers across Malawi</p>
-        </div>
-        <div class="table-container">
-          <table class="farmers-table">
-            <thead>
-              <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Location</th>
-                <th>Area (Ha)</th>
-                <th>Status</th>
-                <th>Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>001234</td>
-                <td>John Kapito</td>
-                <td>Chiradzulu</td>
-                <td>2.8</td>
-                <td><span class="status active">Active</span></td>
-                <td><button class="btn-visit">Visit</button></td>
-              </tr>
-              <!-- More rows -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- Field Visits -->
-    <section id="visits" class="section hidden">
-      <div class="container">
-        <div class="section-header">
-          <h2>Field Visits</h2>
-          <p>Tap location to start field visit — GPS auto-captures on page load</p>
-        </div>
-        <div class="visit-grid">
-          <div class="visit-card" data-farmer="001234">
-            <div class="visit-header">
-              <h3>Farmer 001234 - Chiradzulu</h3>
-              <span class="visit-location" id="visit-loc">Getting location...</span>
-            </div>
-            <div class="visit-form">
-              <div class="form-group">
-                <label>Crop Stage</label>
-                <select>
-                  <option>Land Preparation</option>
-                  <option>Planting</option>
-                  <option>Vegetative</option>
-                  <option>Flowering</option>
-                  <option>Maturing</option>
-                </select>
-              </div>
-              <div class="form-group">
-                <label>Plant Health (1-10)</label>
-                <input type="range" min="1" max="10" value="8">
-                <span class="range-value">8</span>
-              </div>
-              <div class="form-group">
-                <label>Notes</label>
-                <textarea placeholder="Weeds controlled, irrigation good..."></textarea>
-              </div>
-              <button class="btn-save-visit">Save Visit</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Drone Survey -->
-    <section id="drone" class="section hidden">
-      <div class="container">
-        <div class="section-header">
-          <h2>Drone Survey</h2>
-          <p>UAV crop monitoring & area validation</p>
-        </div>
-        <div class="drone-dashboard">
-          <div class="drone-stats">
-            <div class="drone-card">
-              <h4>Total Surveyed</h4>
-              <span class="drone-number">850 Ha</span>
-            </div>
-            <div class="drone-card">
-              <h4>NDVI Average</h4>
-              <span class="drone-number">0.72</span>
-            </div>
-            <div class="drone-card">
-              <h4>Plots Mapped</h4>
-              <span class="drone-number">1,247</span>
-            </div>
-          </div>
-          <div class="drone-map">
-            <div class="map-placeholder">
-              <i class="fas fa-map"></i>
-              <span>GPS Plot Boundaries<br/>NDVI Heatmap Overlay</span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <script src="assets/js/main.js"></script>
 </body>
 </html>
